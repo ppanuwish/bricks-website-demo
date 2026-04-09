@@ -6,5 +6,6 @@ export const PAGE_LABELS: Record<string, string> = {
   finserv: "Financial Services",
   health: "Healthcare",
   about: "About",
+  blog: "Blog",
   contact: "Contact",
 };

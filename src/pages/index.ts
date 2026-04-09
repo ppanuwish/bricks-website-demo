@@ -1,4 +1,6 @@
 export { AboutPage } from "./AboutPage";
+export { BlogDetailPage } from "./BlogDetailPage";
+export { BlogPage } from "./BlogPage";
 export { BuildPage } from "./BuildPage";
 export { ContactPage } from "./ContactPage";
 export { HomePage } from "./HomePage";

@@ -221,6 +221,18 @@ export function Nav({ currentPage, navigate }: NavProps) {
           >
             About
           </span>
+          <span
+            onClick={() => go("blog")}
+            className={`inline-block cursor-pointer px-4 py-2 font-body text-[13px] font-medium tracking-wide transition-colors hover:text-bricks-red ${
+              currentPage === "blog"
+                ? "!text-bricks-red"
+                : isDarkBackground
+                  ? "text-white/60"
+                  : "text-bricks-darkgray/70"
+            }`}
+          >
+            Blog
+          </span>
           <Button
             onClick={() => go("contact")}
             className="ml-4"
@@ -290,6 +302,15 @@ export function Nav({ currentPage, navigate }: NavProps) {
               }`}
             >
               About
+            </button>
+            <button
+              type="button"
+              onClick={() => go("blog")}
+              className={`text-left transition-colors hover:text-bricks-red ${
+                currentPage === "blog" ? "text-bricks-red" : ""
+              }`}
+            >
+              Blog
             </button>
             <Button
               onClick={() => go("contact")}

@@ -1,5 +1,6 @@
 import type { NavigateFn } from "../lib/navigation";
 import { goToPage } from "../lib/navigation";
+import { BlogSection } from "../components/BlogSection";
 import { CtaBlock } from "../components/CtaBlock";
 import { Fade } from "../components/Fade";
 import { Hero } from "../components/Hero";
@@ -359,6 +360,10 @@ export function HomePage({ navigate }: HomePageProps) {
             every agent, every workflow, every byte of encoded knowledge.
           </p>
         </Fade>
+      </Section>
+
+      <Section className="bg-bricks-gray">
+        <BlogSection />
       </Section>
 
       <Section className="bg-white">
