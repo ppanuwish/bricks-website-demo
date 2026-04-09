@@ -206,7 +206,7 @@ export function BlogSection({
 
       <Fade d={20}>
         <div className="mb-6 flex flex-wrap items-center gap-2">
-          {menuItems.map((item, i) => (
+          {menuItems.map((item) => (
             <button
               key={item}
               type="button"
