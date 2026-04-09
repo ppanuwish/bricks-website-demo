@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@theme {
+  --font-heading: "Bricks Display", ui-sans-serif, sans-serif;
+  --font-body: "Bricks Text", ui-sans-serif, sans-serif;
+
+  --color-bricks-red: #fd0145;
+  --color-bricks-darkgray: #1a1a1a;
+  --color-bricks-iceblue: #aff0e8;
+  --color-bricks-teal: #1d9e8f;
+  --color-bricks-gray: #f1f1f1;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border-radius: 0 !important;
+  }
+
+  ::selection {
+    background: rgba(253, 1, 69, 0.15);
+  }
+}
+
+@layer utilities {
+  .bricks-round,
+  .bricks-round::before,
+  .bricks-round::after {
+    border-radius: 9999px !important;
+  }
+}
+
+#root {
+  min-height: 100svh;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
+html {
+  color-scheme: light dark;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+.cursor {
+  position: fixed;
+  height: 72px;
+  width: 72px;
+  background-image: url("./assets/bricks-logo.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-color: transparent;
+  transform: translate(-50%, -50%);
+  transform-origin: top left;
+  pointer-events: none;
+  opacity: 0;
+  transition: scale 120ms ease, opacity 120ms ease;
+  z-index: 9999;
+}
+
+.cursor.cursor-white {
+  filter: brightness(0) invert(1);
+}
+
+.cursor.active {
+  opacity: 1;
+}
+
+.click {
+  scale: 0.8;
+}
+
+[data-custom-cursor-zone="hero"],
+[data-custom-cursor-zone="hero"] *,
+[data-custom-cursor-zone="video-hero"],
+[data-custom-cursor-zone="video-hero"] * {
+  cursor: none !important;
+}
+
+@media (hover: hover) {
+  .no-cursor {
+    display: none;
+  }
+}
