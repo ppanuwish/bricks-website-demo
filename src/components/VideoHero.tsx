@@ -46,7 +46,7 @@ export function VideoHero() {
       <div ref={cursorRef} className="cursor cursor-white" aria-hidden="true" />
       <video
         className="h-full min-h-0 w-full object-cover"
-        src="/src/assets/AI Era Transformation Video.mp4"
+        src="/videos/ai-era-transformation-video.mp4"
         autoPlay
         muted
         loop
