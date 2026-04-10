@@ -363,7 +363,7 @@ export function HomePage({ navigate }: HomePageProps) {
       </Section>
 
       <Section className="bg-bricks-gray">
-        <BlogList />
+        <BlogList onViewAllBlogs={() => go("blog")} />
       </Section>
 
       <Section className="bg-white">

@@ -1,6 +1,40 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Bricks Display";
+  src: url("/fonts/BricksDisplay-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bricks Text";
+  src: url("/fonts/BricksText-Thin.otf") format("opentype");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bricks Text";
+  src: url("/fonts/BricksText-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bricks Text";
+  src: url("/fonts/BricksText-SemiBold.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
+  /* Default UI stack = Bricks Text so html/:host preflight and font-sans match */
+  --font-sans: "Bricks Text", ui-sans-serif, sans-serif;
   --font-heading: "Bricks Display", ui-sans-serif, sans-serif;
   --font-body: "Bricks Text", ui-sans-serif, sans-serif;
 
@@ -19,6 +53,30 @@
     margin: 0;
     padding: 0;
     border-radius: 0 !important;
+  }
+
+  html {
+    font-family: var(--font-body);
+  }
+
+  body {
+    font-family: var(--font-body);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
   }
 
   ::selection {

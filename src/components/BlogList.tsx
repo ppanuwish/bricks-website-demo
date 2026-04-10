@@ -19,6 +19,8 @@ type BlogListProps = {
   activeCategory?: BlogCategory;
   /** Skip the max-width wrapper when the parent already provides layout (e.g. with `Menu`). */
   omitOuterContainer?: boolean;
+  /** When set, shows a primary CTA instead of a load-more control (e.g. navigate to the blog index). */
+  onViewAllBlogs?: () => void;
 };
 
 export function BlogList({
@@ -28,6 +30,7 @@ export function BlogList({
   showCategoryMenu = true,
   activeCategory: activeCategoryProp,
   omitOuterContainer = false,
+  onViewAllBlogs,
 }: BlogListProps) {
   const [internalCategory, setInternalCategory] =
     useState<BlogCategory>(selectedCategory);
@@ -61,11 +64,11 @@ export function BlogList({
   }, [activeCategory]);
 
   const content = (
-    <>
+    <div className="flex flex-col gap-[40px]">
       {showHeading && (
         <Fade>
-          <h2 className="mb-16 font-heading text-[clamp(40px,5.8vw,72px)] font-extrabold leading-[1] tracking-[0] text-bricks-darkgray">
-            Custom Header 1 7XL
+          <h2 className="font-heading text-[clamp(26px,3.2vw,46px)] font-extrabold leading-[1] tracking-[-1.5px] text-bricks-darkgray">
+            Blog
           </h2>
         </Fade>
       )}
@@ -90,17 +93,20 @@ export function BlogList({
         ))}
       </div>
 
-      <Fade d={260}>
-        <div className="mt-6 flex justify-center">
-          <button
-            type="button"
-            className="h-9 bg-bricks-red px-4 font-body text-sm font-semibold text-white"
-          >
-            Load more
-          </button>
-        </div>
-      </Fade>
-    </>
+      {onViewAllBlogs ? (
+        <Fade d={260}>
+          <div className="flex justify-center">
+            <button
+              type="button"
+              className="h-9 bg-bricks-red px-4 font-body text-sm font-semibold text-white"
+              onClick={onViewAllBlogs}
+            >
+              View all blogs
+            </button>
+          </div>
+        </Fade>
+      ) : null}
+    </div>
   );
 
   if (omitOuterContainer) {

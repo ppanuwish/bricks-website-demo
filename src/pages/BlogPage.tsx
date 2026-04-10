@@ -27,6 +27,9 @@ export function BlogPage({
   return (
     <div className="bg-[#ececec] px-8 pb-16 pt-[110px] md:px-12 lg:px-16">
       <div className="mx-auto w-full max-w-[1280px]">
+        <h1 className="mb-7 font-heading text-[clamp(38px,5.2vw,68px)] font-extrabold leading-[1.06] tracking-[-2.5px] text-bricks-darkgray">
+          Blog
+        </h1>
         <BlogMenu
           activeCategory={activeCategory}
           onSelectCategory={setActiveCategory}

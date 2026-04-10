@@ -15,7 +15,7 @@ export function BlogDetailNavigation({
   postTitle,
 }: BlogDetailNavigationProps) {
   return (
-    <div className="mb-5 flex flex-wrap items-center gap-2 text-[11px] text-bricks-darkgray/40">
+    <div className="mb-5 flex flex-wrap items-center gap-2 font-body text-[11px] text-bricks-darkgray/40">
       <button
         type="button"
         onClick={() => {
