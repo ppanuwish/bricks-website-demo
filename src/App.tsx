@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Footer } from "./components/Footer";
 import { Nav } from "./components/Nav";
 import {
@@ -16,6 +16,27 @@ import {
 export default function App() {
   const [page, setPage] = useState("home");
   const [selectedBlogCategory, setSelectedBlogCategory] = useState("Technology");
+
+  useEffect(() => {
+    // #region agent log
+    fetch("http://127.0.0.1:7936/ingest/449f2fce-bbee-4d84-9fb6-516c7de4bf98", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Debug-Session-Id": "3e05c1",
+      },
+      body: JSON.stringify({
+        sessionId: "3e05c1",
+        location: "App.tsx:useEffect[page]",
+        message: "route state changed",
+        data: { page, scrollY: window.scrollY },
+        timestamp: Date.now(),
+        runId: "post-fix",
+        hypothesisId: "H1",
+      }),
+    }).catch(() => {});
+    // #endregion
+  }, [page]);
 
   const renderPage = () => {
     switch (page) {
@@ -60,7 +81,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Nav currentPage={page} navigate={setPage} />
+      <Nav navigate={setPage} page={page} />
       {renderPage()}
       <Footer navigate={setPage} />
     </div>

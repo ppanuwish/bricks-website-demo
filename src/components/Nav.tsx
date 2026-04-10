@@ -6,11 +6,12 @@ import { Button } from "./Button";
 import enLogo from "../assets/en-logo.svg";
 
 type NavProps = {
-  currentPage: string;
   navigate: NavigateFn;
+  /** Re-sample hero contrast when the SPA route changes (scroll may not fire at scrollY 0). */
+  page: string;
 };
 
-export function Nav({ currentPage, navigate }: NavProps) {
+export function Nav({ navigate, page }: NavProps) {
   const [isScrolling, setIsScrolling] = useState(false);
   const [isDarkBackground, setIsDarkBackground] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -59,29 +60,151 @@ export function Nav({ currentPage, navigate }: NavProps) {
 
     const sampleBackground = () => {
       const nav = navRef.current;
-      if (!nav) return;
+      if (!nav) {
+        // #region agent log
+        fetch("http://127.0.0.1:7936/ingest/449f2fce-bbee-4d84-9fb6-516c7de4bf98", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Debug-Session-Id": "3e05c1",
+          },
+          body: JSON.stringify({
+            sessionId: "3e05c1",
+            location: "Nav.tsx:sampleBackground",
+            message: "sample skipped (no nav ref)",
+            data: { scrollY: window.scrollY },
+            timestamp: Date.now(),
+            hypothesisId: "H4",
+          }),
+        }).catch(() => {});
+        // #endregion
+        return;
+      }
 
       const x = Math.max(1, Math.floor(window.innerWidth / 2));
       const y = Math.min(window.innerHeight - 1, 80);
       const stack = document.elementsFromPoint(x, y);
 
       const behind = stack.find((el) => !nav.contains(el));
-      if (!behind) return;
+      if (!behind) {
+        // #region agent log
+        fetch("http://127.0.0.1:7936/ingest/449f2fce-bbee-4d84-9fb6-516c7de4bf98", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Debug-Session-Id": "3e05c1",
+          },
+          body: JSON.stringify({
+            sessionId: "3e05c1",
+            location: "Nav.tsx:sampleBackground",
+            message: "sample skipped (no behind element)",
+            data: { scrollY: window.scrollY, stackLen: stack.length },
+            timestamp: Date.now(),
+            hypothesisId: "H4",
+          }),
+        }).catch(() => {});
+        // #endregion
+        return;
+      }
+
+      // #region agent log
+      fetch("http://127.0.0.1:7936/ingest/449f2fce-bbee-4d84-9fb6-516c7de4bf98", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Debug-Session-Id": "3e05c1",
+        },
+        body: JSON.stringify({
+          sessionId: "3e05c1",
+          location: "Nav.tsx:sampleBackground",
+          message: "sample invoked",
+          data: {
+            scrollY: window.scrollY,
+            behindTag: behind.tagName,
+            page,
+          },
+          timestamp: Date.now(),
+          runId: "post-fix",
+          hypothesisId: "H1",
+        }),
+      }).catch(() => {});
+      // #endregion
 
       let node: Element | null = behind;
       while (node) {
         const style = window.getComputedStyle(node);
         const parsed = parseRgba(style.backgroundColor);
         if (parsed && parsed.a > 0 && isBricksDarkGray(parsed.r, parsed.g, parsed.b)) {
+          // #region agent log
+          fetch("http://127.0.0.1:7936/ingest/449f2fce-bbee-4d84-9fb6-516c7de4bf98", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-Debug-Session-Id": "3e05c1",
+            },
+            body: JSON.stringify({
+              sessionId: "3e05c1",
+              location: "Nav.tsx:sampleBackground",
+              message: "sample result",
+              data: {
+                isDarkBackground: true,
+                reason: "bricks-dark-gray",
+                bg: style.backgroundColor,
+                nodeTag: node.tagName,
+              },
+              timestamp: Date.now(),
+              hypothesisId: "H2",
+            }),
+          }).catch(() => {});
+          // #endregion
           setIsDarkBackground(true);
           return;
         }
         if (parsed && parsed.a > 0) {
+          // #region agent log
+          fetch("http://127.0.0.1:7936/ingest/449f2fce-bbee-4d84-9fb6-516c7de4bf98", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-Debug-Session-Id": "3e05c1",
+            },
+            body: JSON.stringify({
+              sessionId: "3e05c1",
+              location: "Nav.tsx:sampleBackground",
+              message: "sample result",
+              data: {
+                isDarkBackground: false,
+                reason: "opaque-non-bricks",
+                bg: style.backgroundColor,
+                nodeTag: node.tagName,
+              },
+              timestamp: Date.now(),
+              hypothesisId: "H2",
+            }),
+          }).catch(() => {});
+          // #endregion
           setIsDarkBackground(false);
           return;
         }
         node = node.parentElement;
       }
+      // #region agent log
+      fetch("http://127.0.0.1:7936/ingest/449f2fce-bbee-4d84-9fb6-516c7de4bf98", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Debug-Session-Id": "3e05c1",
+        },
+        body: JSON.stringify({
+          sessionId: "3e05c1",
+          location: "Nav.tsx:sampleBackground",
+          message: "sample result",
+          data: { isDarkBackground: false, reason: "no-opaque-bg-walk" },
+          timestamp: Date.now(),
+          hypothesisId: "H2",
+        }),
+      }).catch(() => {});
+      // #endregion
       setIsDarkBackground(false);
     };
 
@@ -96,7 +219,7 @@ export function Nav({ currentPage, navigate }: NavProps) {
       window.removeEventListener("scroll", onChange);
       window.removeEventListener("resize", onChange);
     };
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     const handlePointerDown = (event: PointerEvent) => {
@@ -112,6 +235,23 @@ export function Nav({ currentPage, navigate }: NavProps) {
   }, []);
 
   const go = (key: string) => {
+    // #region agent log
+    fetch("http://127.0.0.1:7936/ingest/449f2fce-bbee-4d84-9fb6-516c7de4bf98", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Debug-Session-Id": "3e05c1",
+      },
+      body: JSON.stringify({
+        sessionId: "3e05c1",
+        location: "Nav.tsx:go",
+        message: "navigate via Nav",
+        data: { key, scrollY: window.scrollY },
+        timestamp: Date.now(),
+        hypothesisId: "H3",
+      }),
+    }).catch(() => {});
+    // #endregion
     setMobileOpen(false);
     setOpenDropdown(null);
     goToPage(navigate, key);
@@ -196,11 +336,9 @@ export function Nav({ currentPage, navigate }: NavProps) {
                     key={k}
                     onClick={() => go(k)}
                     className={`cursor-pointer px-5 py-2.5 font-body text-[13px] font-medium transition-colors hover:bg-white/5 ${
-                      currentPage === k
-                        ? "text-bricks-red"
-                        : isDarkBackground
-                          ? "text-white/80 hover:text-bricks-red"
-                          : "text-bricks-darkgray/80 hover:text-bricks-red"
+                      isDarkBackground
+                        ? "text-white/80 hover:text-bricks-red"
+                        : "text-bricks-darkgray/80 hover:text-bricks-red"
                     }`}
                   >
                     {PAGE_LABELS[k]}
@@ -212,11 +350,7 @@ export function Nav({ currentPage, navigate }: NavProps) {
           <span
             onClick={() => go("about")}
             className={`inline-block cursor-pointer px-4 py-2 font-body text-[13px] font-medium tracking-wide transition-colors hover:text-bricks-red ${
-              currentPage === "about"
-                ? "!text-bricks-red"
-                : isDarkBackground
-                  ? "text-white/60"
-                  : "text-bricks-darkgray/70"
+              isDarkBackground ? "text-white/60" : "text-bricks-darkgray/70"
             }`}
           >
             About
@@ -224,11 +358,7 @@ export function Nav({ currentPage, navigate }: NavProps) {
           <span
             onClick={() => go("blog")}
             className={`inline-block cursor-pointer px-4 py-2 font-body text-[13px] font-medium tracking-wide transition-colors hover:text-bricks-red ${
-              currentPage === "blog"
-                ? "!text-bricks-red"
-                : isDarkBackground
-                  ? "text-white/60"
-                  : "text-bricks-darkgray/70"
+              isDarkBackground ? "text-white/60" : "text-bricks-darkgray/70"
             }`}
           >
             Blog
@@ -268,9 +398,7 @@ export function Nav({ currentPage, navigate }: NavProps) {
                     key={k}
                     type="button"
                     onClick={() => go(k)}
-                    className={`text-left transition-colors hover:text-bricks-red ${
-                      currentPage === k ? "text-bricks-red" : ""
-                    }`}
+                    className="text-left transition-colors hover:text-bricks-red"
                   >
                     {PAGE_LABELS[k]}
                   </button>
@@ -285,9 +413,7 @@ export function Nav({ currentPage, navigate }: NavProps) {
                     key={k}
                     type="button"
                     onClick={() => go(k)}
-                    className={`text-left transition-colors hover:text-bricks-red ${
-                      currentPage === k ? "text-bricks-red" : ""
-                    }`}
+                    className="text-left transition-colors hover:text-bricks-red"
                   >
                     {PAGE_LABELS[k]}
                   </button>
@@ -297,18 +423,14 @@ export function Nav({ currentPage, navigate }: NavProps) {
             <button
               type="button"
               onClick={() => go("about")}
-              className={`text-left transition-colors hover:text-bricks-red ${
-                currentPage === "about" ? "text-bricks-red" : ""
-              }`}
+              className="text-left transition-colors hover:text-bricks-red"
             >
               About
             </button>
             <button
               type="button"
               onClick={() => go("blog")}
-              className={`text-left transition-colors hover:text-bricks-red ${
-                currentPage === "blog" ? "text-bricks-red" : ""
-              }`}
+              className="text-left transition-colors hover:text-bricks-red"
             >
               Blog
             </button>
