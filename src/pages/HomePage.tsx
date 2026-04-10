@@ -1,4 +1,4 @@
-import type { NavigateFn } from "../lib/navigation";
+import { useNavigate } from "react-router-dom";
 import { goToPage } from "../lib/navigation";
 import { BlogList } from "../components/BlogList";
 import { CtaBlock } from "../components/CtaBlock";
@@ -8,12 +8,9 @@ import { Section } from "../components/Section";
 import { SectionHeader } from "../components/SectionHeader";
 import { VideoHero } from "../components/VideoHero";
 
-type HomePageProps = {
-  navigate: NavigateFn;
-};
-
-export function HomePage({ navigate }: HomePageProps) {
-  const go = (key: string) => goToPage(navigate, key);
+export function HomePage() {
+  const navigate = useNavigate();
+  const go = (key: string) => goToPage((to) => navigate(to), key);
 
   return (
     <div className="relative isolate">
@@ -379,7 +376,7 @@ export function HomePage({ navigate }: HomePageProps) {
         />
       </Section>
 
-        <CtaBlock navigate={navigate} />
+        <CtaBlock />
       </div>
     </div>
   );

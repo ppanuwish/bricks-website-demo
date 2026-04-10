@@ -1,4 +1,3 @@
-import type { NavigateFn } from "../lib/navigation";
 import { INDUSTRY_ACCENTS, INDUSTRY_CONTENT, type IndustryId } from "../data/industry";
 import { CtaBlock } from "../components/CtaBlock";
 import { Fade } from "../components/Fade";
@@ -7,11 +6,10 @@ import { Section } from "../components/Section";
 import { SectionHeader } from "../components/SectionHeader";
 
 type IndustryPageProps = {
-  navigate: NavigateFn;
   industry: IndustryId;
 };
 
-export function IndustryPage({ navigate, industry }: IndustryPageProps) {
+export function IndustryPage({ industry }: IndustryPageProps) {
   const d = INDUSTRY_CONTENT[industry];
 
   return (
@@ -68,7 +66,7 @@ export function IndustryPage({ navigate, industry }: IndustryPageProps) {
           </p>
         </Fade>
       </Section>
-      <CtaBlock navigate={navigate} />
+      <CtaBlock />
     </div>
   );
 }

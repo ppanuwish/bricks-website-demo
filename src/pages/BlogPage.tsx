@@ -1,28 +1,26 @@
 import { useEffect, useState } from "react";
-import type { NavigateFn } from "../lib/navigation";
-import { goToPage } from "../lib/navigation";
-import type { BlogCardData } from "../components/BlogCard";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { BlogList } from "../components/BlogList";
-import { BlogMenu, type BlogCategory } from "../components/BlogMenu";
+import { BlogMenu, menuItems, type BlogCategory } from "../components/BlogMenu";
+import { goToBlogPost } from "../lib/navigation";
 
-type BlogPageProps = {
-  navigate: NavigateFn;
-  onOpenPost?: (post: BlogCardData) => void;
-  selectedCategory?: string;
-};
+function categoryFromSearchParam(raw: string | null): BlogCategory {
+  if (!raw) return "All category";
+  if (menuItems.includes(raw as BlogCategory)) return raw as BlogCategory;
+  return "All category";
+}
 
-export function BlogPage({
-  navigate,
-  onOpenPost,
-  selectedCategory = "All category",
-}: BlogPageProps) {
-  const [activeCategory, setActiveCategory] = useState<BlogCategory>(
-    selectedCategory as BlogCategory,
+export function BlogPage() {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const categoryParam = searchParams.get("category");
+  const [activeCategory, setActiveCategory] = useState<BlogCategory>(() =>
+    categoryFromSearchParam(categoryParam),
   );
 
   useEffect(() => {
-    setActiveCategory(selectedCategory as BlogCategory);
-  }, [selectedCategory]);
+    setActiveCategory(categoryFromSearchParam(categoryParam));
+  }, [categoryParam]);
 
   return (
     <div className="bg-[#ececec] px-8 pb-16 pt-[110px] md:px-12 lg:px-16">
@@ -39,10 +37,7 @@ export function BlogPage({
           showCategoryMenu={false}
           omitOuterContainer
           activeCategory={activeCategory}
-          onCardClick={(post) => {
-            onOpenPost?.(post);
-            goToPage(navigate, "blog-detail");
-          }}
+          onCardClick={(post) => goToBlogPost((to) => navigate(to), post)}
         />
       </div>
     </div>

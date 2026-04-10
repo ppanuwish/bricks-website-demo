@@ -1,17 +1,14 @@
 import { useState, useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { PAGE_LABELS } from "../constants/pages";
-import type { NavigateFn } from "../lib/navigation";
 import { goToPage } from "../lib/navigation";
 import { Button } from "./Button";
 import enLogo from "../assets/en-logo.svg";
 
-type NavProps = {
-  navigate: NavigateFn;
-  /** Re-sample hero contrast when the SPA route changes (scroll may not fire at scrollY 0). */
-  page: string;
-};
-
-export function Nav({ navigate, page }: NavProps) {
+export function Nav() {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const page = pathname;
   const [isScrolling, setIsScrolling] = useState(false);
   const [isDarkBackground, setIsDarkBackground] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -254,7 +251,7 @@ export function Nav({ navigate, page }: NavProps) {
     // #endregion
     setMobileOpen(false);
     setOpenDropdown(null);
-    goToPage(navigate, key);
+    goToPage((to) => navigate(to), key);
   };
 
   return (

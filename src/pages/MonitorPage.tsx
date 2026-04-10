@@ -1,15 +1,10 @@
-import type { NavigateFn } from "../lib/navigation";
 import { CtaBlock } from "../components/CtaBlock";
 import { Fade } from "../components/Fade";
 import { Hero } from "../components/Hero";
 import { Section } from "../components/Section";
 import { SectionHeader } from "../components/SectionHeader";
 
-type MonitorPageProps = {
-  navigate: NavigateFn;
-};
-
-export function MonitorPage({ navigate }: MonitorPageProps) {
+export function MonitorPage() {
   return (
     <div>
       <Hero
@@ -76,7 +71,7 @@ export function MonitorPage({ navigate }: MonitorPageProps) {
           sub="Real-time policy enforcement with configurable rules and automated compliance checks. Governance is built into how agents operate — not added after deployment."
         />
       </Section>
-      <CtaBlock navigate={navigate} />
+      <CtaBlock />
     </div>
   );
 }

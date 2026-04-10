@@ -1,15 +1,10 @@
-import type { NavigateFn } from "../lib/navigation";
 import { CtaBlock } from "../components/CtaBlock";
 import { Fade } from "../components/Fade";
 import { Hero } from "../components/Hero";
 import { Section } from "../components/Section";
 import { SectionHeader } from "../components/SectionHeader";
 
-type BuildPageProps = {
-  navigate: NavigateFn;
-};
-
-export function BuildPage({ navigate }: BuildPageProps) {
+export function BuildPage() {
   return (
     <div>
       <Hero
@@ -93,7 +88,7 @@ export function BuildPage({ navigate }: BuildPageProps) {
           </div>
         </Fade>
       </Section>
-      <CtaBlock navigate={navigate} />
+      <CtaBlock />
     </div>
   );
 }

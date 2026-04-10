@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from "react";
+import { Navigate, useParams } from "react-router-dom";
 import { BlogDetailBottomNavigation } from "../components/BlogDetailBottomNavigation";
 import { BlogDetailContent } from "../components/BlogDetailContent";
 import { BlogDetailHeader } from "../components/BlogDetailHeader";
@@ -10,40 +11,36 @@ import {
 import type { BlogCardData } from "../components/BlogCard";
 import {
   getAdjacentPosts,
-  getDefaultBlogPost,
+  getPostBySlug,
   getRelatedPosts,
   withFallbackBlogImage,
 } from "../data/blogPosts";
-import type { NavigateFn } from "../lib/navigation";
 
-type BlogDetailPageProps = {
-  navigate: NavigateFn;
-  post: BlogCardData | null;
-  onNavigateToBlogCategory?: (category: string) => void;
-  onSelectPost: (post: BlogCardData) => void;
-};
-
-export function BlogDetailPage({
-  navigate,
-  post,
-  onNavigateToBlogCategory,
-  onSelectPost,
-}: BlogDetailPageProps) {
-  const activePost = withFallbackBlogImage(post ?? getDefaultBlogPost());
+export function BlogDetailPage() {
+  const { slug } = useParams<{ slug: string }>();
+  const resolved = slug ? getPostBySlug(slug) : null;
+  const activePost: BlogCardData | null = resolved
+    ? withFallbackBlogImage(resolved)
+    : null;
 
   useEffect(() => {
+    if (!activePost) return;
     window.scrollTo({ top: 0, behavior: "auto" });
-  }, [activePost.title, activePost.date]);
+  }, [activePost]);
 
-  const relatedBlogs: RelatedBlogItem[] = useMemo(
-    () => getRelatedPosts(activePost, 3),
-    [activePost],
-  );
+  const relatedBlogs: RelatedBlogItem[] = useMemo(() => {
+    if (!activePost) return [];
+    return getRelatedPosts(activePost, 3);
+  }, [activePost]);
 
-  const { prev: prevPost, next: nextPost } = useMemo(
-    () => getAdjacentPosts(activePost),
-    [activePost],
-  );
+  const { prev: prevPost, next: nextPost } = useMemo(() => {
+    if (!activePost) return { prev: null, next: null };
+    return getAdjacentPosts(activePost);
+  }, [activePost]);
+
+  if (!activePost) {
+    return <Navigate to="/blog" replace />;
+  }
 
   return (
     <div className="bg-white pb-16 pt-[72px]">
@@ -52,25 +49,19 @@ export function BlogDetailPage({
 
         <div className="px-6 pb-16 pt-8 md:px-16">
           <BlogDetailNavigation
-            navigate={navigate}
             selectedCategory={activePost.category}
-            onNavigateToBlogCategory={onNavigateToBlogCategory}
             postTitle={activePost.title}
           />
 
           <BlogDetailContent post={activePost} />
 
           <BlogDetailBottomNavigation
-            navigate={navigate}
             prevPost={prevPost}
             nextPost={nextPost}
-            onSelectPost={onSelectPost}
           />
 
           <BlogDetailRelateBlogs
-            navigate={navigate}
             relatedBlogs={relatedBlogs}
-            onSelectPost={onSelectPost}
             sectionTitle="Related articles"
           />
         </div>

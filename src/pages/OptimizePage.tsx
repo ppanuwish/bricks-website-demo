@@ -1,14 +1,9 @@
-import type { NavigateFn } from "../lib/navigation";
 import { CtaBlock } from "../components/CtaBlock";
 import { Hero } from "../components/Hero";
 import { Section } from "../components/Section";
 import { SectionHeader } from "../components/SectionHeader";
 
-type OptimizePageProps = {
-  navigate: NavigateFn;
-};
-
-export function OptimizePage({ navigate }: OptimizePageProps) {
+export function OptimizePage() {
   return (
     <div>
       <Hero
@@ -45,7 +40,7 @@ export function OptimizePage({ navigate }: OptimizePageProps) {
           }
         />
       </Section>
-      <CtaBlock navigate={navigate} />
+      <CtaBlock />
     </div>
   );
 }

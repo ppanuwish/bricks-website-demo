@@ -1,14 +1,11 @@
-import type { NavigateFn } from "../lib/navigation";
+import { useNavigate } from "react-router-dom";
 import { goToPage } from "../lib/navigation";
 import { Fade } from "./Fade";
 import { Button } from "./Button";
 import { Section } from "./Section";
 
-type CtaBlockProps = {
-  navigate: NavigateFn;
-};
-
-export function CtaBlock({ navigate }: CtaBlockProps) {
+export function CtaBlock() {
+  const navigate = useNavigate();
   return (
     <Section className="bg-bricks-darkgray">
       <Fade>
@@ -20,7 +17,7 @@ export function CtaBlock({ navigate }: CtaBlockProps) {
             Keep what your people know.
           </p>
           <Button
-            onClick={() => goToPage(navigate, "contact")}
+            onClick={() => goToPage((to) => navigate(to), "contact")}
             size="lg"
           >
             Book a 30-minute demo

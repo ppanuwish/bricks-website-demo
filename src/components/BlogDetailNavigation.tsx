@@ -1,27 +1,22 @@
-import type { NavigateFn } from "../lib/navigation";
-import { goToPage } from "../lib/navigation";
+import { useNavigate } from "react-router-dom";
+import { goToBlogCategory } from "../lib/navigation";
 
 type BlogDetailNavigationProps = {
-  navigate: NavigateFn;
   selectedCategory: string;
-  onNavigateToBlogCategory?: (category: string) => void;
   postTitle: string;
 };
 
 export function BlogDetailNavigation({
-  navigate,
   selectedCategory,
-  onNavigateToBlogCategory,
   postTitle,
 }: BlogDetailNavigationProps) {
+  const navigate = useNavigate();
+
   return (
     <div className="mb-5 flex flex-wrap items-center gap-2 font-body text-[11px] text-bricks-darkgray/40">
       <button
         type="button"
-        onClick={() => {
-          onNavigateToBlogCategory?.("All category");
-          goToPage(navigate, "blog");
-        }}
+        onClick={() => goToBlogCategory((to) => navigate(to), "All category")}
         className="hover:text-bricks-red"
       >
         All Blog
@@ -29,10 +24,9 @@ export function BlogDetailNavigation({
       <span>›</span>
       <button
         type="button"
-        onClick={() => {
-          onNavigateToBlogCategory?.(selectedCategory);
-          goToPage(navigate, "blog");
-        }}
+        onClick={() =>
+          goToBlogCategory((to) => navigate(to), selectedCategory)
+        }
         className="hover:text-bricks-red"
       >
         {selectedCategory}

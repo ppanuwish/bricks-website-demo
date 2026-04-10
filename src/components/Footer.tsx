@@ -1,4 +1,4 @@
-import type { NavigateFn } from "../lib/navigation";
+import { useNavigate } from "react-router-dom";
 import { goToPage } from "../lib/navigation";
 import enLogo from "../assets/en-logo.svg";
 
@@ -27,12 +27,9 @@ const FOOTER_COLUMNS = [
   },
 ] as const;
 
-type FooterProps = {
-  navigate: NavigateFn;
-};
-
-export function Footer({ navigate }: FooterProps) {
-  const go = (k: string) => goToPage(navigate, k);
+export function Footer() {
+  const navigate = useNavigate();
+  const go = (k: string) => goToPage((to) => navigate(to), k);
 
   return (
     <footer className="border-t border-white/[0.06] bg-bricks-iceblue px-6 pb-9 pt-14 md:px-10">

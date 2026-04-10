@@ -1,20 +1,19 @@
+import { useNavigate } from "react-router-dom";
 import type { BlogCardData } from "./BlogCard";
-import type { NavigateFn } from "../lib/navigation";
-import { goToPage } from "../lib/navigation";
+import { goToBlogPost, goToPage } from "../lib/navigation";
 
 type BlogDetailBottomNavigationProps = {
-  navigate: NavigateFn;
   prevPost: BlogCardData | null;
   nextPost: BlogCardData | null;
-  onSelectPost: (post: BlogCardData) => void;
 };
 
 export function BlogDetailBottomNavigation({
-  navigate,
   prevPost,
   nextPost,
-  onSelectPost,
 }: BlogDetailBottomNavigationProps) {
+  const navigate = useNavigate();
+  const nav = (to: string) => navigate(to);
+
   return (
     <div className="mt-12 flex w-full flex-wrap items-start gap-8">
       <div className="flex min-w-[min(100%,280px)] flex-1 flex-col">
@@ -22,8 +21,8 @@ export function BlogDetailBottomNavigation({
           type="button"
           disabled={!prevPost}
           onClick={() => {
-            if (prevPost) onSelectPost(prevPost);
-            else goToPage(navigate, "blog");
+            if (prevPost) goToBlogPost(nav, prevPost);
+            else goToPage(nav, "blog");
           }}
           className="mb-3 inline-flex w-fit shrink-0 self-start bg-bricks-red px-4 py-2 font-body text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40"
         >
@@ -42,8 +41,8 @@ export function BlogDetailBottomNavigation({
           type="button"
           disabled={!nextPost}
           onClick={() => {
-            if (nextPost) onSelectPost(nextPost);
-            else goToPage(navigate, "blog");
+            if (nextPost) goToBlogPost(nav, nextPost);
+            else goToPage(nav, "blog");
           }}
           className="mb-3 inline-flex w-fit shrink-0 self-end bg-bricks-red px-4 py-2 font-body text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40"
         >

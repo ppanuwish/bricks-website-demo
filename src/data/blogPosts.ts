@@ -183,6 +183,37 @@ function postsMatch(a: BlogCardData, b: BlogCardData): boolean {
   return a.title === b.title && a.date === b.date;
 }
 
+function slugifySegment(s: string): string {
+  return s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+/** URL segment for a post (title + date keeps sample data unique). */
+export function blogPostToSlug(post: BlogCardData): string {
+  return `${slugifySegment(post.title)}--${slugifySegment(post.date)}`;
+}
+
+function allSamplePosts(): BlogCardData[] {
+  const seen = new Set<string>();
+  const out: BlogCardData[] = [];
+  for (const list of Object.values(samplePostsByCategory)) {
+    for (const p of list) {
+      const k = `${p.title}\0${p.date}`;
+      if (seen.has(k)) continue;
+      seen.add(k);
+      out.push(p);
+    }
+  }
+  return withFallbackBlogImages(out);
+}
+
+export function getPostBySlug(slug: string): BlogCardData | null {
+  const posts = allSamplePosts();
+  return posts.find((p) => blogPostToSlug(p) === slug) ?? null;
+}
+
 export function getRelatedPosts(
   current: BlogCardData,
   limit = 3,

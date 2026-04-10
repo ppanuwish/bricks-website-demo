@@ -1,15 +1,10 @@
-import type { NavigateFn } from "../lib/navigation";
 import { CtaBlock } from "../components/CtaBlock";
 import { Fade } from "../components/Fade";
 import { Hero } from "../components/Hero";
 import { Section } from "../components/Section";
 import { SectionHeader } from "../components/SectionHeader";
 
-type AboutPageProps = {
-  navigate: NavigateFn;
-};
-
-export function AboutPage({ navigate }: AboutPageProps) {
+export function AboutPage() {
   return (
     <div>
       <Hero
@@ -54,7 +49,7 @@ export function AboutPage({ navigate }: AboutPageProps) {
           }
         />
       </Section>
-      <CtaBlock navigate={navigate} />
+      <CtaBlock />
     </div>
   );
 }
