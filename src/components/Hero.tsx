@@ -63,7 +63,7 @@ export function Hero({ tag, headline, sub, hook, isLight }: HeroProps) {
           isLight ? "bg-[rgba(175,240,232,0.2)]" : "bg-[rgba(253,1,69,0.04)]"
         }`}
       />
-      <div className="relative mx-auto max-w-[820px] px-10 pb-[100px] pt-[140px]">
+      <div className="relative mx-auto max-w-[820px] px-6 pb-[100px] pt-[140px] md:px-10">
         {tag && (
           <Fade>
             <div className="inline-flex items-center gap-2 font-body text-[11px] font-semibold uppercase tracking-[2px] text-bricks-red">

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import type { BlogCardData } from "./components/BlogCard";
 import { Footer } from "./components/Footer";
 import { Nav } from "./components/Nav";
 import {
@@ -16,6 +17,9 @@ import {
 export default function App() {
   const [page, setPage] = useState("home");
   const [selectedBlogCategory, setSelectedBlogCategory] = useState("Technology");
+  const [selectedBlogPost, setSelectedBlogPost] = useState<BlogCardData | null>(
+    null,
+  );
 
   useEffect(() => {
     // #region agent log
@@ -54,22 +58,29 @@ export default function App() {
         return <IndustryPage navigate={setPage} industry="health" />;
       case "about":
         return <AboutPage navigate={setPage} />;
-      case "blog":
+           case "blog":
         return (
           <BlogPage
             navigate={setPage}
             selectedCategory={selectedBlogCategory}
-            onOpenPost={(category) => setSelectedBlogCategory(category)}
+            onOpenPost={(post) => {
+              setSelectedBlogCategory(post.category);
+              setSelectedBlogPost(post);
+            }}
           />
         );
       case "blog-detail":
         return (
           <BlogDetailPage
             navigate={setPage}
-            selectedCategory={selectedBlogCategory}
+            post={selectedBlogPost}
             onNavigateToBlogCategory={(category) =>
               setSelectedBlogCategory(category)
             }
+            onSelectPost={(post) => {
+              setSelectedBlogPost(post);
+              setSelectedBlogCategory(post.category);
+            }}
           />
         );
       case "contact":

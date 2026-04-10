@@ -18,7 +18,7 @@ export function IndustryPage({ navigate, industry }: IndustryPageProps) {
     <div>
       <Hero tag={d.tag} headline={d.headline} sub={d.sub} />
       <Section className="bg-bricks-gray">
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-5">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,300px),1fr))] gap-5">
           {d.benefits.map(([title, body], i) => (
             <Fade key={i} d={i * 100}>
               <div className="relative overflow-hidden rounded-2xl border border-bricks-darkgray/[0.05] bg-white px-7 py-9">

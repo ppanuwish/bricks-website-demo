@@ -28,7 +28,7 @@ export function MonitorPage({ navigate }: MonitorPageProps) {
           tag="Observability"
           title="Full visibility into every interaction"
         />
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,300px),1fr))] gap-4">
           {[
             [
               "Interaction log",

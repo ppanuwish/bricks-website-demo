@@ -14,7 +14,7 @@ const FORM_FIELDS = [
 export function ContactPage() {
   return (
     <section className="flex min-h-screen items-center bg-bricks-darkgray">
-      <div className="mx-auto grid max-w-[1200px] grid-cols-[repeat(auto-fit,minmax(340px,1fr))] items-center gap-[72px] px-10 pb-[100px] pt-[140px]">
+      <div className="mx-auto grid max-w-[1200px] grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] items-center gap-[72px] px-6 pb-[100px] pt-[140px] md:px-10">
         <div>
           <Fade>
             <h1 className="mb-3.5 font-heading text-[clamp(36px,4.5vw,56px)] font-extrabold leading-[1.08] tracking-[-2px] text-white">

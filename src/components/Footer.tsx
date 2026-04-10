@@ -35,7 +35,7 @@ export function Footer({ navigate }: FooterProps) {
   const go = (k: string) => goToPage(navigate, k);
 
   return (
-    <footer className="border-t border-white/[0.06] bg-bricks-iceblue px-10 pb-9 pt-14">
+    <footer className="border-t border-white/[0.06] bg-bricks-iceblue px-6 pb-9 pt-14 md:px-10">
       <div className="mx-auto flex max-w-[1200px] flex-wrap justify-between gap-10">
         <div>
           <div className="mb-2.5 flex items-center gap-2.5">

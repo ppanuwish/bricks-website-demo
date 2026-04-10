@@ -1,33 +1,19 @@
-import { useEffect, useMemo, useState } from "react";
-import { Fade } from "./Fade";
+import type { BlogCardData } from "../components/BlogCard";
+import type { BlogCategory } from "../components/BlogMenu";
 
-const menuItems = [
-  "All category",
-  "Case studies",
-  "Utillities",
-  "Technology",
-  "Platform update",
-  "News",
-  "Events",
-  "Clients",
+export const BLOG_CARD_FALLBACK_IMAGES = [
+  "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80",
 ] as const;
 
-type BlogCategory = (typeof menuItems)[number];
-
-type BlogSectionProps = {
-  showHeading?: boolean;
-  onCardClick?: (post: BlogCardData) => void;
-  selectedCategory?: BlogCategory;
-};
-
-type BlogCardData = {
-  category: string;
-  title: string;
-  excerpt: string;
-  date: string;
-};
-
-const samplePostsByCategory: Record<BlogCategory, BlogCardData[]> = {
+export const samplePostsByCategory: Record<BlogCategory, BlogCardData[]> = {
   "All category": [
     {
       category: "Technology",
@@ -165,103 +151,62 @@ const samplePostsByCategory: Record<BlogCategory, BlogCardData[]> = {
   ],
 };
 
-export function BlogSection({
-  showHeading = true,
-  onCardClick,
-  selectedCategory = "All category",
-}: BlogSectionProps) {
-  const [activeCategory, setActiveCategory] =
-    useState<BlogCategory>(selectedCategory);
+export function withFallbackBlogImages(posts: BlogCardData[]): BlogCardData[] {
+  return posts.map((post, i) => ({
+    ...post,
+    image:
+      post.image ??
+      BLOG_CARD_FALLBACK_IMAGES[i % BLOG_CARD_FALLBACK_IMAGES.length],
+  }));
+}
 
-  useEffect(() => {
-    setActiveCategory(selectedCategory);
-  }, [selectedCategory]);
+/** Same fallback rule as list cards: stable image per post within its category. */
+export function withFallbackBlogImage(post: BlogCardData): BlogCardData {
+  if (post.image) {
+    return post;
+  }
+  const category = post.category as BlogCategory;
+  const list = samplePostsByCategory[category] ?? [];
+  const idx = list.findIndex((p) => postsMatch(p, post));
+  const i = idx >= 0 ? idx : 0;
+  return {
+    ...post,
+    image: BLOG_CARD_FALLBACK_IMAGES[i % BLOG_CARD_FALLBACK_IMAGES.length],
+  };
+}
 
-  const cardData = useMemo(() => {
-    const selected = samplePostsByCategory[activeCategory];
-    if (activeCategory === "All category") {
-      const repeated: BlogCardData[] = [];
-      for (let i = 0; i < 9; i += 1) {
-        repeated.push(selected[i % selected.length]);
-      }
-      return repeated;
-    }
+export function getDefaultBlogPost(): BlogCardData {
+  return samplePostsByCategory.Technology[0];
+}
 
-    const repeated: BlogCardData[] = [];
-    for (let i = 0; i < 9; i += 1) {
-      repeated.push(selected[i % selected.length]);
-    }
-    return repeated;
-  }, [activeCategory]);
+function postsMatch(a: BlogCardData, b: BlogCardData): boolean {
+  return a.title === b.title && a.date === b.date;
+}
 
-  return (
-    <div className="mx-auto w-full max-w-[1280px]">
-      {showHeading && (
-        <Fade>
-          <h2 className="mb-16 font-heading text-[clamp(40px,5.8vw,72px)] font-extrabold leading-[1] tracking-[0] text-bricks-darkgray">
-            Custom Header 1 7XL
-          </h2>
-        </Fade>
-      )}
+export function getRelatedPosts(
+  current: BlogCardData,
+  limit = 3,
+): BlogCardData[] {
+  const category = current.category as BlogCategory;
+  const inCategory = samplePostsByCategory[category] ?? [];
+  const withImages = withFallbackBlogImages(inCategory);
+  const others = withImages.filter((p) => !postsMatch(p, current));
+  return others.slice(0, limit);
+}
 
-      <Fade d={20}>
-        <div className="mb-6 flex flex-wrap items-center gap-2">
-          {menuItems.map((item) => (
-            <button
-              key={item}
-              type="button"
-              onClick={() => setActiveCategory(item)}
-              className={`h-9 px-2.5 font-body text-[14px] font-semibold leading-5 ${
-                activeCategory === item
-                  ? "bg-bricks-red text-white"
-                  : "bg-transparent text-bricks-darkgray hover:text-bricks-red"
-              }`}
-            >
-              {item}
-            </button>
-          ))}
-        </div>
-      </Fade>
-
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {cardData.map((item, i) => (
-          <Fade key={`${item.title}-${i}`} d={30 + i * 20}>
-            <article
-              onClick={() => onCardClick?.(item)}
-              className={`flex h-[480px] flex-col bg-[#f4f4f4] shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.1),0px_1px_3px_0px_rgba(0,0,0,0.1)] ${
-                onCardClick ? "cursor-pointer" : ""
-              }`}
-            >
-              <div className="h-[245px] w-full bg-[#ff4949]" />
-              <div className="flex min-h-0 flex-1 flex-col gap-3 p-6">
-                <span className="inline-flex w-fit bg-bricks-red px-2 py-[2px] font-body text-[12px] font-semibold leading-4 text-white">
-                  {item.category}
-                </span>
-                <h3 className="overflow-hidden text-ellipsis whitespace-nowrap font-body text-[24px] font-semibold leading-8 text-bricks-darkgray">
-                  {item.title}
-                </h3>
-                <p className="max-h-[56px] overflow-hidden font-body text-[18px] leading-7 text-bricks-darkgray/65">
-                  {item.excerpt}
-                </p>
-                <p className="mt-auto font-body text-[12px] leading-4 text-bricks-darkgray/45">
-                  {item.date}
-                </p>
-              </div>
-            </article>
-          </Fade>
-        ))}
-      </div>
-
-      <Fade d={260}>
-        <div className="mt-6 flex justify-center">
-          <button
-            type="button"
-            className="h-9 bg-bricks-red px-4 font-body text-sm font-semibold text-white"
-          >
-            Load more
-          </button>
-        </div>
-      </Fade>
-    </div>
-  );
+export function getAdjacentPosts(current: BlogCardData): {
+  prev: BlogCardData | null;
+  next: BlogCardData | null;
+} {
+  const category = current.category as BlogCategory;
+  const list = samplePostsByCategory[category] ?? [];
+  const withImages = withFallbackBlogImages(list);
+  const idx = list.findIndex((p) => postsMatch(p, current));
+  if (idx === -1) {
+    return { prev: null, next: null };
+  }
+  return {
+    prev: idx > 0 ? withImages[idx - 1] : null,
+    next: idx < list.length - 1 ? withImages[idx + 1] : null,
+  };
 }

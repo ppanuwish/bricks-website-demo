@@ -1,6 +1,6 @@
 import type { NavigateFn } from "../lib/navigation";
 import { goToPage } from "../lib/navigation";
-import { BlogSection } from "../components/BlogSection";
+import { BlogList } from "../components/BlogList";
 import { CtaBlock } from "../components/CtaBlock";
 import { Fade } from "../components/Fade";
 import { Hero } from "../components/Hero";
@@ -33,7 +33,7 @@ export function HomePage({ navigate }: HomePageProps) {
           title="AI agents that transform operations across every function"
         />
         <div className="bg-bricks-darkgray/[0.06] p-px">
-          <div className="grid auto-rows-fr grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-px">
+          <div className="grid auto-rows-fr grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] gap-px">
             {[
               [
                 "Customer Service",
@@ -83,7 +83,7 @@ export function HomePage({ navigate }: HomePageProps) {
           title="What AI agents deliver that the status quo can't"
           center
         />
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-5">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] gap-5">
           {[
             [
               "Expertise that compounds",
@@ -125,7 +125,7 @@ export function HomePage({ navigate }: HomePageProps) {
           center
           isDark
         />
-        <div className="grid auto-rows-fr grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-4">
+        <div className="grid auto-rows-fr grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-4">
           {[
             [
               "Security",
@@ -363,7 +363,7 @@ export function HomePage({ navigate }: HomePageProps) {
       </Section>
 
       <Section className="bg-bricks-gray">
-        <BlogSection />
+        <BlogList />
       </Section>
 
       <Section className="bg-white">

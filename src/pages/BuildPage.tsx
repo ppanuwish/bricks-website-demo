@@ -28,7 +28,7 @@ export function BuildPage({ navigate }: BuildPageProps) {
           tag="Capabilities"
           title="Build agents grounded in your firm's expertise"
         />
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-4">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-4">
           {[
             [
               "Knowledge",

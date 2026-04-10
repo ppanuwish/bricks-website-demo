@@ -45,6 +45,7 @@ html {
   color-scheme: light dark;
   height: 100%;
   width: 100%;
+  min-width: 390px;
 }
 
 body {
