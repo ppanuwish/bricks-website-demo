@@ -71,6 +71,3 @@ export default defineConfig([
   },
 ])
 ```
-# bricks-website-demo
-# bricks-website-demo
-# bricks-website-demo
