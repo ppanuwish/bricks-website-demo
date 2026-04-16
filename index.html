@@ -5,6 +5,27 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>landing-page</title>
+    <script>
+      (function () {
+        try {
+          var validThemes = ["bricks", "nia", "c-law"];
+          var theme = localStorage.getItem("app-theme");
+          if (!validThemes.includes(theme)) theme = "bricks";
+
+          var mode = localStorage.getItem("app-mode");
+          if (mode !== "light" && mode !== "dark") {
+            mode = window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+          }
+
+          document.documentElement.setAttribute("data-theme", theme);
+          if (mode === "dark") document.documentElement.classList.add("dark");
+        } catch (e) {
+          /* localStorage may be unavailable (SSR, private mode) — fall back silently */
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
