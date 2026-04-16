@@ -46,7 +46,7 @@ export function Button({
   ...props
 }: ButtonProps) {
   const base =
-    "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap font-body font-semibold tracking-wide outline-none transition-colors disabled:pointer-events-none disabled:opacity-50";
+    "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md font-body font-semibold tracking-wide outline-none transition-colors disabled:pointer-events-none disabled:opacity-50";
 
   // From Figma: shadow/xs + focus/default (0 0 0 3px rgba(163,163,163,0.5))
   const shadows =
@@ -56,35 +56,35 @@ export function Button({
     switch (variant) {
       case "default":
         return [
-          "border border-transparent bg-bricks-red text-white",
-          // Figma hover uses a 10% white overlay on top of primary
-          "hover:[background-image:linear-gradient(90deg,rgba(255,255,255,0.1)_0%,rgba(255,255,255,0.1)_100%),linear-gradient(90deg,rgb(253,1,69)_0%,rgb(253,1,69)_100%)]",
+          "border border-transparent bg-primary text-primary-foreground",
+          // Figma hover uses a subtle white overlay on top of primary.
+          "hover:bg-[color-mix(in_srgb,var(--color-primary)_90%,white)]",
         ].join(" ");
       case "secondary":
         return [
-          "border border-bricks-red bg-bricks-gray text-bricks-darkgray",
-          "hover:border-[#e10a3c] hover:bg-[#e4e4e4] hover:text-[#e10a3c]",
+          "border border-secondary bg-[var(--color-secondary-surface)] text-secondary",
+          "hover:bg-[color-mix(in_srgb,var(--color-secondary-surface)_80%,white)]",
         ].join(" ");
       case "outline":
         return [
-          "border border-bricks-darkgray/20 bg-transparent text-bricks-darkgray",
-          "hover:bg-bricks-gray",
+          "border border-input bg-[var(--color-outline-surface)] text-foreground",
+          "focus-visible:border-ring hover:bg-accent hover:text-accent-foreground",
         ].join(" ");
       case "ghost":
         return [
-          "border border-transparent bg-transparent text-bricks-darkgray",
-          "hover:bg-bricks-gray",
+          "border border-transparent bg-transparent text-foreground",
+          "hover:bg-accent hover:text-accent-foreground",
         ].join(" ");
       case "link":
         return [
-          "border border-transparent bg-transparent p-0 text-bricks-red underline-offset-4",
+          "border border-transparent bg-transparent p-0 text-primary underline-offset-4",
           "hover:underline",
         ].join(" ");
       case "destructive":
         return [
-          "border border-transparent bg-[#e11d48] text-white",
-          "hover:bg-[#be123c]",
-          "focus-visible:shadow-[0_0_0_3px_rgba(225,29,72,0.4)]",
+          "border border-transparent bg-destructive text-destructive-foreground",
+          "hover:bg-[color-mix(in_srgb,var(--color-destructive)_90%,white)]",
+          "focus-visible:shadow-[0_0_0_3px_var(--color-destructive-focus)]",
         ].join(" ");
     }
   })();

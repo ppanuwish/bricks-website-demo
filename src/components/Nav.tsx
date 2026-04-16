@@ -320,7 +320,7 @@ export function Nav() {
                 {group.label}
               </button>
               <div
-                className={`absolute left-0 top-full min-w-[200px] rounded-[10px] border py-1.5 shadow-[0_12px_40px_rgba(0,0,0,0.35)] backdrop-blur-md ${
+                className={`absolute left-0 top-full min-w-[200px] rounded-lg border py-1.5 shadow-[0_12px_40px_rgba(0,0,0,0.35)] backdrop-blur-md ${
                   openDropdown === group.label ? "block" : "hidden group-hover:block"
                 } ${
                   isDarkBackground

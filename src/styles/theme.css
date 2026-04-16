@@ -1,6 +1,174 @@
-@import url("https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
-
 @import "tailwindcss";
+
+/* Bai Jamjuree — local files in public/fonts/ (NIA --font-sans) */
+@font-face {
+  font-family: "Bai Jamjuree";
+  src: url("/fonts/BaiJamjuree-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bai Jamjuree";
+  src: url("/fonts/BaiJamjuree-ExtraLightItalic.ttf") format("truetype");
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bai Jamjuree";
+  src: url("/fonts/BaiJamjuree-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bai Jamjuree";
+  src: url("/fonts/BaiJamjuree-LightItalic.ttf") format("truetype");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bai Jamjuree";
+  src: url("/fonts/BaiJamjuree-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bai Jamjuree";
+  src: url("/fonts/BaiJamjuree-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bai Jamjuree";
+  src: url("/fonts/BaiJamjuree-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bai Jamjuree";
+  src: url("/fonts/BaiJamjuree-MediumItalic.ttf") format("truetype");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bai Jamjuree";
+  src: url("/fonts/BaiJamjuree-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bai Jamjuree";
+  src: url("/fonts/BaiJamjuree-SemiBoldItalic.ttf") format("truetype");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bai Jamjuree";
+  src: url("/fonts/BaiJamjuree-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bai Jamjuree";
+  src: url("/fonts/BaiJamjuree-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Geist — local static files in public/fonts/ (C-LAW --font-sans / body text) */
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/Geist-Thin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/Geist-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/Geist-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/Geist-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/Geist-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/Geist-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/Geist-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/Geist-ExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/Geist-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
 
 /* Bricks brand fonts — place files under public/fonts/ (paths match prior index.css) */
 
@@ -152,13 +320,36 @@
   font-display: swap;
 }
 
-/* NIA heading — add Silapakorn72 files under public/fonts/ if not already hosted */
+/* Silapakorn72 — NIA theme headings (--font-heading); files in public/fonts/ */
 @font-face {
   font-family: "Silapakorn72";
-  src: url("/fonts/Silapakorn72.woff2") format("woff2"),
-    url("/fonts/Silapakorn72.ttf") format("truetype");
+  src: url("/fonts/Silapakorn72-Light_Beta05.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Silapakorn72";
+  src: url("/fonts/Silapakorn72-Regular_Beta05.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Silapakorn72";
+  src: url("/fonts/Silapakorn72-Bold_Beta05.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Silapakorn72";
+  src: url("/fonts/Silapakorn72-Italic_Beta05.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
   font-display: swap;
 }
 
@@ -183,6 +374,7 @@
   --color-primary-hover: #e10a3c;
   --color-secondary: #f4f4f4;
   --color-secondary-foreground: #fd0145;
+  --color-secondary-surface: #f4f4f4;
   --color-muted: #f5f5f5;
   --color-muted-foreground: #6f6f6f;
   --color-accent: #f4f4f4;
@@ -192,6 +384,8 @@
   --color-border: #e4e4e4;
   --color-input: #e4e4e4;
   --color-ring: #e4e4e4;
+  --color-outline-surface: transparent;
+  --color-destructive-focus: rgba(225, 29, 72, 0.4);
   --color-chart-1: #ea580c;
   --color-chart-2: #0d9488;
   --color-chart-3: #164e63;
@@ -215,9 +409,13 @@
   --radius-3xl: 0px;
   --radius-4xl: 0px;
 
-  /* Spacing scale (Figma: spacing/2, spacing/4) */
+  /* Spacing scale (Figma: spacing/1 … spacing/6) */
+  --spacing-1: 4px;
   --spacing-2: 8px;
+  --spacing-3: 12px;
   --spacing-4: 16px;
+  --spacing-6: 24px;
+  --max-width-max-w-lg: 512px;
 
   --font-sans: "BricksText", ui-sans-serif, system-ui, sans-serif;
   --font-heading: "BricksDisplay", ui-serif, Georgia, serif;
@@ -238,6 +436,7 @@
   --color-primary-hover: #e10a3c;
   --color-secondary: #f4f4f4;
   --color-secondary-foreground: #fd0145;
+  --color-secondary-surface: #f4f4f4;
   --color-muted: #f5f5f5;
   --color-muted-foreground: #6f6f6f;
   --color-accent: #f4f4f4;
@@ -247,6 +446,8 @@
   --color-border: #e4e4e4;
   --color-input: #e4e4e4;
   --color-ring: #e4e4e4;
+  --color-outline-surface: transparent;
+  --color-destructive-focus: rgba(225, 29, 72, 0.4);
   --color-chart-1: #ea580c;
   --color-chart-2: #0d9488;
   --color-chart-3: #164e63;
@@ -287,6 +488,7 @@
   --color-primary-hover: #aff0e8;
   --color-secondary: #262626;
   --color-secondary-foreground: #fafafa;
+  --color-secondary-surface: #262626;
   --color-muted: #262626;
   --color-muted-foreground: #a3a3a3;
   --color-accent: #404040;
@@ -296,6 +498,8 @@
   --color-border: #ffffff;
   --color-input: #ffffff;
   --color-ring: #737373;
+  --color-outline-surface: transparent;
+  --color-destructive-focus: rgba(248, 113, 113, 0.4);
   --color-chart-1: #1d4ed8;
   --color-chart-2: #10b981;
   --color-chart-3: #f59e0b;
@@ -325,6 +529,7 @@
   --color-primary-hover: #003566;
   --color-secondary: #f1f5f9;
   --color-secondary-foreground: #1e293b;
+  --color-secondary-surface: #f1f5f9;
   --color-muted: #f8fafc;
   --color-muted-foreground: #64748b;
   --color-accent: #e2e8f0;
@@ -334,6 +539,8 @@
   --color-border: #e2e8f0;
   --color-input: #e2e8f0;
   --color-ring: #004a8d;
+  --color-outline-surface: transparent;
+  --color-destructive-focus: rgba(220, 38, 38, 0.3);
   --color-chart-1: #ea580c;
   --color-chart-2: #0d9488;
   --color-chart-3: #164e63;
@@ -374,6 +581,7 @@
   --color-primary-hover: #c4c8f7;
   --color-secondary: #1e293b;
   --color-secondary-foreground: #f1f5f9;
+  --color-secondary-surface: #1e293b;
   --color-muted: #111827;
   --color-muted-foreground: #94a3b8;
   --color-accent: #1a1629;
@@ -383,6 +591,8 @@
   --color-border: #1e293b;
   --color-input: #37354d;
   --color-ring: #caceff;
+  --color-outline-surface: transparent;
+  --color-destructive-focus: rgba(248, 113, 113, 0.35);
   --color-chart-1: #1d4ed8;
   --color-chart-2: #10b981;
   --color-chart-3: #f59e0b;
@@ -412,6 +622,7 @@
   --color-primary-hover: #b79331;
   --color-secondary: #b79331;
   --color-secondary-foreground: #ffffff;
+  --color-secondary-surface: #f8f4ea;
   --color-muted: #f5f5f5;
   --color-muted-foreground: #6c757d;
   --color-accent: #f5f5f5;
@@ -421,6 +632,8 @@
   --color-border: #dee2e6;
   --color-input: #dee2e6;
   --color-ring: #a3a3a3;
+  --color-outline-surface: #ffffff;
+  --color-destructive-focus: rgba(220, 38, 38, 0.2);
   --color-chart-1: #ea580c;
   --color-chart-2: #0d9488;
   --color-chart-3: #164e63;
@@ -445,7 +658,8 @@
   --radius-4xl: 32px;
 
   --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
-  --font-heading: "Georgia", ui-serif, Georgia, serif;
+  /* Typekit kit ifs0lwm — family name "georgia"; fall back to system Georgia */
+  --font-heading: "georgia", Georgia, ui-serif, serif;
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
@@ -461,6 +675,7 @@
   --color-primary-hover: #b79331;
   --color-secondary: #262626;
   --color-secondary-foreground: #fafafa;
+  --color-secondary-surface: #262626;
   --color-muted: #262626;
   --color-muted-foreground: #a3a3a3;
   --color-accent: #404040;
@@ -470,6 +685,8 @@
   --color-border: #ffffff;
   --color-input: #ffffff;
   --color-ring: #737373;
+  --color-outline-surface: transparent;
+  --color-destructive-focus: rgba(248, 113, 113, 0.35);
   --color-chart-1: #1d4ed8;
   --color-chart-2: #10b981;
   --color-chart-3: #f59e0b;

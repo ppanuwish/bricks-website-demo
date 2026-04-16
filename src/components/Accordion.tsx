@@ -161,8 +161,8 @@ export function AccordionItem({
   /* Padding: var(--spacing-4, 16px) on all sides; expanded gap spacing/2. */
   const variantClasses =
     variant === "filled"
-      ? "bg-muted p-[var(--spacing-4,16px)] transition-colors hover:bg-accent"
-      : "bg-transparent p-[var(--spacing-4,16px)] transition-colors hover:bg-accent";
+      ? "bg-muted p-[var(--spacing-4)] transition-colors hover:bg-accent"
+      : "bg-transparent p-[var(--spacing-4)] transition-colors hover:bg-accent";
 
   return (
     <ItemContext.Provider value={itemCtx}>
@@ -171,7 +171,7 @@ export function AccordionItem({
         data-variant={variant}
         className={joinClasses(
           "flex w-full min-w-0 flex-col border-b border-border",
-          open ? "gap-[var(--spacing-2,8px)]" : "gap-0",
+          open ? "gap-[var(--spacing-2)]" : "gap-0",
           variantClasses,
           className
         )}
