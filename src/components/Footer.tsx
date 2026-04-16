@@ -32,7 +32,7 @@ export function Footer() {
   const go = (k: string) => goToPage((to) => navigate(to), k);
 
   return (
-    <footer className="border-t border-white/[0.06] bg-bricks-iceblue px-6 pb-9 pt-14 md:px-10">
+    <footer className="border-t border-border bg-muted px-6 pb-9 pt-14 md:px-10">
       <div className="mx-auto flex max-w-[1200px] flex-wrap justify-between gap-10">
         <div>
           <div className="mb-2.5 flex items-center gap-2.5">
@@ -43,20 +43,20 @@ export function Footer() {
               draggable={false}
             />
           </div>
-          <p className="font-body text-xs text-bricks-darkgray/60">
+          <p className="font-body text-xs text-muted-foreground">
             Your AI enterprise enabler.
           </p>
         </div>
         {FOOTER_COLUMNS.map((col) => (
           <div key={col.title}>
-            <p className="mb-3.5 font-body text-[11px] font-semibold uppercase tracking-[1.5px] text-bricks-darkgray/60">
+            <p className="mb-3.5 font-body text-[11px] font-semibold uppercase tracking-[1.5px] text-muted-foreground">
               {col.title}
             </p>
             {col.links.map(([name, key]) => (
               <p
                 key={key}
                 onClick={() => go(key)}
-                className="mb-2.5 cursor-pointer font-body text-sm text-bricks-darkgray/70 transition-colors last:mb-0 hover:text-bricks-red"
+                className="mb-2.5 cursor-pointer font-body text-sm text-foreground/70 transition-colors last:mb-0 hover:text-primary"
               >
                 {name}
               </p>

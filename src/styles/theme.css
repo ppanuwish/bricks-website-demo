@@ -356,12 +356,11 @@
 /* Tailwind v4 dark variant driven by a parent .dark class */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ===========================================================
-   Theme tokens
-   Usage: <html data-theme="bricks|nia|c-law" class="dark?">
-   =========================================================== */
+/* ============================================================
+   LAYER 1 — MODE tokens (light / dark)
+   Shared across all themes.
+   ============================================================ */
 
-/* Default fallback (before ThemeProvider mounts) — Bricks light */
 :root {
   --color-background: #ffffff;
   --color-foreground: #1a1a1a;
@@ -374,7 +373,6 @@
   --color-primary-hover: #e10a3c;
   --color-secondary: #f4f4f4;
   --color-secondary-foreground: #fd0145;
-  --color-secondary-surface: #f4f4f4;
   --color-muted: #f5f5f5;
   --color-muted-foreground: #6f6f6f;
   --color-accent: #f4f4f4;
@@ -384,8 +382,6 @@
   --color-border: #e4e4e4;
   --color-input: #e4e4e4;
   --color-ring: #e4e4e4;
-  --color-outline-surface: transparent;
-  --color-destructive-focus: rgba(225, 29, 72, 0.4);
   --color-chart-1: #ea580c;
   --color-chart-2: #0d9488;
   --color-chart-3: #164e63;
@@ -409,20 +405,78 @@
   --radius-3xl: 0px;
   --radius-4xl: 0px;
 
-  /* Spacing scale (Figma: spacing/1 … spacing/6) */
+  --font-sans: "BricksText", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "BricksDisplay", ui-serif, Georgia, serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-ring-offset: #ffffff;
+  --color-shadow-5-percent: #000000;
+  --color-shadow-10-percent: #000000;
+  --color-shadow-12-percent: #000000;
+  --color-shadow-15-percent: #000000;
+  --color-shadow-25-percent: #000000;
+  --color-alpha-5: rgba(255, 255, 255, 0.95);
+  --color-alpha-10: rgba(255, 255, 255, 0.9);
+  --color-alpha-20: rgba(255, 255, 255, 0.8);
+  --color-alpha-30: rgba(255, 255, 255, 0.7);
+  --color-alpha-40: rgba(255, 255, 255, 0.6);
+  --color-alpha-50: rgba(255, 255, 255, 0.5);
+  --color-alpha-60: rgba(255, 255, 255, 0.4);
+  --color-alpha-70: rgba(255, 255, 255, 0.3);
+  --color-alpha-80: rgba(255, 255, 255, 0.2);
+  --color-alpha-90: rgba(255, 255, 255, 0.1);
+
+  --color-outline-surface: transparent;
+  --color-destructive-focus: rgba(225, 29, 72, 0.4);
+  --color-button-overlay-90: #ffffff1a;
+  --color-button-overlay-80: #ffffff33;
+  --color-button-focus-outline: #a3a3a380;
+  --color-button-shadow: rgba(0, 0, 0, 0.05);
+  --color-button-primary-hover-overlay: var(--color-button-overlay-90);
+  --color-button-secondary-bg: var(--color-card);
+  --color-button-secondary-border: var(--color-secondary-foreground);
+  --color-button-secondary-text: var(--color-foreground);
+  --color-button-secondary-hover-bg: var(--color-input);
+  --color-button-secondary-hover-border: var(--color-primary-hover);
+  --color-button-secondary-hover-text: var(--color-primary-hover);
+  --color-button-secondary-hover-overlay: transparent;
+  --color-button-outline-bg: var(--color-outline-surface);
+  --color-button-outline-border: var(--color-input);
+  --color-button-outline-hover-bg: var(--color-accent);
+  --color-button-outline-hover-border: var(--color-input);
+  --color-button-outline-hover-text: var(--color-accent-foreground);
+  --radius-button-icon: 8px;
+
   --spacing-1: 4px;
   --spacing-2: 8px;
   --spacing-3: 12px;
   --spacing-4: 16px;
   --spacing-6: 24px;
   --max-width-max-w-lg: 512px;
-
-  --font-sans: "BricksText", ui-sans-serif, system-ui, sans-serif;
-  --font-heading: "BricksDisplay", ui-serif, Georgia, serif;
-  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
-/* ---------- BRICKS ---------- */
+.dark {
+  --color-ring-offset: #ffffff;
+  --color-shadow-5-percent: #ffffff;
+  --color-shadow-10-percent: #ffffff;
+  --color-shadow-12-percent: #ffffff;
+  --color-shadow-15-percent: #ffffff;
+  --color-shadow-25-percent: #ffffff;
+  --color-alpha-5: rgba(10, 10, 10, 0.95);
+  --color-alpha-10: rgba(10, 10, 10, 0.9);
+  --color-alpha-20: rgba(10, 10, 10, 0.8);
+  --color-alpha-30: rgba(10, 10, 10, 0.7);
+  --color-alpha-40: rgba(10, 10, 10, 0.6);
+  --color-alpha-50: rgba(10, 10, 10, 0.5);
+  --color-alpha-60: rgba(10, 10, 10, 0.4);
+  --color-alpha-70: rgba(10, 10, 10, 0.3);
+  --color-alpha-80: rgba(10, 10, 10, 0.2);
+  --color-alpha-90: rgba(10, 10, 10, 0.1);
+}
+
+/* ============================================================
+   LAYER 2 — THEME tokens (bricks / nia / c-law)
+   ============================================================ */
 
 [data-theme="bricks"] {
   --color-background: #ffffff;
@@ -436,7 +490,6 @@
   --color-primary-hover: #e10a3c;
   --color-secondary: #f4f4f4;
   --color-secondary-foreground: #fd0145;
-  --color-secondary-surface: #f4f4f4;
   --color-muted: #f5f5f5;
   --color-muted-foreground: #6f6f6f;
   --color-accent: #f4f4f4;
@@ -446,8 +499,6 @@
   --color-border: #e4e4e4;
   --color-input: #e4e4e4;
   --color-ring: #e4e4e4;
-  --color-outline-surface: transparent;
-  --color-destructive-focus: rgba(225, 29, 72, 0.4);
   --color-chart-1: #ea580c;
   --color-chart-2: #0d9488;
   --color-chart-3: #164e63;
@@ -474,6 +525,20 @@
   --font-sans: "BricksText", ui-sans-serif, system-ui, sans-serif;
   --font-heading: "BricksDisplay", ui-serif, Georgia, serif;
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-outline-surface: transparent;
+  --color-destructive-focus: rgba(225, 29, 72, 0.4);
+  --color-button-overlay-90: #ffffff1a;
+  --color-button-overlay-80: #ffffff33;
+  --color-button-focus-outline: #a3a3a380;
+  --color-button-secondary-bg: var(--color-card);
+  --color-button-secondary-border: var(--color-secondary-foreground);
+  --color-button-secondary-text: var(--color-foreground);
+  --color-button-secondary-hover-bg: var(--color-input);
+  --color-button-secondary-hover-border: var(--color-primary-hover);
+  --color-button-secondary-hover-text: var(--color-primary-hover);
+  --color-button-secondary-hover-overlay: transparent;
+  --radius-button-icon: 9999px;
 }
 
 [data-theme="bricks"].dark {
@@ -488,7 +553,6 @@
   --color-primary-hover: #aff0e8;
   --color-secondary: #262626;
   --color-secondary-foreground: #fafafa;
-  --color-secondary-surface: #262626;
   --color-muted: #262626;
   --color-muted-foreground: #a3a3a3;
   --color-accent: #404040;
@@ -498,8 +562,6 @@
   --color-border: #ffffff;
   --color-input: #ffffff;
   --color-ring: #737373;
-  --color-outline-surface: transparent;
-  --color-destructive-focus: rgba(248, 113, 113, 0.4);
   --color-chart-1: #1d4ed8;
   --color-chart-2: #10b981;
   --color-chart-3: #f59e0b;
@@ -513,9 +575,28 @@
   --color-sidebar-accent-foreground: #fafafa;
   --color-sidebar-border: #ffffff;
   --color-sidebar-ring: #525252;
-}
 
-/* ---------- NIA ---------- */
+  --color-outline-surface: transparent;
+  --color-destructive-focus: rgba(248, 113, 113, 0.4);
+  --color-button-overlay-90: #ffffff1a;
+  --color-button-overlay-80: #ffffff33;
+  --color-button-focus-outline: rgba(115, 115, 115, 0.5);
+  --color-button-shadow: rgba(255, 255, 255, 0.1);
+  --color-button-primary-hover-overlay: rgba(10, 10, 10, 0.1);
+  --color-button-secondary-bg: #262626;
+  --color-button-secondary-border: #fafafa;
+  --color-button-secondary-text: #fafafa;
+  --color-button-secondary-hover-bg: #e4e4e4;
+  --color-button-secondary-hover-border: #e10a3c;
+  --color-button-secondary-hover-text: #e10a3c;
+  --color-button-secondary-hover-overlay: transparent;
+  --color-button-outline-bg: rgba(255, 255, 255, 0.05);
+  --color-button-outline-border: rgba(255, 255, 255, 0.15);
+  --color-button-outline-hover-bg: rgba(255, 255, 255, 0.08);
+  --color-button-outline-hover-border: rgba(255, 255, 255, 0.15);
+  --color-button-outline-hover-text: var(--color-accent-foreground);
+  --radius-button-icon: 9999px;
+}
 
 [data-theme="nia"] {
   --color-background: #edebf5;
@@ -529,7 +610,6 @@
   --color-primary-hover: #003566;
   --color-secondary: #f1f5f9;
   --color-secondary-foreground: #1e293b;
-  --color-secondary-surface: #f1f5f9;
   --color-muted: #f8fafc;
   --color-muted-foreground: #64748b;
   --color-accent: #e2e8f0;
@@ -539,8 +619,6 @@
   --color-border: #e2e8f0;
   --color-input: #e2e8f0;
   --color-ring: #004a8d;
-  --color-outline-surface: transparent;
-  --color-destructive-focus: rgba(220, 38, 38, 0.3);
   --color-chart-1: #ea580c;
   --color-chart-2: #0d9488;
   --color-chart-3: #164e63;
@@ -567,6 +645,27 @@
   --font-sans: "Bai Jamjuree", ui-sans-serif, system-ui, sans-serif;
   --font-heading: "Silapakorn72", ui-serif, Georgia, serif;
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-outline-surface: transparent;
+  --color-destructive-focus: rgba(220, 38, 38, 0.3);
+  --color-button-overlay-90: #ffffff1a;
+  --color-button-overlay-80: #ffffff33;
+  --color-button-focus-outline: #a3a3a380;
+  --color-button-shadow: rgba(0, 0, 0, 0.05);
+  --color-button-primary-hover-overlay: var(--color-button-overlay-90);
+  --color-button-secondary-bg: var(--color-secondary);
+  --color-button-secondary-border: transparent;
+  --color-button-secondary-text: var(--color-secondary-foreground);
+  --color-button-secondary-hover-bg: var(--color-secondary);
+  --color-button-secondary-hover-border: transparent;
+  --color-button-secondary-hover-text: var(--color-secondary-foreground);
+  --color-button-secondary-hover-overlay: #ffffff33;
+  --color-button-outline-bg: var(--color-card);
+  --color-button-outline-border: var(--color-input);
+  --color-button-outline-hover-bg: var(--color-accent);
+  --color-button-outline-hover-border: var(--color-input);
+  --color-button-outline-hover-text: var(--color-accent-foreground);
+  --radius-button-icon: 8px;
 }
 
 [data-theme="nia"].dark {
@@ -581,7 +680,6 @@
   --color-primary-hover: #c4c8f7;
   --color-secondary: #1e293b;
   --color-secondary-foreground: #f1f5f9;
-  --color-secondary-surface: #1e293b;
   --color-muted: #111827;
   --color-muted-foreground: #94a3b8;
   --color-accent: #1a1629;
@@ -591,8 +689,6 @@
   --color-border: #1e293b;
   --color-input: #37354d;
   --color-ring: #caceff;
-  --color-outline-surface: transparent;
-  --color-destructive-focus: rgba(248, 113, 113, 0.35);
   --color-chart-1: #1d4ed8;
   --color-chart-2: #10b981;
   --color-chart-3: #f59e0b;
@@ -606,9 +702,28 @@
   --color-sidebar-accent-foreground: #f8fafc;
   --color-sidebar-border: #37354d;
   --color-sidebar-ring: #caceff;
-}
 
-/* ---------- C-LAW ---------- */
+  --color-outline-surface: transparent;
+  --color-destructive-focus: rgba(248, 113, 113, 0.35);
+  --color-button-overlay-90: #ffffff1a;
+  --color-button-overlay-80: #ffffff33;
+  --color-button-focus-outline: #a3a3a380;
+  --color-button-shadow: rgba(0, 0, 0, 0.05);
+  --color-button-primary-hover-overlay: var(--color-button-overlay-90);
+  --color-button-secondary-bg: var(--color-secondary);
+  --color-button-secondary-border: transparent;
+  --color-button-secondary-text: var(--color-secondary-foreground);
+  --color-button-secondary-hover-bg: var(--color-secondary);
+  --color-button-secondary-hover-border: transparent;
+  --color-button-secondary-hover-text: var(--color-secondary-foreground);
+  --color-button-secondary-hover-overlay: #ffffff33;
+  --color-button-outline-bg: var(--color-card);
+  --color-button-outline-border: var(--color-input);
+  --color-button-outline-hover-bg: var(--color-accent);
+  --color-button-outline-hover-border: var(--color-input);
+  --color-button-outline-hover-text: var(--color-accent-foreground);
+  --radius-button-icon: 8px;
+}
 
 [data-theme="c-law"] {
   --color-background: #ffffff;
@@ -622,7 +737,6 @@
   --color-primary-hover: #b79331;
   --color-secondary: #b79331;
   --color-secondary-foreground: #ffffff;
-  --color-secondary-surface: #f8f4ea;
   --color-muted: #f5f5f5;
   --color-muted-foreground: #6c757d;
   --color-accent: #f5f5f5;
@@ -632,8 +746,6 @@
   --color-border: #dee2e6;
   --color-input: #dee2e6;
   --color-ring: #a3a3a3;
-  --color-outline-surface: #ffffff;
-  --color-destructive-focus: rgba(220, 38, 38, 0.2);
   --color-chart-1: #ea580c;
   --color-chart-2: #0d9488;
   --color-chart-3: #164e63;
@@ -658,9 +770,25 @@
   --radius-4xl: 32px;
 
   --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
-  /* Typekit kit ifs0lwm — family name "georgia"; fall back to system Georgia */
-  --font-heading: "georgia", Georgia, ui-serif, serif;
+  --font-heading: "Georgia", ui-serif, Georgia, serif;
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-outline-surface: #ffffff;
+  --color-destructive-focus: rgba(220, 38, 38, 0.2);
+  --color-button-shadow: rgba(0, 0, 0, 0.05);
+  --color-button-primary-hover-overlay: var(--color-button-overlay-90);
+  --color-button-secondary-bg: #f8f4ea;
+  --color-button-secondary-border: var(--color-secondary);
+  --color-button-secondary-text: var(--color-secondary);
+  --color-button-secondary-hover-bg: #e4e4e4;
+  --color-button-secondary-hover-border: var(--color-primary-hover);
+  --color-button-secondary-hover-text: var(--color-primary-hover);
+  --color-button-secondary-hover-overlay: transparent;
+  --color-button-outline-bg: var(--color-outline-surface);
+  --color-button-outline-border: var(--color-input);
+  --color-button-outline-hover-bg: var(--color-accent);
+  --color-button-outline-hover-border: var(--color-input);
+  --color-button-outline-hover-text: var(--color-accent-foreground);
 }
 
 [data-theme="c-law"].dark {
@@ -675,7 +803,6 @@
   --color-primary-hover: #b79331;
   --color-secondary: #262626;
   --color-secondary-foreground: #fafafa;
-  --color-secondary-surface: #262626;
   --color-muted: #262626;
   --color-muted-foreground: #a3a3a3;
   --color-accent: #404040;
@@ -685,8 +812,6 @@
   --color-border: #ffffff;
   --color-input: #ffffff;
   --color-ring: #737373;
-  --color-outline-surface: transparent;
-  --color-destructive-focus: rgba(248, 113, 113, 0.35);
   --color-chart-1: #1d4ed8;
   --color-chart-2: #10b981;
   --color-chart-3: #f59e0b;
@@ -700,12 +825,21 @@
   --color-sidebar-accent-foreground: #fafafa;
   --color-sidebar-border: #ffffff;
   --color-sidebar-ring: #525252;
+
+  --color-outline-surface: transparent;
+  --color-destructive-focus: rgba(248, 113, 113, 0.35);
+  --color-button-shadow: rgba(0, 0, 0, 0.05);
+  --color-button-primary-hover-overlay: var(--color-button-overlay-90);
+  --color-button-outline-bg: var(--color-outline-surface);
+  --color-button-outline-border: var(--color-input);
+  --color-button-outline-hover-bg: var(--color-accent);
+  --color-button-outline-hover-border: var(--color-input);
+  --color-button-outline-hover-text: var(--color-accent-foreground);
 }
 
-/* ===========================================================
-   Expose tokens to Tailwind's utility generator (v4)
-   Enables bg-primary, text-foreground, rounded-md, font-heading, etc.
-   =========================================================== */
+/* ============================================================
+   LAYER 3 — @theme inline
+   ============================================================ */
 @theme inline {
   --color-background: var(--color-background);
   --color-foreground: var(--color-foreground);
@@ -741,6 +875,23 @@
   --color-sidebar-border: var(--color-sidebar-border);
   --color-sidebar-ring: var(--color-sidebar-ring);
 
+  --color-ring-offset: var(--color-ring-offset);
+  --color-shadow-5-percent: var(--color-shadow-5-percent);
+  --color-shadow-10-percent: var(--color-shadow-10-percent);
+  --color-shadow-12-percent: var(--color-shadow-12-percent);
+  --color-shadow-15-percent: var(--color-shadow-15-percent);
+  --color-shadow-25-percent: var(--color-shadow-25-percent);
+  --color-alpha-5: var(--color-alpha-5);
+  --color-alpha-10: var(--color-alpha-10);
+  --color-alpha-20: var(--color-alpha-20);
+  --color-alpha-30: var(--color-alpha-30);
+  --color-alpha-40: var(--color-alpha-40);
+  --color-alpha-50: var(--color-alpha-50);
+  --color-alpha-60: var(--color-alpha-60);
+  --color-alpha-70: var(--color-alpha-70);
+  --color-alpha-80: var(--color-alpha-80);
+  --color-alpha-90: var(--color-alpha-90);
+
   --radius-xs: var(--radius-xs);
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);
@@ -754,7 +905,6 @@
   --font-heading: var(--font-heading);
   --font-mono: var(--font-mono);
 
-  /* App-specific aliases (existing components) */
   --font-body: var(--font-sans);
   --color-bricks-red: #fd0145;
   --color-bricks-darkgray: #1a1a1a;
@@ -766,7 +916,6 @@
   --shadow-bricks-card: 0 12px 40px color-mix(in srgb, #1a1a1a 8%, transparent);
 }
 
-/* Sensible defaults */
 body {
   background-color: var(--color-background);
   color: var(--color-foreground);

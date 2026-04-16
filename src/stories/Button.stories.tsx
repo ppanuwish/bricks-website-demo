@@ -25,6 +25,24 @@ const meta = {
       control: "select",
       options: ["default", "sm", "lg", "icon"],
     },
+    state: {
+      control: "select",
+      options: ["default", "hover", "focus", "disabled", "loading"],
+    },
+    showLeftIcon: {
+      control: "boolean",
+    },
+    showRightIcon: {
+      control: "boolean",
+    },
+    theme: {
+      control: "select",
+      options: ["bricks", "nia", "c-law"],
+    },
+    mode: {
+      control: "select",
+      options: ["light", "dark"],
+    },
   },
 } satisfies Meta<typeof Button>;
 
@@ -51,6 +69,19 @@ export const Link: Story = {
 
 export const Loading: Story = {
   args: { loading: true, children: "Submitting" },
+};
+
+export const FigmaStatePreview: Story = {
+  args: {
+    children: "Button",
+    variant: "default",
+    size: "default",
+    state: "default",
+    showLeftIcon: false,
+    showRightIcon: false,
+    theme: "bricks",
+    mode: "light",
+  },
 };
 
 export const FullWidth: Story = {

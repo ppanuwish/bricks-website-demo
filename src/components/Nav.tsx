@@ -260,8 +260,8 @@ export function Nav() {
       className={`fixed inset-x-0 top-0 z-[100] bg-transparent backdrop-blur-xl transition-all duration-500 ${
         isScrolling
           ? isDarkBackground
-            ? "border-b border-white/[0.06]"
-            : "border-b border-bricks-darkgray/10"
+            ? "border-b border-background/10"
+            : "border-b border-border"
           : "border-b border-transparent"
       }`}
     >
@@ -284,7 +284,7 @@ export function Nav() {
           aria-expanded={mobileOpen}
           onClick={() => setMobileOpen((prev) => !prev)}
           className={`flex h-9 w-9 items-center justify-center md:hidden ${
-            isDarkBackground ? "text-white" : "text-bricks-darkgray"
+            isDarkBackground ? "text-background" : "text-foreground"
           }`}
         >
           <span className="sr-only">Menu</span>
@@ -313,29 +313,29 @@ export function Nav() {
                       : (group.label as "Product" | "Industries")
                   )
                 }
-                className={`inline-block cursor-pointer px-4 py-2 font-body text-[13px] font-medium tracking-wide transition-colors hover:text-bricks-red ${
-                  isDarkBackground ? "text-white/60" : "text-bricks-darkgray/70"
+                className={`inline-block cursor-pointer px-4 py-2 font-body text-[13px] font-medium tracking-wide transition-colors hover:text-primary ${
+                  isDarkBackground ? "text-background/60" : "text-foreground/70"
                 }`}
               >
                 {group.label}
               </button>
               <div
-                className={`absolute left-0 top-full min-w-[200px] rounded-lg border py-1.5 shadow-[0_12px_40px_rgba(0,0,0,0.35)] backdrop-blur-md ${
+                className={`absolute left-0 top-full min-w-[200px] rounded-lg border py-1.5 shadow-xl backdrop-blur-md ${
                   openDropdown === group.label ? "block" : "hidden group-hover:block"
                 } ${
                   isDarkBackground
-                    ? "border-white/[0.08] bg-bricks-darkgray"
-                    : "border-bricks-darkgray/10 bg-white"
+                    ? "border-background/10 bg-foreground"
+                    : "border-border bg-background"
                 }`}
               >
                 {group.items.map((k) => (
                   <div
                     key={k}
                     onClick={() => go(k)}
-                    className={`cursor-pointer px-5 py-2.5 font-body text-[13px] font-medium transition-colors hover:bg-white/5 ${
+                    className={`cursor-pointer px-5 py-2.5 font-body text-[13px] font-medium transition-colors hover:bg-accent ${
                       isDarkBackground
-                        ? "text-white/80 hover:text-bricks-red"
-                        : "text-bricks-darkgray/80 hover:text-bricks-red"
+                        ? "text-background/80 hover:text-primary"
+                        : "text-foreground/80 hover:text-primary"
                     }`}
                   >
                     {PAGE_LABELS[k]}
@@ -346,16 +346,16 @@ export function Nav() {
           ))}
           <span
             onClick={() => go("about")}
-            className={`inline-block cursor-pointer px-4 py-2 font-body text-[13px] font-medium tracking-wide transition-colors hover:text-bricks-red ${
-              isDarkBackground ? "text-white/60" : "text-bricks-darkgray/70"
+            className={`inline-block cursor-pointer px-4 py-2 font-body text-[13px] font-medium tracking-wide transition-colors hover:text-primary ${
+              isDarkBackground ? "text-background/60" : "text-foreground/70"
             }`}
           >
             About
           </span>
           <span
             onClick={() => go("blog")}
-            className={`inline-block cursor-pointer px-4 py-2 font-body text-[13px] font-medium tracking-wide transition-colors hover:text-bricks-red ${
-              isDarkBackground ? "text-white/60" : "text-bricks-darkgray/70"
+            className={`inline-block cursor-pointer px-4 py-2 font-body text-[13px] font-medium tracking-wide transition-colors hover:text-primary ${
+              isDarkBackground ? "text-background/60" : "text-foreground/70"
             }`}
           >
             Blog
@@ -375,15 +375,15 @@ export function Nav() {
         <div
           className={`border-t px-6 py-4 md:hidden ${
             isDarkBackground
-              ? "border-white/10 bg-bricks-darkgray text-white"
-              : "border-bricks-darkgray/10 bg-white text-bricks-darkgray"
+              ? "border-background/10 bg-foreground text-background"
+              : "border-border bg-background text-foreground"
           }`}
         >
           <div className="flex flex-col gap-3 font-body text-sm">
             <button
               type="button"
               onClick={() => go("home")}
-              className="text-left transition-colors hover:text-bricks-red"
+              className="text-left transition-colors hover:text-primary"
             >
               Home
             </button>
@@ -395,7 +395,7 @@ export function Nav() {
                     key={k}
                     type="button"
                     onClick={() => go(k)}
-                    className="text-left transition-colors hover:text-bricks-red"
+                    className="text-left transition-colors hover:text-primary"
                   >
                     {PAGE_LABELS[k]}
                   </button>
@@ -410,7 +410,7 @@ export function Nav() {
                     key={k}
                     type="button"
                     onClick={() => go(k)}
-                    className="text-left transition-colors hover:text-bricks-red"
+                    className="text-left transition-colors hover:text-primary"
                   >
                     {PAGE_LABELS[k]}
                   </button>
@@ -420,14 +420,14 @@ export function Nav() {
             <button
               type="button"
               onClick={() => go("about")}
-              className="text-left transition-colors hover:text-bricks-red"
+              className="text-left transition-colors hover:text-primary"
             >
               About
             </button>
             <button
               type="button"
               onClick={() => go("blog")}
-              className="text-left transition-colors hover:text-bricks-red"
+              className="text-left transition-colors hover:text-primary"
             >
               Blog
             </button>

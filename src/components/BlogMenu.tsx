@@ -29,8 +29,8 @@ export function BlogMenu({ activeCategory, onSelectCategory }: BlogMenuProps) {
             onClick={() => onSelectCategory(item)}
             className={`h-9 px-2.5 font-body text-[14px] font-semibold leading-5 ${
               activeCategory === item
-                ? "bg-bricks-red text-white"
-                : "bg-transparent text-bricks-darkgray hover:text-bricks-red"
+                ? "bg-primary text-primary-foreground"
+                : "bg-transparent text-foreground hover:text-primary"
             }`}
           >
             {item}

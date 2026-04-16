@@ -7,13 +7,13 @@ import { Section } from "./Section";
 export function CtaBlock() {
   const navigate = useNavigate();
   return (
-    <Section className="bg-bricks-darkgray">
+    <Section className="bg-foreground">
       <Fade>
         <div className="py-12 text-center">
-          <h2 className="mb-2.5 font-heading text-[clamp(28px,3.5vw,48px)] font-extrabold tracking-[-1.5px] text-white">
+          <h2 className="mb-2.5 font-heading text-[clamp(28px,3.5vw,48px)] font-extrabold tracking-[-1.5px] text-background">
             Transform your operations.
           </h2>
-          <p className="mb-10 font-heading text-[clamp(22px,3vw,38px)] font-medium tracking-[-0.5px] text-bricks-iceblue">
+          <p className="mb-10 font-heading text-[clamp(22px,3vw,38px)] font-medium tracking-[-0.5px] text-primary">
             Keep what your people know.
           </p>
           <Button

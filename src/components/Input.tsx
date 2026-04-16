@@ -53,19 +53,19 @@ function SearchIcon({ className }: { className?: string }) {
 function classesForState(state: InputState) {
   switch (state) {
     case "default":
-      return "border border-input text-muted-foreground shadow-[0_1px_2px_0_rgba(0,0,0,0.05)]";
+      return "border border-input text-muted-foreground shadow-[0_1px_2px_0_var(--color-button-shadow)]";
     case "hover":
-      return "border border-[var(--color-bricks-iceblue)] text-muted-foreground shadow-[0_1px_2px_0_rgba(0,0,0,0.05)]";
+      return "border border-primary/20 text-muted-foreground shadow-[0_1px_2px_0_var(--color-button-shadow)]";
     case "active":
       return "border-2 border-accent-foreground text-foreground";
     case "focus":
-      return "border border-ring text-muted-foreground shadow-[0_0_0_3px_rgba(163,163,163,0.5)]";
+      return "border border-ring text-muted-foreground shadow-[0_0_0_3px_var(--color-button-focus-outline)]";
     case "filled":
-      return "border border-input text-foreground shadow-[0_1px_2px_0_rgba(0,0,0,0.05)]";
+      return "border border-input text-foreground shadow-[0_1px_2px_0_var(--color-button-shadow)]";
     case "disabled":
-      return "border border-input text-muted-foreground opacity-50 shadow-[0_1px_2px_0_rgba(0,0,0,0.05)]";
+      return "border border-input text-muted-foreground opacity-50 shadow-[0_1px_2px_0_var(--color-button-shadow)]";
     case "error":
-      return "border border-destructive text-muted-foreground shadow-[0_1px_2px_0_rgba(0,0,0,0.05)]";
+      return "border border-destructive text-muted-foreground shadow-[0_1px_2px_0_var(--color-button-shadow)]";
     case "error-focus":
       return "border border-destructive text-muted-foreground shadow-[0_0_0_3px_var(--color-destructive-focus)]";
   }

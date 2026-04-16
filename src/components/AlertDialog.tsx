@@ -52,9 +52,8 @@ export function AlertDialog({
         className={joinClasses(
           "flex w-[512px] max-w-[var(--max-width-max-w-lg,512px)] flex-col items-end",
           "gap-[var(--spacing-4)] rounded-lg",
-          "border-[length:var(--border-width-border,1px)] border-[var(--base-border,#E4E4E4)] border-solid",
-          "bg-[var(--base-background,#FFF)] p-[var(--spacing-6)]",
-          "shadow-[var(--shadow-lg-1-offset-x,0)_var(--shadow-lg-1-offset-y,10px)_var(--shadow-lg-1-blur-radius,15px)_var(--shadow-lg-1-spread-radius,-3px)_var(--shadow-lg-1-color,rgba(0,0,0,0.10)),var(--shadow-lg-2-offset-x,0)_var(--shadow-lg-2-offset-y,4px)_var(--shadow-lg-2-blur-radius,6px)_var(--shadow-lg-2-spread-radius,-4px)_var(--shadow-lg-2-color,rgba(0,0,0,0.10))]",
+          "border border-border border-solid",
+          "bg-background p-[var(--spacing-6)] shadow-lg",
           className
         )}
         {...props}
