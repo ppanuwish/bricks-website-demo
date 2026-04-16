@@ -38,11 +38,20 @@
   --font-heading: "Bricks Display", ui-sans-serif, sans-serif;
   --font-body: "Bricks Text", ui-sans-serif, sans-serif;
 
+  /* Primitives — aligned with DS Grey / brand (see bricksColor.tokens.json Grey 100–200) */
   --color-bricks-red: #fd0145;
   --color-bricks-darkgray: #1a1a1a;
   --color-bricks-iceblue: #aff0e8;
   --color-bricks-teal: #1d9e8f;
+  /* Grey 200 — section / stripe fills */
   --color-bricks-gray: #f1f1f1;
+  /* Grey 100 — card / secondary surface (matches generated --color-secondary) */
+  --color-bricks-surface-card: #f8f8f8;
+  /* Muted caption text (matches generated --color-muted-foreground) */
+  --color-bricks-muted-fg: #aaaaaa;
+
+  /* Elevation — matches generated --ui-drop-card */
+  --shadow-bricks-card: 0 12px 40px color-mix(in srgb, #1a1a1a 8%, transparent);
 }
 
 @layer base {
