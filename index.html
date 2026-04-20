@@ -15,9 +15,7 @@
 
           var mode = localStorage.getItem("app-mode");
           if (mode !== "light" && mode !== "dark") {
-            mode = window.matchMedia("(prefers-color-scheme: dark)").matches
-              ? "dark"
-              : "light";
+            mode = "light";
           }
 
           document.documentElement.setAttribute("data-theme", theme);

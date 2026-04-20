@@ -7,7 +7,6 @@ type SectionHeaderProps = {
   title: ReactNode;
   sub?: string;
   center?: boolean;
-  isDark?: boolean;
 };
 
 export function SectionHeader({
@@ -15,7 +14,6 @@ export function SectionHeader({
   title,
   sub,
   center,
-  isDark,
 }: SectionHeaderProps) {
   return (
     <Fade>
@@ -27,7 +25,7 @@ export function SectionHeader({
         }`}
       >
         {tag && (
-          <div className="mb-4 inline-flex items-center gap-2 font-body text-[11px] font-semibold uppercase tracking-[2px] text-primary">
+          <div className="mb-4 inline-flex items-center gap-2 font-body text-[11px] font-semibold uppercase tracking-[2px] text-muted-foreground">
             <img
               src={bricksLogo}
               alt=""
@@ -38,18 +36,14 @@ export function SectionHeader({
           </div>
         )}
         <h2
-          className={`font-heading text-[clamp(26px,3.2vw,46px)] font-extrabold leading-[1.1] tracking-[-1.5px] ${
-            isDark ? "text-background" : "text-foreground"
-          } ${sub ? "mb-4" : ""}`}
+          className={`font-heading text-[clamp(26px,3.2vw,46px)] font-extrabold leading-[1.1] tracking-[-1.5px] text-foreground ${
+            sub ? "mb-4" : ""
+          }`}
         >
           {title}
         </h2>
         {sub && (
-          <p
-            className={`mt-2.5 font-body text-base leading-[1.75] ${
-              isDark ? "text-background/60" : "text-muted-foreground"
-            }`}
-          >
+          <p className="mt-2.5 font-body text-base leading-[1.75] text-muted-foreground">
             {sub}
           </p>
         )}

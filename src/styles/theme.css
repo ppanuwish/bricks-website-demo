@@ -906,9 +906,12 @@
   --font-mono: var(--font-mono);
 
   --font-body: var(--font-sans);
+  --color-white: #ffffff;
+  --color-black: #000000;
   --color-bricks-red: #fd0145;
+  --color-bricks-red-600: #c90039;
   --color-bricks-darkgray: #1a1a1a;
-  --color-bricks-iceblue: #aff0e8;
+  --color-bricks-iceblue: #AFF0E8;
   --color-bricks-teal: #1d9e8f;
   --color-bricks-gray: #f1f1f1;
   --color-bricks-surface-card: #f8f8f8;

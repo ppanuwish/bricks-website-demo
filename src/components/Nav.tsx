@@ -1,222 +1,56 @@
 import { useState, useEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { PAGE_LABELS } from "../constants/pages";
 import { goToPage } from "../lib/navigation";
+import { useTheme } from "../theme/ThemeProvider";
 import { Button } from "./Button";
 import enLogo from "../assets/en-logo.svg";
 
+function ModeSwitch({ className = "" }: { className?: string }) {
+  const { mode, setMode } = useTheme();
+  const seg =
+    "rounded-full px-3 py-1.5 font-body text-[12px] font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
+  return (
+    <div
+      className={`inline-flex rounded-full border border-border bg-muted/50 p-0.5 ${className}`}
+      role="group"
+      aria-label="Color mode"
+    >
+      <button
+        type="button"
+        aria-pressed={mode === "light"}
+        onClick={() => setMode("light")}
+        className={`${seg} ${
+          mode === "light"
+            ? "bg-card text-foreground shadow-sm"
+            : "text-foreground/55 hover:text-foreground"
+        }`}
+      >
+        Light
+      </button>
+      <button
+        type="button"
+        aria-pressed={mode === "dark"}
+        onClick={() => setMode("dark")}
+        className={`${seg} ${
+          mode === "dark"
+            ? "bg-card text-foreground shadow-sm"
+            : "text-foreground/55 hover:text-foreground"
+        }`}
+      >
+        Dark
+      </button>
+    </div>
+  );
+}
+
 export function Nav() {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const page = pathname;
-  const [isScrolling, setIsScrolling] = useState(false);
-  const [isDarkBackground, setIsDarkBackground] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<"Product" | "Industries" | null>(
     null
   );
   const navRef = useRef<HTMLElement>(null);
-  const scrollTimeoutRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    const handler = () => {
-      setIsScrolling(true);
-      if (scrollTimeoutRef.current !== null) {
-        window.clearTimeout(scrollTimeoutRef.current);
-      }
-      scrollTimeoutRef.current = window.setTimeout(() => {
-        setIsScrolling(false);
-      }, 140);
-    };
-
-    window.addEventListener("scroll", handler);
-    return () => {
-      window.removeEventListener("scroll", handler);
-      if (scrollTimeoutRef.current !== null) {
-        window.clearTimeout(scrollTimeoutRef.current);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    const parseRgba = (color: string) => {
-      const m = color.match(
-        /rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)(?:\s*,\s*([\d.]+))?\s*\)/
-      );
-      if (!m) return null;
-      return {
-        r: Number(m[1]),
-        g: Number(m[2]),
-        b: Number(m[3]),
-        a: m[4] == null ? 1 : Number(m[4]),
-      };
-    };
-
-    const isBricksDarkGray = (r: number, g: number, b: number) =>
-      Math.abs(r - 26) <= 2 && Math.abs(g - 26) <= 2 && Math.abs(b - 26) <= 2;
-
-    const sampleBackground = () => {
-      const nav = navRef.current;
-      if (!nav) {
-        // #region agent log
-        fetch("http://127.0.0.1:7936/ingest/449f2fce-bbee-4d84-9fb6-516c7de4bf98", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Debug-Session-Id": "3e05c1",
-          },
-          body: JSON.stringify({
-            sessionId: "3e05c1",
-            location: "Nav.tsx:sampleBackground",
-            message: "sample skipped (no nav ref)",
-            data: { scrollY: window.scrollY },
-            timestamp: Date.now(),
-            hypothesisId: "H4",
-          }),
-        }).catch(() => {});
-        // #endregion
-        return;
-      }
-
-      const x = Math.max(1, Math.floor(window.innerWidth / 2));
-      const y = Math.min(window.innerHeight - 1, 80);
-      const stack = document.elementsFromPoint(x, y);
-
-      const behind = stack.find((el) => !nav.contains(el));
-      if (!behind) {
-        // #region agent log
-        fetch("http://127.0.0.1:7936/ingest/449f2fce-bbee-4d84-9fb6-516c7de4bf98", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Debug-Session-Id": "3e05c1",
-          },
-          body: JSON.stringify({
-            sessionId: "3e05c1",
-            location: "Nav.tsx:sampleBackground",
-            message: "sample skipped (no behind element)",
-            data: { scrollY: window.scrollY, stackLen: stack.length },
-            timestamp: Date.now(),
-            hypothesisId: "H4",
-          }),
-        }).catch(() => {});
-        // #endregion
-        return;
-      }
-
-      // #region agent log
-      fetch("http://127.0.0.1:7936/ingest/449f2fce-bbee-4d84-9fb6-516c7de4bf98", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Debug-Session-Id": "3e05c1",
-        },
-        body: JSON.stringify({
-          sessionId: "3e05c1",
-          location: "Nav.tsx:sampleBackground",
-          message: "sample invoked",
-          data: {
-            scrollY: window.scrollY,
-            behindTag: behind.tagName,
-            page,
-          },
-          timestamp: Date.now(),
-          runId: "post-fix",
-          hypothesisId: "H1",
-        }),
-      }).catch(() => {});
-      // #endregion
-
-      let node: Element | null = behind;
-      while (node) {
-        const style = window.getComputedStyle(node);
-        const parsed = parseRgba(style.backgroundColor);
-        if (parsed && parsed.a > 0 && isBricksDarkGray(parsed.r, parsed.g, parsed.b)) {
-          // #region agent log
-          fetch("http://127.0.0.1:7936/ingest/449f2fce-bbee-4d84-9fb6-516c7de4bf98", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "X-Debug-Session-Id": "3e05c1",
-            },
-            body: JSON.stringify({
-              sessionId: "3e05c1",
-              location: "Nav.tsx:sampleBackground",
-              message: "sample result",
-              data: {
-                isDarkBackground: true,
-                reason: "bricks-dark-gray",
-                bg: style.backgroundColor,
-                nodeTag: node.tagName,
-              },
-              timestamp: Date.now(),
-              hypothesisId: "H2",
-            }),
-          }).catch(() => {});
-          // #endregion
-          setIsDarkBackground(true);
-          return;
-        }
-        if (parsed && parsed.a > 0) {
-          // #region agent log
-          fetch("http://127.0.0.1:7936/ingest/449f2fce-bbee-4d84-9fb6-516c7de4bf98", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "X-Debug-Session-Id": "3e05c1",
-            },
-            body: JSON.stringify({
-              sessionId: "3e05c1",
-              location: "Nav.tsx:sampleBackground",
-              message: "sample result",
-              data: {
-                isDarkBackground: false,
-                reason: "opaque-non-bricks",
-                bg: style.backgroundColor,
-                nodeTag: node.tagName,
-              },
-              timestamp: Date.now(),
-              hypothesisId: "H2",
-            }),
-          }).catch(() => {});
-          // #endregion
-          setIsDarkBackground(false);
-          return;
-        }
-        node = node.parentElement;
-      }
-      // #region agent log
-      fetch("http://127.0.0.1:7936/ingest/449f2fce-bbee-4d84-9fb6-516c7de4bf98", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Debug-Session-Id": "3e05c1",
-        },
-        body: JSON.stringify({
-          sessionId: "3e05c1",
-          location: "Nav.tsx:sampleBackground",
-          message: "sample result",
-          data: { isDarkBackground: false, reason: "no-opaque-bg-walk" },
-          timestamp: Date.now(),
-          hypothesisId: "H2",
-        }),
-      }).catch(() => {});
-      // #endregion
-      setIsDarkBackground(false);
-    };
-
-    const onChange = () => {
-      requestAnimationFrame(sampleBackground);
-    };
-
-    onChange();
-    window.addEventListener("scroll", onChange, { passive: true });
-    window.addEventListener("resize", onChange);
-    return () => {
-      window.removeEventListener("scroll", onChange);
-      window.removeEventListener("resize", onChange);
-    };
-  }, [page]);
 
   useEffect(() => {
     const handlePointerDown = (event: PointerEvent) => {
@@ -232,23 +66,6 @@ export function Nav() {
   }, []);
 
   const go = (key: string) => {
-    // #region agent log
-    fetch("http://127.0.0.1:7936/ingest/449f2fce-bbee-4d84-9fb6-516c7de4bf98", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Debug-Session-Id": "3e05c1",
-      },
-      body: JSON.stringify({
-        sessionId: "3e05c1",
-        location: "Nav.tsx:go",
-        message: "navigate via Nav",
-        data: { key, scrollY: window.scrollY },
-        timestamp: Date.now(),
-        hypothesisId: "H3",
-      }),
-    }).catch(() => {});
-    // #endregion
     setMobileOpen(false);
     setOpenDropdown(null);
     goToPage((to) => navigate(to), key);
@@ -257,13 +74,7 @@ export function Nav() {
   return (
     <nav
       ref={navRef}
-      className={`fixed inset-x-0 top-0 z-[100] bg-transparent backdrop-blur-xl transition-all duration-500 ${
-        isScrolling
-          ? isDarkBackground
-            ? "border-b border-background/10"
-            : "border-b border-border"
-          : "border-b border-transparent"
-      }`}
+      className="fixed inset-x-0 top-0 z-[100] bg-card/50 backdrop-blur-xl backdrop-saturate-150"
     >
       <div className="mx-auto flex h-[72px] max-w-[1320px] items-center justify-between px-6 md:px-10">
         <div
@@ -283,9 +94,7 @@ export function Nav() {
           aria-label="Toggle navigation menu"
           aria-expanded={mobileOpen}
           onClick={() => setMobileOpen((prev) => !prev)}
-          className={`flex h-9 w-9 items-center justify-center md:hidden ${
-            isDarkBackground ? "text-background" : "text-foreground"
-          }`}
+          className="flex h-9 w-9 items-center justify-center text-foreground md:hidden"
         >
           <span className="sr-only">Menu</span>
           <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none">
@@ -313,30 +122,20 @@ export function Nav() {
                       : (group.label as "Product" | "Industries")
                   )
                 }
-                className={`inline-block cursor-pointer px-4 py-2 font-body text-[13px] font-medium tracking-wide transition-colors hover:text-primary ${
-                  isDarkBackground ? "text-background/60" : "text-foreground/70"
-                }`}
+                className="inline-block cursor-pointer px-4 py-2 font-body text-[13px] font-medium tracking-wide text-foreground/70 transition-colors hover:text-primary"
               >
                 {group.label}
               </button>
               <div
-                className={`absolute left-0 top-full min-w-[200px] rounded-lg border py-1.5 shadow-xl backdrop-blur-md ${
+                className={`absolute left-0 top-full min-w-[200px] rounded-lg border border-border bg-card py-1.5 shadow-xl backdrop-blur-md ${
                   openDropdown === group.label ? "block" : "hidden group-hover:block"
-                } ${
-                  isDarkBackground
-                    ? "border-background/10 bg-foreground"
-                    : "border-border bg-background"
                 }`}
               >
                 {group.items.map((k) => (
                   <div
                     key={k}
                     onClick={() => go(k)}
-                    className={`cursor-pointer px-5 py-2.5 font-body text-[13px] font-medium transition-colors hover:bg-accent ${
-                      isDarkBackground
-                        ? "text-background/80 hover:text-primary"
-                        : "text-foreground/80 hover:text-primary"
-                    }`}
+                    className="cursor-pointer px-5 py-2.5 font-body text-[13px] font-medium text-foreground/80 transition-colors hover:bg-accent hover:text-primary"
                   >
                     {PAGE_LABELS[k]}
                   </div>
@@ -346,39 +145,25 @@ export function Nav() {
           ))}
           <span
             onClick={() => go("about")}
-            className={`inline-block cursor-pointer px-4 py-2 font-body text-[13px] font-medium tracking-wide transition-colors hover:text-primary ${
-              isDarkBackground ? "text-background/60" : "text-foreground/70"
-            }`}
+            className="inline-block cursor-pointer px-4 py-2 font-body text-[13px] font-medium tracking-wide text-foreground/70 transition-colors hover:text-primary"
           >
             About
           </span>
           <span
             onClick={() => go("blog")}
-            className={`inline-block cursor-pointer px-4 py-2 font-body text-[13px] font-medium tracking-wide transition-colors hover:text-primary ${
-              isDarkBackground ? "text-background/60" : "text-foreground/70"
-            }`}
+            className="inline-block cursor-pointer px-4 py-2 font-body text-[13px] font-medium tracking-wide text-foreground/70 transition-colors hover:text-primary"
           >
             Blog
           </span>
-          <Button
-            onClick={() => go("contact")}
-            className="ml-4"
-            size="sm"
-            variant={isDarkBackground ? "default" : "secondary"}
-          >
+          <ModeSwitch className="ml-2 shrink-0" />
+          <Button onClick={() => go("contact")} className="ml-4" size="sm" variant="default">
             Get started
           </Button>
         </div>
       </div>
 
       {mobileOpen && (
-        <div
-          className={`border-t px-6 py-4 md:hidden ${
-            isDarkBackground
-              ? "border-background/10 bg-foreground text-background"
-              : "border-border bg-background text-foreground"
-          }`}
-        >
+        <div className="border-t border-border bg-card/50 px-6 py-4 text-foreground backdrop-blur-xl backdrop-saturate-150 md:hidden">
           <div className="flex flex-col gap-3 font-body text-sm">
             <button
               type="button"
@@ -431,12 +216,10 @@ export function Nav() {
             >
               Blog
             </button>
-            <Button
-              onClick={() => go("contact")}
-              size="sm"
-              fullWidth
-              variant={isDarkBackground ? "default" : "secondary"}
-            >
+            <div className="flex justify-start pt-1">
+              <ModeSwitch />
+            </div>
+            <Button onClick={() => go("contact")} size="sm" fullWidth variant="default">
               Get started
             </Button>
           </div>

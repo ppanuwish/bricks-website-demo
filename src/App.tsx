@@ -5,6 +5,7 @@ import {
   AboutPage,
   BlogDetailPage,
   BlogPage,
+  BricksThemeOutlet,
   BuildPage,
   ContactPage,
   HomePage,
@@ -27,22 +28,24 @@ export default function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/build" element={<BuildPage />} />
-        <Route path="/monitor" element={<MonitorPage />} />
-        <Route path="/optimize" element={<OptimizePage />} />
-        <Route
-          path="/industry/finserv"
-          element={<IndustryPage industry="finserv" />}
-        />
-        <Route
-          path="/industry/health"
-          element={<IndustryPage industry="health" />}
-        />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/blog" element={<BlogPage />} />
-        <Route path="/blog/:slug" element={<BlogDetailPage />} />
-        <Route path="/contact" element={<ContactPage />} />
+        <Route element={<BricksThemeOutlet />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/build" element={<BuildPage />} />
+          <Route path="/monitor" element={<MonitorPage />} />
+          <Route path="/optimize" element={<OptimizePage />} />
+          <Route
+            path="/industry/finserv"
+            element={<IndustryPage industry="finserv" />}
+          />
+          <Route
+            path="/industry/health"
+            element={<IndustryPage industry="health" />}
+          />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:slug" element={<BlogDetailPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+        </Route>
       </Route>
     </Routes>
   );

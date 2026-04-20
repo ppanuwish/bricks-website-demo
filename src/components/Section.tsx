@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { twMerge } from "tailwind-merge";
 
 type SectionProps = {
   children: ReactNode;
@@ -8,7 +9,12 @@ type SectionProps = {
 
 export function Section({ children, className = "", narrow }: SectionProps) {
   return (
-    <section className={`px-6 py-[120px] md:px-10 ${className}`}>
+    <section
+      className={twMerge(
+        "bg-background px-6 py-[120px] md:px-10",
+        className,
+      )}
+    >
       <div
         className={`mx-auto w-full ${narrow ? "max-w-[700px]" : "max-w-[1200px]"}`}
       >

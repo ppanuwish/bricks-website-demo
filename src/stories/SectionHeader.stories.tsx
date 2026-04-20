@@ -17,11 +17,10 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-export const CenteredDark: Story = {
+export const CenteredOnDarkSection: Story = {
   args: {
     center: true,
-    isDark: true,
-    sub: "Short supporting line for dark backgrounds.",
+    sub: "Header uses bg-background on a dark band.",
   },
   decorators: [
     (S) => (

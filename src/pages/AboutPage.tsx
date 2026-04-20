@@ -9,7 +9,6 @@ export function AboutPage() {
     <div>
       <Hero
         tag="About us"
-        isLight
         headline="The enterprise agent platform for operating model transformation"
         sub="Bricks helps leading enterprises build, manage, and monitor AI agents tuned for every use case, language, and regulatory environment."
       />

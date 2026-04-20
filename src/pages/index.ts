@@ -1,3 +1,4 @@
+export { BricksThemeOutlet } from "./BricksThemeOutlet";
 export { AboutPage } from "./AboutPage";
 export { BlogDetailPage } from "./BlogDetailPage";
 export { BlogPage } from "./BlogPage";

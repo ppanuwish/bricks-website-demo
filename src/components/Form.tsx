@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Button } from "./Button";
 import { Input } from "./Input";
+import { Textarea } from "./Textarea";
 
 type FormLayout =
   | "basic"
@@ -85,23 +86,15 @@ function TextareaField({
   description = "This is a textarea description.",
 }: FieldProps) {
   return (
-    <div className="flex w-full flex-col items-start gap-[var(--spacing-2)]">
-      <p className="w-full font-body text-sm font-semibold leading-none text-foreground">
-        {label}
-      </p>
-      <label className="flex min-h-[84px] w-full overflow-hidden border border-input bg-background px-[var(--spacing-3)] py-[var(--spacing-2)] shadow-[0_1px_2px_0_var(--color-button-shadow)]">
-        <textarea
-          defaultValue=""
-          placeholder="Placeholder"
-          className="min-h-[60px] w-full resize-none bg-transparent font-body text-sm leading-5 text-foreground outline-none placeholder:text-muted-foreground"
-        />
-      </label>
-      {description ? (
-        <p className="w-full font-body text-sm leading-5 text-muted-foreground">
-          {description}
-        </p>
-      ) : null}
-    </div>
+    <Textarea
+      label={label}
+      description={description}
+      placeholder="Placeholder"
+      showLabel
+      showDescription={Boolean(description)}
+      wrapperClassName="w-full"
+      className="w-full"
+    />
   );
 }
 
