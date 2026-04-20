@@ -9,17 +9,42 @@ type ButtonVariant =
   | "link";
 
 type ButtonSize = "default" | "sm" | "lg" | "icon";
+type ButtonState = "default" | "hover" | "focus" | "disabled" | "loading";
+type ButtonTheme = "bricks" | "nia" | "c-law";
+type ButtonMode = "light" | "dark";
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
   size?: ButtonSize;
+  state?: ButtonState;
+  theme?: ButtonTheme;
+  mode?: ButtonMode;
   fullWidth?: boolean;
   loading?: boolean;
+  showLeftIcon?: boolean;
+  showRightIcon?: boolean;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
 };
 
-function classesForSize(size: ButtonSize) {
+function cx(...parts: Array<string | false | undefined>) {
+  return parts.filter(Boolean).join(" ");
+}
+
+function classesForSize(size: ButtonSize, variant: ButtonVariant) {
+  if (variant === "link") {
+    switch (size) {
+      case "default":
+        return "h-9 px-0 py-2 text-sm";
+      case "sm":
+        return "h-8 px-0 text-xs";
+      case "lg":
+        return "h-10 px-0 text-sm";
+      case "icon":
+        return "h-9 w-9 rounded-[var(--radius-button-icon,var(--radius-md))] p-0";
+    }
+  }
+
   switch (size) {
     case "default":
       return "h-9 px-4 py-2 text-sm";
@@ -28,15 +53,71 @@ function classesForSize(size: ButtonSize) {
     case "lg":
       return "h-10 px-8 text-sm";
     case "icon":
-      return "h-9 w-9";
+      return "h-9 w-9 rounded-[var(--radius-button-icon,var(--radius-md))] p-0";
   }
+}
+
+function SmileIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <circle cx="12" cy="12" r="10" />
+      <path d="M8 15s1.5 2 4 2 4-2 4-2" />
+      <circle cx="9" cy="10" r="1" fill="currentColor" stroke="none" />
+      <circle cx="15" cy="10" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function CircleIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <circle cx="12" cy="12" r="7" />
+    </svg>
+  );
+}
+
+function LoaderCircleIcon({ className }: { className?: string }) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" className={className}>
+      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2" opacity="0.25" />
+      <path
+        d="M21 12a9 9 0 0 0-9-9"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
 }
 
 export function Button({
   variant = "default",
   size = "default",
+  state = "default",
+  theme,
+  mode,
   fullWidth,
   loading,
+  showLeftIcon = false,
+  showRightIcon = false,
   leftIcon,
   rightIcon,
   className,
@@ -46,100 +127,113 @@ export function Button({
   ...props
 }: ButtonProps) {
   const base =
-    "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap font-body font-semibold tracking-wide outline-none transition-colors disabled:pointer-events-none disabled:opacity-50";
+    "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md font-body text-sm font-semibold leading-5 outline-none transition-colors disabled:pointer-events-none disabled:opacity-50";
 
-  // From Figma: shadow/xs + focus/default (0 0 0 3px rgba(163,163,163,0.5))
-  const shadows =
-    "shadow-[0_1px_2px_0_rgba(0,0,0,0.05)] focus-visible:shadow-[0_0_0_3px_rgba(163,163,163,0.5)]";
+  const shadows = "shadow-[0_1px_2px_0_var(--color-button-shadow)]";
+  const focusDefault = "focus-visible:shadow-[0_0_0_3px_var(--color-button-focus-outline)]";
+  const focusDestructive = "focus-visible:shadow-[0_0_0_3px_var(--color-destructive-focus)]";
+  const hoverOverlay90 =
+    "hover:[background-image:linear-gradient(90deg,var(--color-button-primary-hover-overlay,var(--color-button-overlay-90))_0%,var(--color-button-primary-hover-overlay,var(--color-button-overlay-90))_100%),linear-gradient(90deg,var(--color-primary)_0%,var(--color-primary)_100%)]";
+  const hoverDestructive =
+    "hover:[background-image:linear-gradient(90deg,var(--color-button-overlay-90)_0%,var(--color-button-overlay-90)_100%),linear-gradient(90deg,var(--color-destructive)_0%,var(--color-destructive)_100%)]";
+  const hoverSecondaryOverlay =
+    "hover:[background-image:linear-gradient(90deg,var(--color-button-secondary-hover-overlay,transparent)_0%,var(--color-button-secondary-hover-overlay,transparent)_100%),linear-gradient(90deg,var(--color-button-secondary-hover-bg)_0%,var(--color-button-secondary-hover-bg)_100%)]";
+
+  const stateClasses =
+    state === "hover"
+      ? variant === "default"
+        ? "[background-image:linear-gradient(90deg,var(--color-button-overlay-90)_0%,var(--color-button-overlay-90)_100%),linear-gradient(90deg,var(--color-primary)_0%,var(--color-primary)_100%)]"
+        : variant === "secondary"
+          ? "[background-image:linear-gradient(90deg,var(--color-button-secondary-hover-overlay,transparent)_0%,var(--color-button-secondary-hover-overlay,transparent)_100%),linear-gradient(90deg,var(--color-button-secondary-hover-bg)_0%,var(--color-button-secondary-hover-bg)_100%)] border-[var(--color-button-secondary-hover-border)] text-[var(--color-button-secondary-hover-text)]"
+          : variant === "destructive"
+            ? "[background-image:linear-gradient(90deg,var(--color-button-overlay-90)_0%,var(--color-button-overlay-90)_100%),linear-gradient(90deg,var(--color-destructive)_0%,var(--color-destructive)_100%)]"
+            : variant === "outline" || variant === "ghost"
+              ? "bg-accent text-accent-foreground"
+              : variant === "link"
+                ? "underline decoration-[1px]"
+                : ""
+      : state === "focus"
+        ? variant === "destructive"
+          ? "shadow-[0_0_0_3px_var(--color-destructive-focus)]"
+          : "shadow-[0_0_0_3px_var(--color-button-focus-outline)]"
+        : state === "disabled" || state === "loading"
+          ? "opacity-50"
+          : "";
 
   const variantClasses = (() => {
     switch (variant) {
       case "default":
         return [
-          "border border-transparent bg-bricks-red text-white",
-          // Figma hover uses a 10% white overlay on top of primary
-          "hover:[background-image:linear-gradient(90deg,rgba(255,255,255,0.1)_0%,rgba(255,255,255,0.1)_100%),linear-gradient(90deg,rgb(253,1,69)_0%,rgb(253,1,69)_100%)]",
+          "border border-transparent bg-primary text-primary-foreground",
+          hoverOverlay90,
         ].join(" ");
       case "secondary":
         return [
-          "border border-bricks-red bg-bricks-gray text-bricks-darkgray",
-          "hover:border-[#e10a3c] hover:bg-[#e4e4e4] hover:text-[#e10a3c]",
+          "border bg-[var(--color-button-secondary-bg)] text-[var(--color-button-secondary-text)] border-[var(--color-button-secondary-border)]",
+          "hover:border-[var(--color-button-secondary-hover-border)] hover:text-[var(--color-button-secondary-hover-text)]",
+          hoverSecondaryOverlay,
         ].join(" ");
       case "outline":
         return [
-          "border border-bricks-darkgray/20 bg-transparent text-bricks-darkgray",
-          "hover:bg-bricks-gray",
+          "border bg-[var(--color-button-outline-bg,var(--color-outline-surface))] border-[var(--color-button-outline-border,var(--color-input))] text-foreground",
+          "hover:bg-[var(--color-button-outline-hover-bg,var(--color-accent))] hover:border-[var(--color-button-outline-hover-border,var(--color-input))] hover:text-[var(--color-button-outline-hover-text,var(--color-accent-foreground))]",
         ].join(" ");
       case "ghost":
         return [
-          "border border-transparent bg-transparent text-bricks-darkgray",
-          "hover:bg-bricks-gray",
+          "border border-transparent bg-transparent text-foreground",
+          "hover:bg-accent hover:text-accent-foreground",
         ].join(" ");
       case "link":
         return [
-          "border border-transparent bg-transparent p-0 text-bricks-red underline-offset-4",
+          "border border-transparent bg-transparent text-primary no-underline underline-offset-4 shadow-none",
           "hover:underline",
         ].join(" ");
       case "destructive":
         return [
-          "border border-transparent bg-[#e11d48] text-white",
-          "hover:bg-[#be123c]",
-          "focus-visible:shadow-[0_0_0_3px_rgba(225,29,72,0.4)]",
+          "border border-transparent bg-destructive text-destructive-foreground",
+          hoverDestructive,
+          focusDestructive,
         ].join(" ");
     }
   })();
 
   const w = fullWidth ? "w-full" : "";
-  const isDisabled = disabled || loading;
-
-  const iconSize = size === "sm" ? "h-4 w-4" : "h-4 w-4";
+  const isDisabled = disabled || loading || state === "disabled" || state === "loading";
+  const iconSize = "h-4 w-4";
+  const DefaultIcon = theme === "nia" ? CircleIcon : SmileIcon;
+  const leadingIcon = leftIcon ?? <DefaultIcon className={iconSize} />;
+  const trailingIcon = rightIcon ?? <DefaultIcon className={iconSize} />;
+  const hasLabel = size !== "icon" && Boolean(children);
 
   return (
     <button
       type={type ?? "button"}
       disabled={isDisabled}
-      className={[
+      data-theme={theme}
+      className={cx(
         base,
-        variant === "link" ? "" : shadows,
+        mode === "dark" && "dark",
+        variant === "link" ? "shadow-none" : shadows,
+        variant === "destructive" ? "" : focusDefault,
         variantClasses,
-        classesForSize(size),
+        stateClasses,
+        classesForSize(size, variant),
         w,
+        isDisabled && variant === "link" && "no-underline",
         className,
-      ]
-        .filter(Boolean)
-        .join(" ")}
+      )}
       {...props}
     >
       {loading ? (
         <>
-          <svg
-            aria-hidden="true"
-            className={`${iconSize} animate-spin`}
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <circle
-              cx="12"
-              cy="12"
-              r="9"
-              stroke="currentColor"
-              strokeWidth="2"
-              opacity="0.25"
-            />
-            <path
-              d="M21 12a9 9 0 0 0-9-9"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-          </svg>
-          <span>{children}</span>
+          <LoaderCircleIcon className={`${iconSize} animate-spin`} />
+          {hasLabel ? <span>{children}</span> : null}
         </>
       ) : (
         <>
-          {leftIcon}
-          {children}
-          {rightIcon}
+          {showLeftIcon ? leadingIcon : null}
+          {hasLabel ? children : null}
+          {showRightIcon ? trailingIcon : null}
         </>
       )}
     </button>

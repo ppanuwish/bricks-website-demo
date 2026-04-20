@@ -17,7 +17,7 @@ export function BlogDetailRelateBlogs({
 
   return (
     <>
-      <h3 className="mb-8 mt-16 text-center font-heading text-[56px] leading-[1] text-bricks-darkgray">
+      <h3 className="mb-8 mt-16 text-center font-heading text-[56px] leading-[1] text-foreground">
         {sectionTitle}
       </h3>
 

@@ -13,11 +13,11 @@ export function BlogDetailNavigation({
   const navigate = useNavigate();
 
   return (
-    <div className="mb-5 flex flex-wrap items-center gap-2 font-body text-[11px] text-bricks-darkgray/40">
+    <div className="mb-5 flex flex-wrap items-center gap-2 font-body text-[11px] text-muted-foreground">
       <button
         type="button"
         onClick={() => goToBlogCategory((to) => navigate(to), "All category")}
-        className="hover:text-bricks-red"
+        className="transition-colors hover:text-primary"
       >
         All Blog
       </button>
@@ -27,12 +27,12 @@ export function BlogDetailNavigation({
         onClick={() =>
           goToBlogCategory((to) => navigate(to), selectedCategory)
         }
-        className="hover:text-bricks-red"
+        className="transition-colors hover:text-primary"
       >
         {selectedCategory}
       </button>
       <span>›</span>
-      <span className="text-bricks-darkgray/80">{postTitle}</span>
+      <span className="text-foreground/80">{postTitle}</span>
     </div>
   );
 }

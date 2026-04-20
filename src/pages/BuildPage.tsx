@@ -18,7 +18,7 @@ export function BuildPage() {
         }
         sub="Everything you need to create production-ready AI agents — grounded in your expertise, governed by your policies, owned by your organisation."
       />
-      <Section className="bg-white">
+      <Section className="bg-background">
         <SectionHeader
           tag="Capabilities"
           title="Build agents grounded in your firm's expertise"
@@ -28,22 +28,22 @@ export function BuildPage() {
             [
               "Knowledge",
               "Connect agents securely to your firm's sources of truth. Documents, databases, processes, and the accumulated expertise of your team — permanently encoded.",
-              "#FD0145",
+              "var(--color-primary)",
             ],
             [
               "Instructions",
               "Build and configure agents end-to-end, from brand voice and workflows to knowledge and guardrails, giving you complete control over how agents operate.",
-              "#1D9E8F",
+              "var(--color-bricks-teal)",
             ],
             [
               "Skills",
               "Build specialised, reusable capabilities from your firm's best practices. Every skill your team creates becomes permanent operational IP.",
-              "#1A1A1A",
+              "var(--color-foreground)",
             ],
             [
               "Guardrails",
               "Compliance built-in, not trained-in. Set boundaries so agents operate safely, consistently, and in full accordance with your policies — every time.",
-              "#FD0145",
+              "var(--color-primary)",
             ],
           ].map(([title, body, accent], i) => (
             <Fade key={title} d={i * 80}>
@@ -52,10 +52,10 @@ export function BuildPage() {
                   className="absolute inset-x-0 top-0 h-[3px]"
                   style={{ background: accent }}
                 />
-                <h4 className="mb-2.5 font-heading text-base font-bold text-bricks-darkgray">
+                <h4 className="mb-2.5 font-heading text-base font-bold text-foreground">
                   {title}
                 </h4>
-                <p className="font-body text-[13.5px] leading-[1.65] text-bricks-darkgray/50">
+                <p className="font-body text-[13.5px] leading-[1.65] text-foreground/50">
                   {body}
                 </p>
               </div>
@@ -70,7 +70,7 @@ export function BuildPage() {
           sub="Interact with agents in a live preview, validate with scripted scenarios, and measure confidence before anything goes live."
         />
       </Section>
-      <Section className="bg-white">
+      <Section className="bg-background">
         <SectionHeader
           tag="Deploy"
           title="Deploy everywhere your customers are"
@@ -80,7 +80,7 @@ export function BuildPage() {
       <Section className="bg-bricks-iceblue">
         <Fade>
           <div className="mx-auto max-w-[620px] text-center">
-            <p className="font-body text-base leading-[1.75] text-bricks-darkgray/60">
+            <p className="font-body text-base leading-[1.75] text-foreground/60">
               Everything your team builds — agents, skills, knowledge
               connections, guardrails — belongs to your firm. On your
               infrastructure. Portable if you need to move.

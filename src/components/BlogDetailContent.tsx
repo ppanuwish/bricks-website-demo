@@ -7,22 +7,22 @@ type BlogDetailContentProps = {
 export function BlogDetailContent({ post }: BlogDetailContentProps) {
   return (
     <>
-      <h2 className="mb-4 font-heading text-[48px] leading-[1] text-bricks-darkgray">
+      <h2 className="mb-4 font-heading text-[48px] leading-[1] text-foreground">
         {post.title}
       </h2>
 
-      <div className="mb-6 flex flex-wrap items-center text-base text-bricks-darkgray">
-        <span className="mr-2 inline-block rounded-full bg-bricks-red px-[7px] py-[3px] text-[10px] font-semibold uppercase tracking-wide text-white">
+      <div className="mb-6 flex flex-wrap items-center text-base text-foreground">
+        <span className="mr-2 inline-block rounded-full bg-primary px-[7px] py-[3px] text-[10px] font-semibold uppercase tracking-wide text-primary-foreground">
           by
         </span>
         <span className="mr-2 font-body font-semibold">Bricks Technology</span>
-        <span className="mx-1 text-bricks-darkgray/30">•</span>
-        <span className="font-body text-bricks-darkgray/80">{post.date}</span>
-        <span className="mx-1 text-bricks-darkgray/30">•</span>
-        <span className="font-body text-bricks-darkgray/80">3 minutes read</span>
+        <span className="mx-1 text-foreground/30">•</span>
+        <span className="font-body text-foreground/80">{post.date}</span>
+        <span className="mx-1 text-foreground/30">•</span>
+        <span className="font-body text-foreground/80">3 minutes read</span>
       </div>
 
-      <div className="max-w-[1152px] space-y-6 font-body text-[14px] leading-[1.65] text-bricks-darkgray/75">
+      <div className="max-w-[1152px] space-y-6 font-body text-[14px] leading-[1.65] text-foreground/75">
         <p>{post.excerpt}</p>
         <p>
           A new era for automation, agentic automation, provides a new path
@@ -31,7 +31,7 @@ export function BlogDetailContent({ post }: BlogDetailContentProps) {
         </p>
       </div>
 
-      <div className="relative mx-auto my-8 aspect-video w-full max-w-[800px] overflow-hidden bg-bricks-darkgray/10">
+      <div className="relative mx-auto my-8 aspect-video w-full max-w-[800px] overflow-hidden bg-foreground/10">
         {post.image ? (
           <img
             src={post.image}
@@ -43,10 +43,10 @@ export function BlogDetailContent({ post }: BlogDetailContentProps) {
         ) : null}
       </div>
 
-      <h3 className="mb-4 font-heading text-[30px] leading-[1.2] text-bricks-darkgray">
+      <h3 className="mb-4 font-heading text-[30px] leading-[1.2] text-foreground">
         Header 2
       </h3>
-      <div className="max-w-[1152px] space-y-6 font-body text-[14px] leading-[1.65] text-bricks-darkgray/75">
+      <div className="max-w-[1152px] space-y-6 font-body text-[14px] leading-[1.65] text-foreground/75">
         <p>
           Businesses have known and benefitted from robotic process automation
           for years. Robots perform work tasks by interacting with screens,

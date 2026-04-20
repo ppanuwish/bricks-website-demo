@@ -3,6 +3,7 @@ import {
   samplePostsByCategory,
   withFallbackBlogImages,
 } from "../data/blogPosts";
+import { Button } from "./Button";
 import { Fade } from "./Fade";
 import { BlogCard, type BlogCardData } from "./BlogCard";
 import { BlogMenu, type BlogCategory } from "./BlogMenu";
@@ -67,7 +68,7 @@ export function BlogList({
     <div className="flex flex-col gap-[40px]">
       {showHeading && (
         <Fade>
-          <h2 className="font-heading text-[clamp(26px,3.2vw,46px)] font-extrabold leading-[1] tracking-[-1.5px] text-bricks-darkgray">
+          <h2 className="font-heading text-[clamp(26px,3.2vw,46px)] font-extrabold leading-[1] tracking-[-1.5px] text-foreground">
             Blog
           </h2>
         </Fade>
@@ -96,13 +97,9 @@ export function BlogList({
       {onViewAllBlogs ? (
         <Fade d={260}>
           <div className="flex justify-center">
-            <button
-              type="button"
-              className="h-9 bg-bricks-red px-4 font-body text-sm font-semibold text-white"
-              onClick={onViewAllBlogs}
-            >
+            <Button size="sm" onClick={onViewAllBlogs}>
               View all blogs
-            </button>
+            </Button>
           </div>
         </Fade>
       ) : null}
