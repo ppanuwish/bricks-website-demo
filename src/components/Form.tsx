@@ -10,7 +10,8 @@ type FormLayout =
   | "date-checkbox"
   | "textarea-checkbox"
   | "split-choice"
-  | "split-simple";
+  | "split-simple"
+  | "contact-subscription";
 
 type FormBreakpoint = "desktop" | "mobile";
 
@@ -27,6 +28,8 @@ type FormProps = {
 type FieldProps = {
   label?: string;
   description?: string;
+  placeholder?: string;
+  state?: "default" | "hover" | "active" | "focus" | "filled" | "disabled" | "error" | "error-focus";
 };
 
 function cx(...parts: Array<string | false | undefined>) {
@@ -67,12 +70,15 @@ function CardShell({
 function InputField({
   label = "Label",
   description = "This is an input description.",
+  placeholder = "Placeholder",
+  state = "default",
 }: FieldProps) {
   return (
     <Input
+      state={state}
       label={label}
       description={description}
-      placeholder="Placeholder"
+      placeholder={placeholder}
       showLabel
       showDescription={Boolean(description)}
       wrapperClassName="w-full"
@@ -84,12 +90,15 @@ function InputField({
 function TextareaField({
   label = "Label Text",
   description = "This is a textarea description.",
+  placeholder = "Placeholder",
+  state = "default",
 }: FieldProps) {
   return (
     <Textarea
+      state={state}
       label={label}
       description={description}
-      placeholder="Placeholder"
+      placeholder={placeholder}
       showLabel
       showDescription={Boolean(description)}
       wrapperClassName="w-full"
@@ -339,6 +348,44 @@ function renderSingleColumnLayout(layout: FormLayout, primaryActionText: string,
             primaryActionText={primaryActionText}
             secondaryActionText={secondaryActionText}
           />
+        </>
+      );
+    case "contact-subscription":
+      return (
+        <>
+          <div className="flex w-full flex-col gap-[var(--spacing-4)]">
+            <InputField
+              label="First name"
+              description=""
+              placeholder="e.g., John"
+            />
+            <InputField
+              label="Last name"
+              description=""
+              placeholder="e.g., Smith"
+            />
+            <InputField
+              label="Company name"
+              description=""
+              placeholder="e.g., Bricks AI Co., Ltd."
+            />
+            <InputField
+              label="Phone number"
+              description=""
+              placeholder="e.g., +66 81 234 5678"
+            />
+            <InputField
+              label="Email"
+              description=""
+              placeholder="e.g., john@company.com"
+            />
+            <TextareaField
+              label="What do you need in your workforce"
+              description=""
+              placeholder="Tell us your hiring or workforce challenges, goals, and timeline."
+            />
+          </div>
+          <FooterActions primaryActionText={primaryActionText} fullWidthPrimary />
         </>
       );
     default:

@@ -1,4 +1,15 @@
-import type { HTMLAttributes, TextareaHTMLAttributes } from "react";
+import { useEffect, useId, useRef, useState } from "react";
+import type {
+  FocusEventHandler,
+  HTMLAttributes,
+  PointerEventHandler,
+  Ref,
+  TextareaHTMLAttributes,
+} from "react";
+import {
+  clearDefaultShellInteractionExcept,
+  registerDefaultShellInteractionClearer,
+} from "./formDefaultShellRegistry";
 
 type TextareaLayout = "no" | "yes" | "input";
 type TextareaState =
@@ -29,7 +40,7 @@ function cx(...parts: Array<string | undefined | false>) {
 function classesForState(state: TextareaState) {
   switch (state) {
     case "default":
-      return "border border-input text-muted-foreground shadow-[0_1px_2px_0_var(--color-button-shadow)]";
+      return "border border-input text-muted-foreground shadow-[0_1px_2px_0_var(--color-button-shadow)] hover:border-primary/20";
     case "hover":
       return "border border-primary/20 text-muted-foreground shadow-[0_1px_2px_0_var(--color-button-shadow)]";
     case "active":
@@ -50,6 +61,8 @@ function classesForState(state: TextareaState) {
 type TextareaControlProps = Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "className"> & {
   className?: string;
   forcedState: TextareaState;
+  onShellPointerDown?: PointerEventHandler<HTMLLabelElement>;
+  shellRef?: Ref<HTMLLabelElement>;
 };
 
 function TextareaControl({
@@ -58,17 +71,21 @@ function TextareaControl({
   placeholder,
   disabled,
   value,
+  onShellPointerDown,
+  shellRef,
   ...props
 }: TextareaControlProps) {
   const currentState = disabled ? "disabled" : forcedState;
 
   return (
     <label
+      ref={shellRef}
       className={cx(
         "flex min-h-[84px] w-full self-stretch items-start gap-[var(--spacing-1,4px)] overflow-hidden rounded-md bg-[var(--color-outline-surface)] px-[var(--spacing-3,12px)] py-[var(--spacing-2,8px)]",
         classesForState(currentState),
         className
       )}
+      onPointerDown={onShellPointerDown}
     >
       <textarea
         {...props}
@@ -99,6 +116,61 @@ export function Textarea({
   rows = 3,
   ...props
 }: TextareaProps) {
+  const { onFocus, onBlur, ...textareaProps } = props;
+  const shellInstanceId = useId();
+  const shellRef = useRef<HTMLLabelElement>(null);
+  const [defaultInteractiveActive, setDefaultInteractiveActive] = useState(false);
+
+  useEffect(() => {
+    if (state !== "default" || disabled) setDefaultInteractiveActive(false);
+  }, [state, disabled]);
+
+  useEffect(() => {
+    if (state !== "default" || disabled) return;
+    return registerDefaultShellInteractionClearer(shellInstanceId, () => {
+      setDefaultInteractiveActive(false);
+    });
+  }, [shellInstanceId, state, disabled]);
+
+  useEffect(() => {
+    if (state !== "default" || disabled || !defaultInteractiveActive) return;
+
+    const onPointerDownCapture = (event: PointerEvent) => {
+      const shell = shellRef.current;
+      if (!shell) return;
+      const target = event.target;
+      if (!(target instanceof Node)) return;
+      if (shell.contains(target)) return;
+      setDefaultInteractiveActive(false);
+    };
+
+    document.addEventListener("pointerdown", onPointerDownCapture, true);
+    return () => document.removeEventListener("pointerdown", onPointerDownCapture, true);
+  }, [defaultInteractiveActive, state, disabled]);
+
+  const resolvedForcedState: TextareaState =
+    state === "default" && !disabled && defaultInteractiveActive ? "active" : state;
+
+  const handleShellPointerDown: PointerEventHandler<HTMLLabelElement> = (event) => {
+    if (state !== "default" || disabled) return;
+    if (event.button !== 0) return;
+    clearDefaultShellInteractionExcept(shellInstanceId);
+    setDefaultInteractiveActive((prev) => !prev);
+  };
+
+  const handleFieldFocus: FocusEventHandler<HTMLTextAreaElement> = (event) => {
+    onFocus?.(event);
+    if (state !== "default" || disabled) return;
+    clearDefaultShellInteractionExcept(shellInstanceId);
+    setDefaultInteractiveActive(true);
+  };
+
+  const handleFieldBlur: FocusEventHandler<HTMLTextAreaElement> = (event) => {
+    onBlur?.(event);
+    if (state !== "default" || disabled) return;
+    setDefaultInteractiveActive(false);
+  };
+
   const isInputLayout = horizontalLayout === "input";
   const isYesLayout = horizontalLayout === "yes";
 
@@ -112,13 +184,17 @@ export function Textarea({
         ) : null}
         <div className="min-w-0 flex-1">
           <TextareaControl
-            forcedState={state}
+            forcedState={resolvedForcedState}
             placeholder={placeholder}
             disabled={disabled}
             value={value}
             className={className}
             rows={rows}
-            {...props}
+            onShellPointerDown={handleShellPointerDown}
+            shellRef={shellRef}
+            onFocus={handleFieldFocus}
+            onBlur={handleFieldBlur}
+            {...textareaProps}
           />
           {showDescription ? (
             <p className="mt-[var(--spacing-2)] font-body text-sm font-normal leading-5 text-muted-foreground">
@@ -144,13 +220,17 @@ export function Textarea({
       ) : null}
       <div className="w-full">
         <TextareaControl
-          forcedState={state}
+          forcedState={resolvedForcedState}
           placeholder={placeholder}
           disabled={disabled}
           value={value}
           className={className}
           rows={rows}
-          {...props}
+          onShellPointerDown={handleShellPointerDown}
+          shellRef={shellRef}
+          onFocus={handleFieldFocus}
+          onBlur={handleFieldBlur}
+          {...textareaProps}
         />
       </div>
       {showDescription ? (
