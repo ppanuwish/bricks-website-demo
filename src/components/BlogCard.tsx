@@ -1,3 +1,5 @@
+import { Badge } from "./Badge";
+
 export type BlogCardData = {
   category: string;
   title: string;
@@ -31,9 +33,9 @@ export function BlogCard({ post, onClick }: BlogCardProps) {
         ) : null}
       </div>
       <div className="flex min-w-0 flex-col gap-3 p-6">
-        <span className="inline-flex w-fit max-w-full bg-primary px-2 py-[2px] font-body text-[12px] font-semibold leading-4 text-primary-foreground">
+        <Badge variant="default" className="w-fit">
           {post.category}
-        </span>
+        </Badge>
         <h3 className="line-clamp-1 min-w-0 font-body text-[24px] font-semibold leading-8 text-foreground">
           {post.title}
         </h3>

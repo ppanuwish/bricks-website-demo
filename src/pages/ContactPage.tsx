@@ -1,23 +1,52 @@
 import { Fade } from "../components/Fade";
 import { Button } from "../components/Button";
+import { Input } from "../components/Input";
 
-const FORM_FIELDS = [
-  "Work email",
-  "First name",
-  "Last name",
-  "Job title",
-  "Phone",
-  "Company",
-  "Industry",
+const CONTACT_FIELDS = [
+  {
+    label: "Work email",
+    placeholder: "you@company.com",
+    autoComplete: "email" as const,
+  },
+  {
+    label: "First name",
+    placeholder: "Somchai",
+    autoComplete: "given-name" as const,
+  },
+  {
+    label: "Last name",
+    placeholder: "Prasert",
+    autoComplete: "family-name" as const,
+  },
+  {
+    label: "Job title",
+    placeholder: "Head of operations",
+    autoComplete: "organization-title" as const,
+  },
+  {
+    label: "Phone",
+    placeholder: "+66 81 234 5678",
+    autoComplete: "tel" as const,
+  },
+  {
+    label: "Company",
+    placeholder: "Acme Corporation Co., Ltd.",
+    autoComplete: "organization" as const,
+  },
+  {
+    label: "Industry",
+    placeholder: "e.g. banking, healthcare, retail",
+    autoComplete: "off" as const,
+  },
 ] as const;
 
 export function ContactPage() {
   return (
-    <section className="flex min-h-screen items-center bg-bricks-darkgray">
-      <div className="mx-auto grid max-w-[1200px] grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] items-center gap-[72px] px-6 pb-[100px] pt-[140px] md:px-10">
-        <div>
+    <section className="flex min-h-screen items-center bg-background text-foreground">
+      <div className="mx-auto grid w-full max-w-[1320px] grid-cols-1 items-center gap-[72px] px-6 pb-[100px] pt-[140px] md:grid-cols-2 md:px-10">
+        <div className="min-w-0 w-full">
           <Fade>
-            <h1 className="mb-3.5 font-heading text-[clamp(36px,4.5vw,56px)] font-extrabold leading-[1.08] tracking-[-2px] text-white">
+            <h1 className="mb-3.5 font-heading text-[clamp(36px,4.5vw,56px)] font-extrabold leading-[1.08] tracking-[-2px] text-foreground">
               Transform your
               <br />
               operations.
@@ -29,7 +58,7 @@ export function ContactPage() {
             </p>
           </Fade>
           <Fade d={160}>
-            <p className="font-body text-base leading-[1.75] text-white/45">
+            <p className="font-body text-base leading-[1.75] text-muted-foreground">
               Book a 30-minute demo. We'll show you a live AI agent handling a
               real scenario from your industry, in Thai — so you can see the
               quality for yourself.
@@ -37,22 +66,36 @@ export function ContactPage() {
           </Fade>
         </div>
         <Fade d={120}>
-          <div className="rounded-[20px] border border-white/[0.08] bg-white/[0.04] px-9 py-10">
-            {FORM_FIELDS.map((label) => (
-              <div key={label} className="mb-4">
-                <label className="mb-1.5 block font-body text-xs font-medium tracking-wide text-white/40">
-                  {label}
-                </label>
-                <input
-                  className="box-border w-full rounded-[10px] border border-white/10 bg-white/5 px-4 py-3 font-body text-sm text-white outline-none transition-colors focus:border-bricks-red"
+          <div className="flex min-w-0 w-full flex-col gap-[var(--spacing-6)] border border-border bg-background p-[var(--spacing-6)] shadow-sm">
+            <div className="flex w-full flex-col items-start gap-[6px]">
+              <p className="w-full font-body text-base font-semibold leading-none tracking-[-0.4px] text-card-foreground">
+                Book a 30-minute demo
+              </p>
+              <p className="w-full font-body text-sm leading-5 text-muted-foreground">
+                Share your details and we'll follow up to schedule your session.
+              </p>
+            </div>
+            <div className="flex w-full flex-col gap-[var(--spacing-4)]">
+              {CONTACT_FIELDS.map(({ label, placeholder, autoComplete }) => (
+                <Input
+                  key={label}
+                  label={label}
+                  placeholder={placeholder}
+                  autoComplete={autoComplete}
+                  showLabel
+                  showDescription={false}
+                  wrapperClassName="w-full"
+                  className="w-full"
                   aria-label={label}
                 />
-              </div>
-            ))}
-            <Button className="mt-2 py-4 text-[15px]" fullWidth size="lg">
-              Book a 30-minute demo
-            </Button>
-            <p className="mt-3.5 font-body text-[11px] leading-[1.55] text-white/25">
+              ))}
+            </div>
+            <div className="flex w-full items-start justify-between">
+              <Button fullWidth size="lg" className="py-3 text-[15px]">
+                Book a 30-minute demo
+              </Button>
+            </div>
+            <p className="w-full font-body text-[11px] leading-[1.55] text-muted-foreground">
               We handle your data in accordance with PDPA. See our Privacy
               Policy.
             </p>

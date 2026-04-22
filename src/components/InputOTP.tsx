@@ -1,4 +1,9 @@
 import * as React from "react";
+import type { FocusEventHandler, PointerEventHandler } from "react";
+import {
+  clearDefaultShellInteractionExcept,
+  registerDefaultShellInteractionClearer,
+} from "./formDefaultShellRegistry";
 
 export type InputOTPState =
   | "default"
@@ -23,6 +28,10 @@ type InputOTPContextValue = {
   activeIndex: number;
   setActiveIndex: (i: number) => void;
   inputRef: React.RefObject<HTMLInputElement | null>;
+  /** Mirrors `Input`: focus ring only while the real input is focused. */
+  isInputFocused: boolean;
+  /** Mirrors `Input` default-shell "active" (border-2) when pressed without focus. */
+  shellPressedActive: boolean;
 };
 
 const InputOTPContext = React.createContext<InputOTPContextValue | null>(null);
@@ -52,13 +61,13 @@ function slotClassesForState(state: InputOTPState, hasChar: boolean, isActive: b
         hasChar && "text-foreground"
       );
     case "active":
-      return "border-2 border-accent-foreground text-foreground shadow-[0_1px_2px_0_var(--color-button-shadow)]";
+      return "border-2 border-accent-foreground text-foreground";
     case "focus":
       return cx(
         isActive
-          ? "border border-ring text-foreground shadow-[0_0_0_3px_var(--color-button-focus-outline)]"
+          ? "border border-ring text-muted-foreground shadow-[0_0_0_3px_var(--color-button-focus-outline)]"
           : "border border-input text-muted-foreground shadow-[0_1px_2px_0_var(--color-button-shadow)]",
-        hasChar && !isActive && "text-foreground"
+        hasChar && "text-foreground"
       );
     case "filled":
       return "border border-input text-foreground shadow-[0_1px_2px_0_var(--color-button-shadow)]";
@@ -69,9 +78,9 @@ function slotClassesForState(state: InputOTPState, hasChar: boolean, isActive: b
     case "error-focus":
       return cx(
         isActive
-          ? "border border-destructive text-foreground shadow-[0_0_0_3px_var(--color-destructive-focus)]"
+          ? "border border-destructive text-muted-foreground shadow-[0_0_0_3px_var(--color-destructive-focus)]"
           : "border border-destructive text-muted-foreground shadow-[0_1px_2px_0_var(--color-button-shadow)]",
-        hasChar && !isActive && "text-foreground"
+        hasChar && "text-foreground"
       );
   }
 }
@@ -115,7 +124,62 @@ export function InputOTP({
   );
 
   const inputRef = React.useRef<HTMLInputElement>(null);
+  const shellRef = React.useRef<HTMLDivElement>(null);
+  const shellInstanceId = React.useId();
   const [activeIndex, setActiveIndex] = React.useState(0);
+  const [isInputFocused, setIsInputFocused] = React.useState(false);
+  const [shellPressedActive, setShellPressedActive] = React.useState(false);
+
+  const interactiveShell = !forcedDemo && !disabled;
+
+  React.useEffect(() => {
+    if (!interactiveShell) setShellPressedActive(false);
+  }, [interactiveShell]);
+
+  React.useEffect(() => {
+    if (!interactiveShell) return;
+    return registerDefaultShellInteractionClearer(shellInstanceId, () => {
+      setShellPressedActive(false);
+    });
+  }, [shellInstanceId, interactiveShell]);
+
+  React.useEffect(() => {
+    if (!interactiveShell || !shellPressedActive) return;
+
+    const onPointerDownCapture = (event: PointerEvent) => {
+      const shell = shellRef.current;
+      if (!shell) return;
+      const target = event.target;
+      if (!(target instanceof Node)) return;
+      if (shell.contains(target)) return;
+      setShellPressedActive(false);
+    };
+
+    document.addEventListener("pointerdown", onPointerDownCapture, true);
+    return () => document.removeEventListener("pointerdown", onPointerDownCapture, true);
+  }, [interactiveShell, shellPressedActive]);
+
+  const handleShellPointerDown: PointerEventHandler<HTMLDivElement> = (event) => {
+    if (!interactiveShell) return;
+    if (event.button !== 0) return;
+    clearDefaultShellInteractionExcept(shellInstanceId);
+    setShellPressedActive((prev) => !prev);
+  };
+
+  const handleFieldFocus: FocusEventHandler<HTMLInputElement> = (event) => {
+    if (!interactiveShell) return;
+    clearDefaultShellInteractionExcept(shellInstanceId);
+    setShellPressedActive(true);
+    const start = event.currentTarget.selectionStart ?? value.length;
+    setActiveIndex(Math.min(start, maxLength - 1));
+    setIsInputFocused(true);
+  };
+
+  const handleFieldBlur: FocusEventHandler<HTMLInputElement> = () => {
+    if (!interactiveShell) return;
+    setShellPressedActive(false);
+    setIsInputFocused(false);
+  };
 
   const syncCaretToIndex = React.useCallback((index: number) => {
     const el = inputRef.current;
@@ -141,6 +205,8 @@ export function InputOTP({
     activeIndex,
     setActiveIndex,
     inputRef,
+    isInputFocused,
+    shellPressedActive,
   };
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -189,10 +255,12 @@ export function InputOTP({
   return (
     <InputOTPContext.Provider value={ctx}>
       <div
+        ref={shellRef}
         role="group"
         aria-label="One-time password"
         className={cx("group relative inline-flex items-stretch outline-none", className)}
-        onPointerDown={() => {
+        onPointerDown={(e) => {
+          handleShellPointerDown(e);
           if (forcedDemo) return;
           inputRef.current?.focus();
         }}
@@ -217,9 +285,9 @@ export function InputOTP({
           onClick={onSelect}
           onFocus={(e) => {
             if (forcedDemo) return;
-            const start = e.currentTarget.selectionStart ?? value.length;
-            setActiveIndex(Math.min(start, maxLength - 1));
+            handleFieldFocus(e);
           }}
+          onBlur={handleFieldBlur}
           className={cx(
             "absolute inset-0 z-10 cursor-text opacity-0 disabled:cursor-not-allowed",
             forcedDemo && "pointer-events-none"
@@ -274,7 +342,6 @@ export function InputOTPSlot({ index, className, ...props }: InputOTPSlotProps) 
   const char = ctx.value[index] ?? "";
   const hasChar = char.length > 0;
 
-  const interactiveActive = !ctx.disabled && !ctx.isDemo && !ctx.state && index === ctx.activeIndex;
   const demoFocusIndex =
     ctx.state === "focus" || ctx.state === "error-focus"
       ? Math.min(ctx.value.length, ctx.maxLength - 1)
@@ -283,7 +350,9 @@ export function InputOTPSlot({ index, className, ...props }: InputOTPSlotProps) 
     Boolean(ctx.state) &&
     ((ctx.state === "focus" || ctx.state === "error-focus") && index === demoFocusIndex);
 
-  const isActiveSlot = ctx.state ? demoActiveSlot : interactiveActive;
+  const caretIsRing = ctx.state
+    ? demoActiveSlot
+    : !ctx.disabled && !ctx.isDemo && ctx.isInputFocused && index === ctx.activeIndex;
 
   let effectiveState: InputOTPState;
   if (ctx.state) {
@@ -291,9 +360,15 @@ export function InputOTPSlot({ index, className, ...props }: InputOTPSlotProps) 
   } else if (ctx.disabled) {
     effectiveState = "disabled";
   } else if (ctx.invalid) {
-    effectiveState = interactiveActive ? "error-focus" : "error";
-  } else if (interactiveActive) {
+    effectiveState = caretIsRing ? "error-focus" : "error";
+  } else if (caretIsRing) {
     effectiveState = "focus";
+  } else if (
+    ctx.shellPressedActive &&
+    !ctx.isInputFocused &&
+    index === ctx.activeIndex
+  ) {
+    effectiveState = "active";
   } else if (hasChar) {
     effectiveState = "filled";
   } else {
@@ -302,14 +377,17 @@ export function InputOTPSlot({ index, className, ...props }: InputOTPSlotProps) 
 
   const focusRingSlot =
     effectiveState === "active" ||
-    ((effectiveState === "focus" || effectiveState === "error-focus") && isActiveSlot);
+    ((effectiveState === "focus" || effectiveState === "error-focus") && caretIsRing);
 
   const stateClasses = slotClassesForState(effectiveState, hasChar, focusRingSlot);
+
+  const dataActive =
+    ctx.state ? demoActiveSlot : index === ctx.activeIndex;
 
   return (
     <div
       data-otp-slot=""
-      data-active={isActiveSlot ? "true" : "false"}
+      data-active={dataActive ? "true" : "false"}
       data-filled={hasChar ? "true" : "false"}
       className={cx(
         "flex h-9 w-9 shrink-0 items-center justify-center rounded-md border bg-[var(--color-outline-surface)] font-mono text-sm font-medium tabular-nums leading-none transition-[border-color,box-shadow]",
