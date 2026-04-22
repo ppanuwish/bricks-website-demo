@@ -1,6 +1,9 @@
 import type { ReactNode } from "react";
 import { Button } from "./Button";
+import { Checkbox } from "./Checkbox";
 import { Input } from "./Input";
+import { RadioGroup, RadioGroupItem } from "./RadioGroup";
+import { Switch } from "./Switch";
 import { Textarea } from "./Textarea";
 
 type FormLayout =
@@ -158,19 +161,13 @@ function SwitchField({
   description = "This is a switch description.",
 }: FieldProps) {
   return (
-    <button type="button" className="flex w-full items-start gap-[var(--spacing-3)] text-left">
-      <span className="flex h-5 w-9 items-center rounded-full bg-muted px-[2px]">
-        <span className="h-4 w-4 rounded-full bg-background shadow-md" />
-      </span>
-      <span className="flex min-w-0 flex-1 flex-col gap-[var(--spacing-2)]">
-        <span className="pt-[3px] font-body text-sm font-semibold leading-none text-foreground">
-          {label}
-        </span>
-        <span className="font-body text-sm leading-5 text-muted-foreground">
-          {description}
-        </span>
-      </span>
-    </button>
+    <Switch
+      label={label}
+      description={description}
+      showLabel
+      showDescription={Boolean(description)}
+      wrapperClassName="w-full max-w-none"
+    />
   );
 }
 
@@ -179,43 +176,37 @@ function CheckboxField({
   description = "This is a checkbox description.",
 }: FieldProps) {
   return (
-    <button type="button" className="flex w-full items-start gap-[var(--spacing-2)] text-left">
-      <span className="flex h-4 w-4 shrink-0 items-center justify-center bg-primary text-primary-foreground shadow-sm">
-        <CheckIcon />
-      </span>
-      <span className="flex min-w-0 flex-1 flex-col gap-[6px]">
-        <span className="font-body text-sm font-semibold leading-none text-foreground">
-          {label}
-        </span>
-        <span className="font-body text-sm leading-5 text-muted-foreground">
-          {description}
-        </span>
-      </span>
-    </button>
+    <Checkbox
+      label={label}
+      description={description}
+      showLabel
+      showDescription={Boolean(description)}
+      defaultChecked
+      wrapperClassName="w-full max-w-none"
+    />
   );
 }
 
 function RadioGroupField({ label = "Label" }: { label?: string }) {
   return (
-    <div className="flex w-full flex-col items-start gap-[var(--spacing-2)]">
-      <p className="w-full font-body text-sm font-semibold leading-none text-foreground">
-        {label}
-      </p>
-      <div className="flex w-full flex-col gap-[var(--spacing-3)]">
-        {["Radio Button Text", "Radio Button Text"].map((item, index) => (
-          <button
-            key={`${item}-${index}`}
-            type="button"
-            className="flex w-full items-start gap-[var(--spacing-3)] text-left"
-          >
-            <span className="h-4 w-4 shrink-0 rounded-full border border-border bg-background shadow-[0_1px_2px_0_var(--color-button-shadow)]" />
-            <span className="pt-px font-body text-sm font-semibold leading-none text-foreground">
-              {item}
-            </span>
-          </button>
-        ))}
-      </div>
-    </div>
+    <RadioGroup
+      label={label}
+      defaultValue="a"
+      className="w-full max-w-none"
+    >
+      <RadioGroupItem
+        value="a"
+        label="Radio Button Text"
+        description="This is a radio description."
+        variant="default"
+      />
+      <RadioGroupItem
+        value="b"
+        label="Radio Button Text"
+        description="This is a radio description."
+        variant="default"
+      />
+    </RadioGroup>
   );
 }
 
@@ -499,16 +490,3 @@ function CalendarIcon() {
   );
 }
 
-function CheckIcon() {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5">
-      <path
-        d="m3.5 8 3 3 6-6"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
