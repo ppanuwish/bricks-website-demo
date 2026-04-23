@@ -118,6 +118,85 @@ export function RadioGroup({
   );
 }
 
+export type RadioIndicatorProps = {
+  selected: boolean;
+  disabled?: boolean;
+  state?: RadioGroupItemState;
+  /** Paired `<input type="radio">` focus inside {@link RadioGroupItem}. Omit in purely decorative use. */
+  focused?: boolean;
+  className?: string;
+};
+
+/**
+ * Default-row radio ring + dot (same visuals as {@link RadioGroupItem} `variant="default"`).
+ * Use inside {@link RadioGroupItem} or as a decorative indicator on {@link DropdownMenuItem} `variant="radio"`.
+ */
+export function RadioIndicator({
+  selected,
+  disabled = false,
+  state = "default",
+  focused,
+  className,
+}: RadioIndicatorProps) {
+  const showFocusStyle =
+    !disabled && (state === "focus" || (state === "default" && Boolean(focused)));
+
+  const indicatorClass = (() => {
+    const base = "relative";
+    if (disabled) {
+      if (selected) {
+        return cx(
+          base,
+          "border border-solid border-border bg-background opacity-50"
+        );
+      }
+      return cx(
+        base,
+        "border border-solid border-input bg-muted",
+        boxShadowSm
+      );
+    }
+
+    if (!selected) {
+      return cx(
+        base,
+        "border border-solid border-input bg-background",
+        !showFocusStyle && boxShadowSm,
+        showFocusStyle &&
+          "border-ring shadow-[0_0_0_3px_var(--color-button-focus-outline)] outline-none"
+      );
+    }
+    return cx(
+      base,
+      "border border-solid border-border bg-background",
+      !showFocusStyle && boxShadowSm,
+      showFocusStyle &&
+        "border-border shadow-[0_0_0_3px_var(--color-button-focus-outline)] outline-none"
+    );
+  })();
+
+  const centerDot = selected && (
+    <span
+      className={twMerge(
+        "pointer-events-none absolute left-1/2 top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary"
+      )}
+      aria-hidden
+    />
+  );
+
+  return (
+    <span
+      className={twMerge(
+        "pointer-events-none flex size-4 shrink-0 items-center justify-center overflow-hidden rounded-full",
+        indicatorClass,
+        className
+      )}
+    >
+      {centerDot}
+    </span>
+  );
+}
+
 export type RadioGroupItemProps = Omit<
   InputHTMLAttributes<HTMLInputElement>,
   "type" | "role" | "checked" | "defaultChecked"
@@ -196,84 +275,53 @@ export function RadioGroupItem({
       </span>
     ) : null;
 
-  /** Figma: default = ring + dot; box selected = solid primary + light center dot. */
-  const indicatorClass = (() => {
-    const base = "relative";
-    if (disabled) {
-      if (selected) {
-        if (variant === "box") {
+  /** Figma: `variant="box"` = solid primary + light center dot; default row uses {@link RadioIndicator}. */
+  const boxIndicatorClass =
+    variant === "box"
+      ? (() => {
+          const base = "relative";
+          if (disabled) {
+            if (selected) {
+              return cx(
+                base,
+                "border border-solid border-primary bg-primary opacity-50"
+              );
+            }
+            return cx(
+              base,
+              "border border-solid border-input bg-background opacity-50",
+              boxShadowSm
+            );
+          }
+          if (selected) {
+            return cx(
+              base,
+              "border border-solid border-primary bg-primary",
+              !showFocusStyle && boxShadowSm,
+              showFocusStyle &&
+                "border-primary shadow-[0_0_0_3px_var(--color-button-focus-outline)] outline-none"
+            );
+          }
           return cx(
             base,
-            "border border-solid border-primary bg-primary opacity-50"
+            "border border-solid border-input bg-background",
+            !showFocusStyle && boxShadowSm,
+            showFocusStyle &&
+              "border-ring shadow-[0_0_0_3px_var(--color-button-focus-outline)] outline-none"
           );
-        }
-        return cx(
-          base,
-          "border border-solid border-border bg-background opacity-50"
-        );
-      }
-      if (variant === "box") {
-        return cx(base, "border border-solid border-input bg-background opacity-50", boxShadowSm);
-      }
-      return cx(
-        base,
-        "border border-solid border-input bg-muted",
-        boxShadowSm
-      );
-    }
+        })()
+      : "";
 
-    if (variant === "box" && selected) {
-      return cx(
-        base,
-        "border border-solid border-primary bg-primary",
-        !showFocusStyle && boxShadowSm,
-        showFocusStyle && "border-primary shadow-[0_0_0_3px_var(--color-button-focus-outline)] outline-none"
-      );
-    }
-    if (variant === "box" && !selected) {
-      return cx(
-        base,
-        "border border-solid border-input bg-background",
-        !showFocusStyle && boxShadowSm,
-        showFocusStyle &&
-          "border-ring shadow-[0_0_0_3px_var(--color-button-focus-outline)] outline-none"
-      );
-    }
-
-    if (!selected) {
-      return cx(
-        base,
-        "border border-solid border-input bg-background",
-        !showFocusStyle && boxShadowSm,
-        showFocusStyle &&
-          "border-ring shadow-[0_0_0_3px_var(--color-button-focus-outline)] outline-none"
-      );
-    }
-    return cx(
-      base,
-      "border border-solid border-border bg-background",
-      !showFocusStyle && boxShadowSm,
-      showFocusStyle &&
-        "border-border shadow-[0_0_0_3px_var(--color-button-focus-outline)] outline-none"
-    );
-  })();
-
-  const showCenterDot = selected;
-  const centerFill =
-    variant === "box" && selected
-      ? disabled
-        ? "bg-primary-foreground/80"
-        : "bg-primary-foreground"
-      : "bg-primary";
-  const centerDot = showCenterDot && (
-    <span
-      className={twMerge(
-        "pointer-events-none absolute left-1/2 top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full",
-        centerFill
-      )}
-      aria-hidden
-    />
-  );
+  const boxCenterDot =
+    variant === "box" && selected ? (
+      <span
+        className={twMerge(
+          "pointer-events-none absolute left-1/2 top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full",
+          disabled ? "bg-primary-foreground/80" : "bg-primary-foreground"
+        )}
+        aria-hidden
+      />
+    ) : null;
 
   const inner = (
     <>
@@ -301,14 +349,23 @@ export function RadioGroupItem({
           setInputFocused(false);
         }}
       />
-      <span
-        className={twMerge(
-          "pointer-events-none flex size-4 shrink-0 items-center justify-center overflow-hidden rounded-full",
-          indicatorClass
-        )}
-      >
-        {centerDot}
-      </span>
+      {variant === "box" ? (
+        <span
+          className={twMerge(
+            "pointer-events-none flex size-4 shrink-0 items-center justify-center overflow-hidden rounded-full",
+            boxIndicatorClass
+          )}
+        >
+          {boxCenterDot}
+        </span>
+      ) : (
+        <RadioIndicator
+          selected={selected}
+          disabled={disabled}
+          state={state}
+          focused={inputFocused}
+        />
+      )}
       {textBlock}
     </>
   );
