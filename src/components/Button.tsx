@@ -127,15 +127,14 @@ export function Button({
   ...props
 }: ButtonProps) {
   const base =
-    "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md font-body text-sm font-semibold leading-5 outline-none transition-colors disabled:pointer-events-none disabled:opacity-50";
+    "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-[var(--border-radius-rounded-md,var(--radius-md))] font-body text-sm font-semibold leading-5 outline-none transition-colors disabled:pointer-events-none disabled:opacity-50";
 
   const shadows = "shadow-[0_1px_2px_0_var(--color-button-shadow)]";
   const focusDefault = "focus-visible:shadow-[0_0_0_3px_var(--color-button-focus-outline)]";
   const focusDestructive = "focus-visible:shadow-[0_0_0_3px_var(--color-destructive-focus)]";
   const hoverOverlay90 =
     "hover:[background-image:linear-gradient(90deg,var(--color-button-primary-hover-overlay,var(--color-button-overlay-90))_0%,var(--color-button-primary-hover-overlay,var(--color-button-overlay-90))_100%),linear-gradient(90deg,var(--color-primary)_0%,var(--color-primary)_100%)]";
-  const hoverDestructive =
-    "hover:[background-image:linear-gradient(90deg,var(--color-button-overlay-90)_0%,var(--color-button-overlay-90)_100%),linear-gradient(90deg,var(--color-destructive)_0%,var(--color-destructive)_100%)]";
+  const hoverDestructive = "hover:bg-[var(--color-button-destructive-hover-bg)]";
   const hoverSecondaryOverlay =
     "hover:[background-image:linear-gradient(90deg,var(--color-button-secondary-hover-overlay,transparent)_0%,var(--color-button-secondary-hover-overlay,transparent)_100%),linear-gradient(90deg,var(--color-button-secondary-hover-bg)_0%,var(--color-button-secondary-hover-bg)_100%)]";
 
@@ -146,7 +145,7 @@ export function Button({
         : variant === "secondary"
           ? "[background-image:linear-gradient(90deg,var(--color-button-secondary-hover-overlay,transparent)_0%,var(--color-button-secondary-hover-overlay,transparent)_100%),linear-gradient(90deg,var(--color-button-secondary-hover-bg)_0%,var(--color-button-secondary-hover-bg)_100%)] border-[var(--color-button-secondary-hover-border)] text-[var(--color-button-secondary-hover-text)]"
           : variant === "destructive"
-            ? "[background-image:linear-gradient(90deg,var(--color-button-overlay-90)_0%,var(--color-button-overlay-90)_100%),linear-gradient(90deg,var(--color-destructive)_0%,var(--color-destructive)_100%)]"
+            ? "bg-[var(--color-button-destructive-hover-bg)]"
             : variant === "outline" || variant === "ghost"
               ? "bg-accent text-accent-foreground"
               : variant === "link"
