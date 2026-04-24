@@ -8,6 +8,8 @@ const meta = {
   args: {
     children: "Book a demo",
     type: "button" as const,
+    showLeftIcon: true,
+    showRightIcon: true,
   },
   argTypes: {
     variant: {
@@ -63,6 +65,35 @@ export const Ghost: Story = {
   args: { variant: "ghost" },
 };
 
+export const Destructive: Story = {
+  args: { variant: "destructive", children: "Button" },
+};
+
+export const DestructiveStates: Story = {
+  parameters: { layout: "padded" },
+  render: () => (
+    <div className="flex flex-wrap items-center gap-4" data-theme="bricks">
+      <Button variant="destructive" showLeftIcon showRightIcon>
+        Button
+      </Button>
+      <Button variant="destructive" state="hover" showLeftIcon showRightIcon>
+        Button
+      </Button>
+      <Button variant="destructive" state="focus" showLeftIcon showRightIcon>
+        Button
+      </Button>
+      <Button variant="destructive" loading showLeftIcon showRightIcon>
+        Button
+      </Button>
+      <Button variant="destructive" state="disabled" disabled showLeftIcon showRightIcon>
+        Button
+      </Button>
+      <Button variant="destructive" size="icon" showLeftIcon aria-label="Icon" />
+      <Button variant="destructive" size="icon" state="hover" showLeftIcon aria-label="Icon hover" />
+    </div>
+  ),
+};
+
 export const Link: Story = {
   args: { variant: "link", children: "Learn more" },
 };
@@ -77,8 +108,8 @@ export const FigmaStatePreview: Story = {
     variant: "default",
     size: "default",
     state: "default",
-    showLeftIcon: false,
-    showRightIcon: false,
+    showLeftIcon: true,
+    showRightIcon: true,
     theme: "bricks",
     mode: "light",
   },

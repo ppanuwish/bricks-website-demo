@@ -427,7 +427,10 @@
   --color-alpha-90: rgba(255, 255, 255, 0.1);
 
   --color-outline-surface: transparent;
-  --color-destructive-focus: rgba(225, 29, 72, 0.4);
+  /* Figma bricks shadcn kit — Button destructive focus (node 26562:18175): destructive/20 ring */
+  --color-destructive-focus: color-mix(in srgb, var(--color-destructive) 20%, transparent);
+  /* Figma — destructive hover uses darker fill (destructive/90), not primary-style white overlay */
+  --color-button-destructive-hover-bg: color-mix(in srgb, var(--color-destructive), #000000 14%);
   --color-button-overlay-90: #ffffff1a;
   --color-button-overlay-80: #ffffff33;
   --color-button-focus-outline: #a3a3a380;
@@ -453,6 +456,34 @@
   --spacing-4: 16px;
   --spacing-6: 24px;
   --max-width-max-w-lg: 512px;
+
+  /* Figma bricks shadcn kit — Tabs trigger active / shadow-sm (uses LAYER 1 shadow + surface tokens) */
+  --border-radius-rounded-md: var(--radius-md);
+  --border-width-border-2: 2px;
+  --base-primary: var(--color-primary);
+  --custom-background-dark-input-30: color-mix(in srgb, var(--color-input) 30%, var(--color-background));
+  --shadow-sm-1-offset-x: 0px;
+  --shadow-sm-1-offset-y: 1px;
+  --shadow-sm-1-blur-radius: 3px;
+  --shadow-sm-1-spread-radius: 0px;
+  --shadow-sm-1-color: color-mix(in srgb, var(--color-shadow-10-percent) 10%, transparent);
+  --shadow-sm-2-offset-x: 0px;
+  --shadow-sm-2-offset-y: 1px;
+  --shadow-sm-2-blur-radius: 2px;
+  --shadow-sm-2-spread-radius: -1px;
+  --shadow-sm-2-color: color-mix(in srgb, var(--color-shadow-10-percent) 10%, transparent);
+
+  /* Figma bricks shadcn kit — Toast (node 166:392) shadow/lg */
+  --shadow-lg-1-offset-x: 0px;
+  --shadow-lg-1-offset-y: 10px;
+  --shadow-lg-1-blur-radius: 15px;
+  --shadow-lg-1-spread-radius: 0px;
+  --shadow-lg-1-color: color-mix(in srgb, var(--color-shadow-10-percent) 10%, transparent);
+  --shadow-lg-2-offset-x: 0px;
+  --shadow-lg-2-offset-y: 4px;
+  --shadow-lg-2-blur-radius: 6px;
+  --shadow-lg-2-spread-radius: 0px;
+  --shadow-lg-2-color: color-mix(in srgb, var(--color-shadow-10-percent) 10%, transparent);
 }
 
 .dark {
@@ -527,7 +558,8 @@
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --color-outline-surface: transparent;
-  --color-destructive-focus: rgba(225, 29, 72, 0.4);
+  --color-destructive-focus: color-mix(in srgb, var(--color-destructive) 20%, transparent);
+  --color-button-destructive-hover-bg: color-mix(in srgb, var(--color-destructive), #000000 14%);
   --color-button-overlay-90: #ffffff1a;
   --color-button-overlay-80: #ffffff33;
   --color-button-focus-outline: #a3a3a380;
@@ -577,7 +609,9 @@
   --color-sidebar-ring: #525252;
 
   --color-outline-surface: transparent;
-  --color-destructive-focus: rgba(248, 113, 113, 0.4);
+  /* Figma kit — destructive focus dark: destructive/40 */
+  --color-destructive-focus: color-mix(in srgb, var(--color-destructive) 40%, transparent);
+  --color-button-destructive-hover-bg: color-mix(in srgb, var(--color-destructive), #000000 18%);
   --color-button-overlay-90: #ffffff1a;
   --color-button-overlay-80: #ffffff33;
   --color-button-focus-outline: rgba(115, 115, 115, 0.5);
@@ -647,7 +681,8 @@
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --color-outline-surface: transparent;
-  --color-destructive-focus: rgba(220, 38, 38, 0.3);
+  --color-destructive-focus: color-mix(in srgb, var(--color-destructive) 20%, transparent);
+  --color-button-destructive-hover-bg: color-mix(in srgb, var(--color-destructive), #000000 14%);
   --color-button-overlay-90: #ffffff1a;
   --color-button-overlay-80: #ffffff33;
   --color-button-focus-outline: #a3a3a380;
@@ -704,7 +739,8 @@
   --color-sidebar-ring: #caceff;
 
   --color-outline-surface: transparent;
-  --color-destructive-focus: rgba(248, 113, 113, 0.35);
+  --color-destructive-focus: color-mix(in srgb, var(--color-destructive) 40%, transparent);
+  --color-button-destructive-hover-bg: color-mix(in srgb, var(--color-destructive), #000000 18%);
   --color-button-overlay-90: #ffffff1a;
   --color-button-overlay-80: #ffffff33;
   --color-button-focus-outline: #a3a3a380;
@@ -774,7 +810,8 @@
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --color-outline-surface: #ffffff;
-  --color-destructive-focus: rgba(220, 38, 38, 0.2);
+  --color-destructive-focus: color-mix(in srgb, var(--color-destructive) 20%, transparent);
+  --color-button-destructive-hover-bg: color-mix(in srgb, var(--color-destructive), #000000 14%);
   --color-button-shadow: rgba(0, 0, 0, 0.05);
   --color-button-primary-hover-overlay: var(--color-button-overlay-90);
   --color-button-secondary-bg: #f8f4ea;
@@ -827,7 +864,8 @@
   --color-sidebar-ring: #525252;
 
   --color-outline-surface: transparent;
-  --color-destructive-focus: rgba(248, 113, 113, 0.35);
+  --color-destructive-focus: color-mix(in srgb, var(--color-destructive) 40%, transparent);
+  --color-button-destructive-hover-bg: color-mix(in srgb, var(--color-destructive), #000000 18%);
   --color-button-shadow: rgba(0, 0, 0, 0.05);
   --color-button-primary-hover-overlay: var(--color-button-overlay-90);
   --color-button-outline-bg: var(--color-outline-surface);
@@ -900,6 +938,32 @@
   --radius-2xl: var(--radius-2xl);
   --radius-3xl: var(--radius-3xl);
   --radius-4xl: var(--radius-4xl);
+
+  /* Tabs trigger — mirror LAYER 1 kit vars for Tailwind / cascade */
+  --border-radius-rounded-md: var(--border-radius-rounded-md);
+  --border-width-border-2: var(--border-width-border-2);
+  --base-primary: var(--base-primary);
+  --custom-background-dark-input-30: var(--custom-background-dark-input-30);
+  --shadow-sm-1-offset-x: var(--shadow-sm-1-offset-x);
+  --shadow-sm-1-offset-y: var(--shadow-sm-1-offset-y);
+  --shadow-sm-1-blur-radius: var(--shadow-sm-1-blur-radius);
+  --shadow-sm-1-spread-radius: var(--shadow-sm-1-spread-radius);
+  --shadow-sm-1-color: var(--shadow-sm-1-color);
+  --shadow-sm-2-offset-x: var(--shadow-sm-2-offset-x);
+  --shadow-sm-2-offset-y: var(--shadow-sm-2-offset-y);
+  --shadow-sm-2-blur-radius: var(--shadow-sm-2-blur-radius);
+  --shadow-sm-2-spread-radius: var(--shadow-sm-2-spread-radius);
+  --shadow-sm-2-color: var(--shadow-sm-2-color);
+  --shadow-lg-1-offset-x: var(--shadow-lg-1-offset-x);
+  --shadow-lg-1-offset-y: var(--shadow-lg-1-offset-y);
+  --shadow-lg-1-blur-radius: var(--shadow-lg-1-blur-radius);
+  --shadow-lg-1-spread-radius: var(--shadow-lg-1-spread-radius);
+  --shadow-lg-1-color: var(--shadow-lg-1-color);
+  --shadow-lg-2-offset-x: var(--shadow-lg-2-offset-x);
+  --shadow-lg-2-offset-y: var(--shadow-lg-2-offset-y);
+  --shadow-lg-2-blur-radius: var(--shadow-lg-2-blur-radius);
+  --shadow-lg-2-spread-radius: var(--shadow-lg-2-spread-radius);
+  --shadow-lg-2-color: var(--shadow-lg-2-color);
 
   --font-sans: var(--font-sans);
   --font-heading: var(--font-heading);
