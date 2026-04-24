@@ -5,7 +5,7 @@ import { Input } from "../components/Input";
 import { Textarea } from "../components/Textarea";
 
 const CONTACT_FORM_ENDPOINT =
-  "https://script.google.com/macros/s/AKfycbyzwzH-TFR7b4m8q_VAGpc0nnf48qQLyMenm2-7-h82VLqNIDDixw2jRSjNtKX2w04z6Q/exec";
+  "https://script.google.com/macros/s/AKfycbwm4dao5gHFp_fdiJTL-EvjPSqkdPECIjONlDfHYvKAjRBguGtEdi1GiZ-jQ4eZE7hEDg/exec";
 
 export type ContactFormData = {
   firstName: string;
