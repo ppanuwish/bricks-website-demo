@@ -129,7 +129,7 @@ export type RadioIndicatorProps = {
 
 /**
  * Default-row radio ring + dot (same visuals as {@link RadioGroupItem} `variant="default"`).
- * Use inside {@link RadioGroupItem} or as a decorative indicator on {@link DropdownMenuItem} `variant="radio"`.
+ * Use inside {@link RadioGroupItem} or as a decorative indicator; {@link DropdownMenuItem} / {@link ContextMenuItem} radio rows use Lucide `Circle` when `level="2"` instead.
  */
 export function RadioIndicator({
   selected,

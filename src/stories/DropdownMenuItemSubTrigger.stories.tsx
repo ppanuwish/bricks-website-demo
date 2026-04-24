@@ -9,12 +9,17 @@ const meta = {
   args: {
     children: "SubTrigger Text",
     state: "default",
+    level: "1",
     disabled: false,
   },
   argTypes: {
     state: {
       control: "select",
       options: ["default", "hover", "disabled"],
+    },
+    level: {
+      control: "inline-radio",
+      options: ["1", "2"],
     },
   },
   decorators: [
@@ -31,26 +36,55 @@ type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {};
 
-/** Figma `State=Default` (330:24001). */
-export const Default: Story = {
-  args: { state: "default" },
+/** Figma `Level=1`, `State=Default` (330:24001). */
+export const DefaultLevel1: Story = {
+  args: { level: "1", state: "default" },
 };
 
-/** Figma `State` with accent surface — pinned hover / open row (330:24000). */
-export const Hover: Story = {
-  args: { state: "hover" },
+/** Figma pinned hover (330:24000). */
+export const HoverLevel1: Story = {
+  args: { level: "1", state: "hover" },
 };
 
-export const Disabled: Story = {
-  args: { state: "disabled" },
+export const DisabledLevel1: Story = {
+  args: { level: "1", state: "disabled" },
 };
 
-/** Two rows like Figma component set: default vs hover. */
+/** Wide left inset — aligns with {@link DropdownMenuItem} `level="2"`. */
+export const DefaultLevel2: Story = {
+  args: { level: "2", state: "default" },
+};
+
+export const HoverLevel2: Story = {
+  args: { level: "2", state: "hover" },
+};
+
+/** Two rows like Figma component set: default vs hover (`Level=1`). */
 export const FigmaPair: Story = {
   render: () => (
     <div className="flex w-full flex-col gap-[var(--spacing-2)]">
-      <DropdownMenuItemSubTrigger state="default">SubTrigger Text</DropdownMenuItemSubTrigger>
-      <DropdownMenuItemSubTrigger state="hover">SubTrigger Text</DropdownMenuItemSubTrigger>
+      <DropdownMenuItemSubTrigger level="1" state="default">
+        SubTrigger Text
+      </DropdownMenuItemSubTrigger>
+      <DropdownMenuItemSubTrigger level="1" state="hover">
+        SubTrigger Text
+      </DropdownMenuItemSubTrigger>
+    </div>
+  ),
+};
+
+/** `Level=1` vs `Level=2` for padding alignment. */
+export const LevelComparison: Story = {
+  render: () => (
+    <div className="flex w-full flex-col gap-[var(--spacing-3)]">
+      <p className="font-body text-xs font-medium text-muted-foreground">Level 1</p>
+      <DropdownMenuItemSubTrigger level="1" state="default">
+        SubTrigger Text
+      </DropdownMenuItemSubTrigger>
+      <p className="font-body text-xs font-medium text-muted-foreground">Level 2</p>
+      <DropdownMenuItemSubTrigger level="2" state="default">
+        SubTrigger Text
+      </DropdownMenuItemSubTrigger>
     </div>
   ),
 };

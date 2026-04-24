@@ -23,7 +23,6 @@ export const Centered: Story = {
 
 export const Dark: Story = {
   args: {
-    isDark: true,
     tag: "Insights",
     title: "Operational clarity at every layer.",
     sub: "Monitor outcomes, not just uptime.",

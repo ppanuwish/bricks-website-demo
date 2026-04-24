@@ -81,7 +81,7 @@ export type CheckboxIndicatorProps = Omit<
   state?: CheckboxState;
   /**
    * Renders a non-interactive span (parent owns focus / `menuitemcheckbox`).
-   * Use with {@link DropdownMenuItem} `variant="checkbox"`.
+   * Use in composite widgets; {@link DropdownMenuItem} / {@link ContextMenuItem} checkbox rows use Lucide `Check` when `level="2"` instead.
    */
   presentationOnly?: boolean;
 };

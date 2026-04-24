@@ -450,11 +450,18 @@
   --color-button-outline-hover-text: var(--color-accent-foreground);
   --radius-button-icon: 8px;
 
+  /* Figma kit — spacing scale + dimension steps (e.g. calendar day cells 244:3640) */
+  --spacing-0: 0px;
   --spacing-1: 4px;
   --spacing-2: 8px;
   --spacing-3: 12px;
   --spacing-4: 16px;
   --spacing-6: 24px;
+  --width-w-8: 32px;
+  --height-h-8: 32px;
+  /* Figma `Calendar / Custom Day Button` (node 17921:42281) */
+  --width-w-12: 48px;
+  --height-h-12: 48px;
   --max-width-max-w-lg: 512px;
 
   /* Figma bricks shadcn kit — Tabs trigger active / shadow-sm (uses LAYER 1 shadow + surface tokens) */
@@ -462,6 +469,8 @@
   --border-width-border-2: 2px;
   --base-primary: var(--color-primary);
   --custom-background-dark-input-30: color-mix(in srgb, var(--color-input) 30%, var(--color-background));
+  /* Figma bricks shadcn kit — Carousel / CarouselArrowButton (239:851) hover (`custom/accent-dark:input/50`) */
+  --custom-accent-dark-input-50: color-mix(in srgb, var(--color-input) 50%, var(--color-accent));
   --shadow-sm-1-offset-x: 0px;
   --shadow-sm-1-offset-y: 1px;
   --shadow-sm-1-blur-radius: 3px;
@@ -472,6 +481,13 @@
   --shadow-sm-2-blur-radius: 2px;
   --shadow-sm-2-spread-radius: -1px;
   --shadow-sm-2-color: color-mix(in srgb, var(--color-shadow-10-percent) 10%, transparent);
+
+  /* Figma bricks shadcn kit — Carousel / CarouselItem (239:1214) shadow/xs */
+  --shadow-xs-offset-x: 0px;
+  --shadow-xs-offset-y: 1px;
+  --shadow-xs-blur-radius: 2px;
+  --shadow-xs-spread-radius: 0px;
+  --shadow-xs-color: color-mix(in srgb, var(--color-shadow-10-percent) 5%, transparent);
 
   /* Figma bricks shadcn kit — Toast (node 166:392) shadow/lg */
   --shadow-lg-1-offset-x: 0px;
@@ -944,6 +960,7 @@
   --border-width-border-2: var(--border-width-border-2);
   --base-primary: var(--base-primary);
   --custom-background-dark-input-30: var(--custom-background-dark-input-30);
+  --custom-accent-dark-input-50: var(--custom-accent-dark-input-50);
   --shadow-sm-1-offset-x: var(--shadow-sm-1-offset-x);
   --shadow-sm-1-offset-y: var(--shadow-sm-1-offset-y);
   --shadow-sm-1-blur-radius: var(--shadow-sm-1-blur-radius);
@@ -954,6 +971,11 @@
   --shadow-sm-2-blur-radius: var(--shadow-sm-2-blur-radius);
   --shadow-sm-2-spread-radius: var(--shadow-sm-2-spread-radius);
   --shadow-sm-2-color: var(--shadow-sm-2-color);
+  --shadow-xs-offset-x: var(--shadow-xs-offset-x);
+  --shadow-xs-offset-y: var(--shadow-xs-offset-y);
+  --shadow-xs-blur-radius: var(--shadow-xs-blur-radius);
+  --shadow-xs-spread-radius: var(--shadow-xs-spread-radius);
+  --shadow-xs-color: var(--shadow-xs-color);
   --shadow-lg-1-offset-x: var(--shadow-lg-1-offset-x);
   --shadow-lg-1-offset-y: var(--shadow-lg-1-offset-y);
   --shadow-lg-1-blur-radius: var(--shadow-lg-1-blur-radius);

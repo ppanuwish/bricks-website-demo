@@ -26,7 +26,6 @@ export const Dark: Story = {
 };
 
 export const Light: Story = {
-  args: { isLight: true },
   parameters: {
     backgrounds: { default: "surface" },
   },

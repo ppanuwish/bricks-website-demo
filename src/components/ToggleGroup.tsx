@@ -72,15 +72,13 @@ export function ToggleGroup({
   size = "default",
   disabled: disabledProp = false,
   type = "single",
-  unselectable: unselectableProp = true,
   ...rest
 }: ToggleGroupProps) {
   const disabled = Boolean(disabledProp);
   const isSingle = type === "single";
-  const unselectable = Boolean(isSingle && (unselectableProp ?? true));
-
   const asSingle = rest as ToggleGroupSingle;
   const asMulti = rest as ToggleGroupMultiple;
+  const unselectable = Boolean(isSingle && (asSingle.unselectable ?? true));
 
   const isControlledSingle = isSingle && asSingle.value !== undefined;
   const isControlledMulti = !isSingle && asMulti.value !== undefined;

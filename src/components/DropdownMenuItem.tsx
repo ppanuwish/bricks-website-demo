@@ -1,7 +1,5 @@
 import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
-
-import { CheckboxIndicator } from "./Checkbox";
-import { RadioIndicator } from "./RadioGroup";
+import { Check, Circle } from "lucide-react";
 
 /** Figma `Dropdown Menu / Item` (330:8549): `Variant` × `State`. */
 export type DropdownMenuItemVariant = "default" | "checkbox" | "radio" | "icon";
@@ -12,20 +10,27 @@ export type DropdownMenuItemVariant = "default" | "checkbox" | "radio" | "icon";
  */
 export type DropdownMenuItemState = "default" | "hover" | "disabled" | "error";
 
+/**
+ * Figma `Level`: `1` = short horizontal padding (`px`); `2` = wide left inset (`pl-8`) and, for
+ * checkbox/radio, the leading `Check` / `Circle` mark.
+ */
+export type DropdownMenuItemLevel = "1" | "2";
+
 export type DropdownMenuItemProps = HTMLAttributes<HTMLDivElement> & {
   variant?: DropdownMenuItemVariant;
   state?: DropdownMenuItemState;
+  /**
+   * `1` — even `px-[var(--spacing-2)]`. `2` — `pl-8 pr-[var(--spacing-2)]`; checkbox/radio show
+   * Lucide mark in the leading column (maps to `aria-checked` for those variants).
+   */
+  level?: DropdownMenuItemLevel;
   /** Leading icon when `variant` is `"icon"`; Figma `Icon / User` (5197:3037) by default. */
   icon?: ReactNode;
-  /** Trailing hint (e.g. Figma `⇧⌘P`); only rendered when `variant` is `"default"`. */
+  /** Trailing hint (e.g. Figma `⇧⌘P`). */
   shortcut?: ReactNode;
+  /** When `false`, the shortcut slot is hidden for every `variant` (default, checkbox, radio, icon). */
   showShortcut?: boolean;
-  /**
-   * Checkbox: `false` = empty box (unchecked), `true` = filled + tick via {@link CheckboxIndicator}.
-   * Radio: `false` = ring only, `true` = selected dot via {@link RadioIndicator}.
-   */
-  checked?: boolean;
-  /** Hide leading marks for checkbox/radio/icon when false. */
+  /** Hide leading marks for checkbox/radio/icon when false (checkbox/radio marks only when `level` is `"2"`). */
   showIndicator?: boolean;
   disabled?: boolean;
 };
@@ -95,7 +100,7 @@ function leadingInk({
 }) {
   const err = variant === "icon" && state === "error";
   return cx(
-    "pointer-events-none flex shrink-0 items-center justify-center text-current transition-[color]",
+    "flex shrink-0 items-center justify-center text-current transition-[color]",
     disabled && "text-popover-foreground",
     !disabled && err && "text-destructive",
     !disabled &&
@@ -109,26 +114,24 @@ function leadingInk({
   );
 }
 
-/** Aligns with {@link CheckboxIndicator} / {@link RadioIndicator} `state` when the row is disabled. */
-function toIndicatorState(disabled: boolean): "default" | "disabled" {
-  return disabled ? "disabled" : "default";
-}
+const iconClass = "size-4 shrink-0";
 
 /**
- * Dropdown menu row (Figma `Dropdown Menu / Item`, 330:8549). Padding uses `theme.css`
- * spacing; hover uses `accent` / `accent-foreground`; shortcut uses muted text at 60% opacity;
- * destructive/error uses `destructive`. Checkbox/radio indicators match {@link CheckboxIndicator}
- * and {@link RadioIndicator}.
+ * Dropdown menu row (Figma `Dropdown Menu / Item`, 330:8549). `level` controls horizontal padding
+ * (`1` short, `2` wide left) and whether checkbox/radio show a leading mark; matches
+ * {@link ContextMenuItem}. Padding uses `theme.css` spacing; hover uses `accent` / `accent-foreground`;
+ * shortcut uses muted text at 60% opacity; destructive/error uses `destructive`. Use `showShortcut`
+ * to hide the trailing hint on any variant.
  */
 export const DropdownMenuItem = forwardRef<HTMLDivElement, DropdownMenuItemProps>(
   function DropdownMenuItem(
     {
       variant = "default",
       state,
+      level = "1",
       icon,
       shortcut = "⇧⌘P",
       showShortcut = true,
-      checked = false,
       showIndicator = true,
       disabled: disabledProp,
       className,
@@ -141,8 +144,9 @@ export const DropdownMenuItem = forwardRef<HTMLDivElement, DropdownMenuItemProps
     const disabled = Boolean(disabledProp) || state === "disabled";
     /** Pinned Storybook hover (`State=Hover`) — matches Figma accent label. */
     const pinnedHover = forcedHover && !disabled;
+    const isLevel2 = level === "2";
 
-    const showShortcutSlot = variant === "default" && showShortcut && shortcut != null;
+    const showShortcutSlot = showShortcut && shortcut != null;
 
     const role =
       variant === "checkbox"
@@ -153,7 +157,7 @@ export const DropdownMenuItem = forwardRef<HTMLDivElement, DropdownMenuItemProps
 
     const ariaChecked =
       variant === "checkbox" || variant === "radio"
-        ? checked
+        ? isLevel2
           ? true
           : false
         : undefined;
@@ -165,59 +169,69 @@ export const DropdownMenuItem = forwardRef<HTMLDivElement, DropdownMenuItemProps
       !disabled && forcedHover && "bg-accent"
     );
 
-    /** Figma inset (`w-8`). Height matches `leading-5` so the 16px controls sit on the same vertical band as the label text. */
-    const leadingColumn = "flex h-5 w-8 shrink-0 items-center justify-center";
+    const rowPad =
+      isLevel2 ? "pl-8 pr-[var(--spacing-2)]" : "px-[var(--spacing-2)]";
+
+    /** In-flow `w-8` — height matches `leading-5` so 16px glyphs align with label text. */
+    const leadingColumnGlyph =
+      "pointer-events-none flex h-5 w-8 shrink-0 items-center justify-center";
+
+    const leadingColumnIcon = "flex h-5 w-8 shrink-0 items-center justify-center";
+
+    const showCheckboxMark = variant === "checkbox" && showIndicator && isLevel2;
+    const showRadioMark = variant === "radio" && showIndicator && isLevel2;
 
     return (
       <div
         ref={ref}
         data-variant={variant}
         data-state={state}
-        data-checked={checked || undefined}
+        data-level={level}
         role={role}
         aria-checked={ariaChecked}
         aria-disabled={disabled ? true : undefined}
         className={cx(
-          "group flex w-full min-w-0 max-w-[312px] cursor-default select-none items-center gap-[var(--spacing-2)] px-[var(--spacing-2)] py-1.5 font-body transition-[background-color,opacity]",
+          "group flex w-full min-w-0 max-w-[312px] cursor-default select-none items-center gap-[var(--spacing-2)] py-1.5 font-body transition-[background-color,opacity]",
+          rowPad,
           rowBg,
           disabled && "pointer-events-none opacity-50",
           className
         )}
         {...rest}
       >
-        {variant === "checkbox" && showIndicator ? (
-          <span className={leadingColumn}>
-            <CheckboxIndicator
-              presentationOnly
-              checked={checked}
-              disabled={disabled}
-              state={toIndicatorState(disabled)}
-              className="shrink-0"
-            />
+        {showCheckboxMark ? (
+          <span
+            className={cx(
+              leadingColumnGlyph,
+              leadingInk({ variant, state, disabled, isHover: pinnedHover })
+            )}
+            aria-hidden
+          >
+            <Check className={iconClass} strokeWidth={2} />
           </span>
         ) : null}
 
-        {variant === "radio" && showIndicator ? (
-          <span className={cx(leadingColumn, "pointer-events-none")}>
-            <RadioIndicator
-              selected={checked}
-              disabled={disabled}
-              state={toIndicatorState(disabled)}
-              focused={false}
-              className="shrink-0"
-            />
+        {showRadioMark ? (
+          <span
+            className={cx(
+              leadingColumnGlyph,
+              leadingInk({ variant, state, disabled, isHover: pinnedHover })
+            )}
+            aria-hidden
+          >
+            <Circle className={iconClass} strokeWidth={2} />
           </span>
         ) : null}
 
         {variant === "icon" && showIndicator ? (
           <span
             className={cx(
-              leadingColumn,
+              leadingColumnIcon,
               leadingInk({ variant, state, disabled, isHover: pinnedHover })
             )}
             aria-hidden
           >
-            {icon ?? <DropdownMenuUserIcon className="size-4 shrink-0" />}
+            {icon ?? <DropdownMenuUserIcon className={iconClass} />}
           </span>
         ) : null}
 

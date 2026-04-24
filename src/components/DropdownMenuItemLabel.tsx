@@ -2,7 +2,7 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
 
 /**
  * `default` — Figma `Level=1` (330:24589).  
- * `inset` — Figma `Level=2` (17398:40526): left inset aligns label text with {@link DropdownMenuItem} rows that use a leading column (`pl-8`).
+ * `inset` — Figma `Level=2` (17398:40526): left inset aligns label text with {@link DropdownMenuItem} `level="2"` rows (`pl-8`).
  */
 export type DropdownMenuItemLabelVariant = "default" | "inset";
 
