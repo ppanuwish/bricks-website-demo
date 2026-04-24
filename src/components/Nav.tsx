@@ -155,12 +155,6 @@ export function Nav() {
           >
             Blog
           </span>
-          <span
-            onClick={() => go("contact")}
-            className="inline-block cursor-pointer px-4 py-2 font-body text-[13px] font-medium tracking-wide text-foreground/70 transition-colors hover:text-primary"
-          >
-            Contact Us
-          </span>
           <ModeSwitch className="ml-2 shrink-0" />
           <Button onClick={() => go("contact")} className="ml-4" size="sm" variant="default">
             Get started
@@ -221,13 +215,6 @@ export function Nav() {
               className="text-left transition-colors hover:text-primary"
             >
               Blog
-            </button>
-            <button
-              type="button"
-              onClick={() => go("contact")}
-              className="text-left transition-colors hover:text-primary"
-            >
-              Contact Us
             </button>
             <div className="flex justify-start pt-1">
               <ModeSwitch />
